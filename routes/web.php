@@ -139,6 +139,7 @@ use App\Http\Controllers\Admin\TransportStaffController;
 use App\Http\Controllers\Admin\TransportStudentController;
 use App\Http\Controllers\Admin\TransportVehicleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\StaffIdCardController;
 use App\Http\Controllers\Admin\VisitorController;
 use App\Http\Controllers\Admin\VisitorTokenSettingController;
 use App\Http\Controllers\Admin\VisitPurposeController;
@@ -534,6 +535,12 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
 
 
     Route::get('account/datafees', [StudentController::class, 'feesStudent'])->name('collection.datafees');
+    Route::get('admission/cancel-student', [StudentController::class, 'cancelStudent'])->name('student.cancel');
+    Route::get('account/fees-collection', [StudentController::class, 'feesCollection'])->name('income.feesCollection');
+    Route::get('account/fees-collection-edit/{id}', [StudentController::class, 'editFeesCollection'])->name('edit.income.feesCollection');
+    Route::put('account/fees-collection-update/{id}', [StudentController::class, 'updateFeesCollection'])->name('update.income.feesCollection');
+    Route::get('account/fees-receipt-print/{id}', [StudentController::class, 'feesReceipt'])->name('fees-receipt.print');
+    Route::get('account/fees-receipt-multiprint', [StudentController::class, 'feesMultiPrint'])->name('fees-receipt.multiprint');
     Route::get('fees/special/student', [StudentController::class, 'specialStudent'])->name('special.student');
     Route::get('student-cls/print/{id}', [StudentController::class, 'studentCls'])->name('student.cls');
 
@@ -640,6 +647,9 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::get('staff/user-import', [UserController::class, 'import'])->name('user.import');
     Route::post('staff/user-import-store', [UserController::class, 'importStore'])->name('user.import.store');
     Route::get('active/staff', [UserController::class, 'activeStaff'])->name('active.staff');
+
+    Route::get('staff-id-card', [StaffIdCardController::class, 'index'])->name('staff-id-card.index');
+    Route::get('staff/id-card-print/{id}', [StaffIdCardController::class, 'print'])->name('staff-id-card.print');
 
     // Payroll Routes
     // Route::resource('staff/payroll', PayrollController::class);

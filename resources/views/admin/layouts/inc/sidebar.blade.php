@@ -43,6 +43,11 @@
                                 class="">{{ trans_choice('module_student', 1) }} {{ __('list') }}</a></li>
                     @endcanany
 
+                    @can('student-view')
+                        <li class="{{ Request::is('admin/admission/cancel-student') ? 'active' : '' }}"><a
+                                href="{{ route('admin.student.cancel') }}" class="">Cancelled Students</a></li>
+                    @endcan
+
                     @canany(['student-transfer-in-create', 'student-transfer-in-view', 'student-transfer-out-create',
                         'student-transfer-out-view'])
                         <li
@@ -952,6 +957,11 @@
                                 class="">{{ trans_choice('module_fees_quick_show', 1) }}</a></li>
                     @endcan
 
+                    @can('fees-student-due')
+                        <li class="{{ Request::is('admin/account/fees-collection*') ? 'active' : '' }}"><a
+                                href="{{ route('admin.income.feesCollection') }}" class="">Student Fees Collection</a></li>
+                    @endcan
+
                     @can('fees/special/student')
                         <li class="{{ Request::is('admin/fees/special/student*') ? 'active' : '' }}"><a
                                 href="{{ route('admin.special.student') }}"
@@ -993,6 +1003,11 @@
                                 href="{{ route('admin.user.index') }}"
                                 class="">{{ trans_choice('module_staff', 1) }} {{ __('list') }}</a></li>
                     @endcanany
+
+                    @can('user-view')
+                        <li class="{{ Request::is('admin/staff-id-card*') ? 'active' : '' }}"><a
+                                href="{{ route('admin.staff-id-card.index') }}" class="">Staff ID Card</a></li>
+                    @endcan
 
                     @canany(['staff-note-create', 'staff-note-view'])
                         <li class="{{ Request::is('admin/staff/staff-note*') ? 'active' : '' }}"><a
