@@ -1,0 +1,904 @@
+
+
+.mriz{
+   color: white; 
+}
+
+.form-instruction {
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 15px;
+  color: #555;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+
+
+.office-use-section h3 {
+  margin: 0 0 10px 0;
+  font-size: clamp(14px, 2.5vw, 16px);
+}
+
+.office-fields .field {
+  margin: 3px 0;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+
+
+.photo-box {
+  border: 1px solid #ccc;
+  width: 120px;
+  height: 143px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #666;
+  background: #f9f9f9;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+
+
+.form-section {
+  margin-bottom: 15px;
+  padding-right: 170px;
+}
+
+.form-section label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+.form-section input[type="text"],
+.form-section input[type="date"],
+.form-section textarea {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+textarea {
+  height: 40px;
+  resize: none;
+}
+
+.block-letters {
+  font-size: clamp(10px, 1.8vw, 12px);
+  color: #666;
+  margin-left: 10px;
+}
+
+.marital-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.marital-status label {
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.address-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.address-details input {
+  width: calc(100% - 60px);
+  margin-left: 10px;
+  border-radius: 0;
+}
+
+table {
+  width: 98%;
+  border-collapse: collapse;
+  margin-top: 8px;
+  table-layout: fixed;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+/* Percentage */
+
+
+
+table td {
+  padding: 0;
+  height: 30px;
+}
+
+table td:not(:has(input)) {
+  padding: 6px;
+}
+
+
+
+table th {
+  background: #f5f5f5;
+  font-weight: bold;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+.form-section:last-child {
+  padding-right: 0;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .logo-section {
+    position: relative;
+    left: 0;
+    top: 0;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  .college-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  h1 {
+    padding-top: 0;
+  }
+
+  .photo-section {
+    position: static;
+    width: 150px;
+    margin: 20px auto;
+    order: 1;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header {
+    order: 0;
+  }
+
+  .form-number {
+    order: 0;
+  }
+
+  .form-title {
+    order: 0;
+  }
+
+  .form-instruction {
+    order: 0;
+  }
+
+  .office-use-section {
+    order: 2;
+  }
+
+  .admission-form {
+    order: 3;
+  }
+
+  .form-section {
+    padding-right: 0;
+  }
+
+  .marital-status {
+    gap: 10px;
+  }
+
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  table th,
+  table td {
+    min-width: unset; /* Remove previously set min-width */
+  }
+
+  /* Maintain column widths in scroll view */
+  table th:nth-child(1) {
+    min-width: 50px;
+  }
+  table th:nth-child(2) {
+    min-width: 70px;
+  }
+  table th:nth-child(3) {
+    min-width: 200px;
+  }
+  table th:nth-child(4) {
+    min-width: 150px;
+  }
+  table th:nth-child(5) {
+    min-width: 100px;
+  }
+  table th:nth-child(6) {
+    min-width: 120px;
+  }
+  table th:nth-child(7) {
+    min-width: 120px;
+  }
+  table th:nth-child(8) {
+    min-width: 80px;
+  }
+
+  .address-details {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-box {
+    width: 120px;
+    height: 140px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  .college-logo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .photo-box {
+    width: 120px;
+    height: 150px;
+  }
+
+  .marital-status {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+
+  .container {
+    box-shadow: none;
+    border: none;
+  }
+}
+
+/* New form row styles */
+.form-row {
+  margin-bottom: 12px;
+  padding-right: 130px;
+}
+
+.form-row label {
+  display: inline-block;
+  min-width: 200px;
+  font-weight: bold;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+
+
+
+
+.radio-group {
+  display: inline-flex;
+  gap: 15px;
+}
+
+.radio-label {
+  font-weight: normal;
+  min-width: auto;
+}
+
+.address-line {
+  margin-top: 8px;
+  margin-left: 0;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+.address-line span {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.address-line input {
+  width: 100%;
+  max-width: 250px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  margin-left: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .address-line {
+    flex-wrap: wrap;
+  }
+
+  .address-line span {
+    flex: 1 1 40%;
+    min-width: 200px;
+    margin-bottom: 10px;
+  }
+
+  .address-line input {
+    max-width: none;
+  }
+}
+
+/* Academic section styles */
+.academic-section {
+  padding-right: 0;
+}
+
+.note {
+  margin: 5px 0;
+  font-size: clamp(11px, 1.8vw, 13px);
+  font-style: italic;
+}
+
+.academic-row {
+  display: flex;
+  border: 1px solid #ccc;
+  margin-bottom: -1px;
+  font-size: clamp(11px, 1.8vw, 13px);
+}
+
+.academic-row.header {
+  background: #f5f5f5;
+  font-weight: bold;
+}
+
+.academic-row > span {
+  padding: 6px;
+  border-right: 1px solid #ccc;
+}
+
+.academic-row > span:last-child {
+  border-right: none;
+}
+
+.academic-row input {
+  width: 100%;
+  border: none;
+  padding: 4px;
+  font-size: inherit;
+}
+
+/* Column widths for academic row */
+.sl-no {
+  width: 5%;
+}
+.exam {
+  width: 8%;
+}
+.school {
+  width: 25%;
+}
+.board {
+  width: 15%;
+}
+.year {
+  width: 8%;
+}
+.subjects {
+  width: 15%;
+}
+.marks {
+  width: 15%;
+}
+.percentage {
+  width: 9%;
+}
+
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .form-row {
+    padding-right: 0;
+  }
+
+  .form-row label {
+    display: block;
+    margin-bottom: 5px;
+    min-width: 100%;
+  }
+
+  .form-row input[type="text"],
+  .form-row input[type="date"],
+  .form-row textarea {
+    width: 100%;
+  }
+
+  .address-line {
+    margin-left: 0;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .academic-row {
+    font-size: 11px;
+  }
+
+  .academic-row input {
+    padding: 2px;
+  }
+}
+
+/* Education section styles */
+.education-section {
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  background: #f9f9f9;
+}
+
+.education-section h4 {
+  margin: 0 0 15px 0;
+  color: #36013f;
+  font-size: 14px;
+}
+
+.edu-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.edu-field {
+  margin-bottom: 10px;
+}
+
+.edu-field label {
+  display: block;
+  font-size: 12px;
+  color: #444;
+  margin-bottom: 5px;
+}
+
+.edu-field input {
+  width: 100%;
+  padding: 6px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.edu-field label:after {
+  content: " *";
+  color: #36013f;
+}
+
+/* Remove asterisk from non-required fields */
+.education-section:nth-child(3) .edu-field label:after,
+.education-section:nth-child(4) .edu-field label:after {
+  content: none;
+}
+
+@media screen and (max-width: 768px) {
+  .edu-row {
+    grid-template-columns: 1fr;
+  }
+
+  .education-section {
+    padding: 10px;
+  }
+}
+
+/* Documents upload section styles */
+.documents-section {
+  margin-top: 30px;
+  padding-right: 0;
+}
+
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.document-row {
+  background: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+}
+
+.document-row label {
+  display: block;
+  font-size: 13px;
+  color: #444;
+  margin-bottom: 8px;
+}
+
+.document-row label:after {
+  content: "";
+}
+
+.document-row label[for]:after {
+  content: none;
+}
+
+/* Required document indicators */
+.document-row:nth-child(1) label:first-child:after,
+.document-row:nth-child(2) label:first-child:after,
+.document-row:nth-child(3) label:first-child:after,
+.document-row:nth-child(4) label:first-child:after,
+.document-row:nth-child(5) label:first-child:after,
+.document-row:nth-child(9) label:first-child:after,
+.document-row:nth-child(10) label:first-child:after,
+.document-row:nth-child(12) label:first-child:after,
+.document-row:nth-child(13) label:first-child:after {
+  content: " *";
+  color: #36013f;
+}
+
+.file-upload {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.file-label {
+  order: 1;
+  display: inline-block;
+  padding: 6px 12px;
+  background: #36013f;
+  color: white !important;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 3px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.file-label:hover {
+  background: #4a0255;
+}
+
+.file-name {
+  order: 2;
+  flex: 1;
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+
+.preview-container {
+  order: 3;
+  width: 100%;
+  margin-top: 10px;
+  min-height: 40px;
+}
+
+.preview-image {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: contain;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 2px;
+  background: white;
+}
+
+.pdf-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 80px;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pdf-icon {
+  color: #36013f;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+@media screen and (max-width: 768px) {
+  .documents-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .file-upload {
+    flex-wrap: wrap;
+  }
+
+  .file-name {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .preview-container {
+    text-align: center;
+  }
+
+  .preview-image,
+  .pdf-preview {
+    margin: 0 auto;
+  }
+}
+
+/* Add navigation buttons */
+.form-navigation {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.form-navigation button {
+  padding: 8px 20px;
+  background: #36013f;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-navigation button:hover {
+  background: #4a0255;
+}
+
+.form-navigation button[disabled] {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* New table layout for education sections */
+.edu-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+  table-layout: fixed;
+}
+
+.edu-table th,
+.edu-table td {
+  border: 1px solid #ccc;
+  padding: 0;
+  text-align: left;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.edu-table th {
+  background: #f0f0f0;
+  font-weight: bold;
+  color: #36013f;
+  text-align: center;
+  padding: 12px 8px;
+  white-space: normal;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.edu-table td:first-child {
+  background: #f9f9f9;
+  font-weight: bold;
+  white-space: normal;
+  padding: 8px;
+}
+
+.edu-table input {
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  border: none;
+  background: transparent;
+  font-size: 13px;
+  display: block;
+  box-sizing: border-box;
+  min-height: 35px;
+}
+
+.edu-table input:focus {
+  outline: none;
+  background: #f0f0f0;
+}
+
+/* Column widths */
+.edu-table th:nth-child(1),
+.edu-table td:nth-child(1) {
+  width: 15%;
+}
+
+.edu-table th:nth-child(2),
+.edu-table td:nth-child(2) {
+  width: 20%;
+}
+
+.edu-table th:nth-child(3),
+.edu-table td:nth-child(3) {
+  width: 15%;
+}
+
+.edu-table th:nth-child(4),
+.edu-table td:nth-child(4) {
+  width: 20%;
+}
+
+.edu-table th:nth-child(5),
+.edu-table td:nth-child(5) {
+  width: 8%;
+}
+
+.edu-table th:nth-child(6),
+.edu-table td:nth-child(6) {
+  width: 8%;
+}
+
+.edu-table th:nth-child(7),
+.edu-table td:nth-child(7) {
+  width: 8%;
+}
+
+.edu-table th:nth-child(8),
+.edu-table td:nth-child(8) {
+  width: 6%;
+}
+
+/* Make table responsive */
+@media screen and (max-width: 768px) {
+  .edu-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    table-layout: auto;
+  }
+
+  .edu-table th,
+  .edu-table td {
+    min-width: 180px;
+    white-space: normal;
+  }
+
+  .edu-table th:first-child,
+  .edu-table td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: #f9f9f9;
+    min-width: 150px;
+  }
+}
+
+/* Update required field indicators */
+.edu-field label:after,
+.document-row label:after {
+  color: #36013f;
+}
+
+.documents-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+  background: white;
+  table-layout: fixed;
+}
+
+.documents-table th,
+.documents-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.documents-table th {
+  background: #f0f0f0;
+  font-weight: bold;
+  color: #36013f;
+  text-align: center;
+  padding: 12px 8px;
+}
+
+/* Column widths for documents table */
+.documents-table th:nth-child(1),
+.documents-table td:nth-child(1) {
+  width: 25%;
+}
+
+.documents-table th:nth-child(2),
+.documents-table td:nth-child(2) {
+  width: 20%;
+}
+
+.documents-table th:nth-child(3),
+.documents-table td:nth-child(3) {
+  width: 55%;
+}
+
+.doc-preview-container {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #f9f9f9;
+}
+
+.doc-preview-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.doc-preview-container .pdf-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #f4f4f4;
+  color: #36013f;
+  font-weight: bold;
+}
+
+/* Remove status-related styles */
+.doc-status,
+.status-pending,
+.status-verified,
+.status-rejected {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .documents-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .documents-table th,
+  .documents-table td {
+    min-width: 120px;
+  }
+}

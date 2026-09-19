@@ -1,0 +1,342 @@
+/* Academic Hero Section */
+.academic-hero-section {
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.academic-hero-slider {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
+.academic-hero-slider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(22, 22, 66, 0.4); /* Dark blue overlay with transparency */
+  z-index: 1;
+}
+.academic-slide {
+  display: none;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+}
+
+.academic-slide.active {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+}
+
+.academic-slide-content {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: left;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  padding: 30px 40px;
+  border-radius: 10px;
+}
+.academic-slide-content a {
+  color: white;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .academic-hero-section {
+    height: 30vh;
+  }
+
+  .academic-slide-content {
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+
+  .academic-slide-content {
+    top: 50%;
+    left: 50%; /* Center horizontally on mobile */
+    width: 90%; /* Adjust width to fit the screen */
+    transform: translate(-50%, -50%);
+    font-size: 16px; /* Adjust font size for smaller screens */
+    padding: 20px 25px; /* Reduce padding for better spacing */
+    text-align: left; /* Center-align text for mobile */
+  }
+}
+.academic-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.academic-navigation span {
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.academic-navigation span.active {
+  background-color: #002147;
+}
+
+/* Navigation Arrows */
+.academic-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.academic-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.academic-left-arrow {
+  left: 20px;
+}
+
+.academic-right-arrow {
+  right: 20px;
+}
+
+.academic-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffc107;
+  color: black;
+  border-radius: 0px;
+  text-decoration: none;
+  border: none;
+}
+
+.academic-slide-content a {
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+}
+.academic-slide-content p {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+/* Academic Content Section */
+.academic-section {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+}
+
+.academic-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.academic-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #002147;
+  margin-bottom: 15px;
+}
+
+.academic-paragraph {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.academic-tab-content {
+  display: none;
+}
+
+.academic-tab-content.active {
+  display: block;
+}
+
+/* Enquiry Form */
+.academic-enquiry .enquiry-form {
+  background-color: #002147;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.academic-enquiry .form-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.academic-enquiry .academic-form-input {
+  border-radius: 5px;
+}
+
+.academic-enquiry .academic-submit-btn {
+  background-color: #ffc107;
+  color: #002147;
+  font-weight: 700;
+}
+
+/* Quick Links */
+.academic-quick-links {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.academic-quick-links .academic-links-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #002147;
+}
+
+.academic-quick-links .academic-links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.academic-quick-links .academic-links-list li {
+  margin-bottom: 10px;
+}
+
+.academic-links-list a {
+  text-decoration: none;
+  color: #002147;
+  font-weight: 500;
+}
+
+.academic-quick-links .academic-links-list a:hover {
+  color: #ffc107;
+}
+
+/* Academic Page Image Section */
+.academic-page-imgs {
+  text-align: center;
+}
+
+.academic-img-card {
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.academic-img-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.academic-img-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+  .academic-tabs {
+    display: none;
+  }
+
+  .academic-tabs-mobile {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #002147;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  .academic-tabs-mobile option {
+    background-color: #002147;
+    color: #ffffff;
+    padding: 10px;
+  }
+}
+
+/* Update tab section styling */
+.academic-content-section {
+  background-color: transparent;
+  padding: 0;
+  height: auto;
+  margin-top: 0;
+}
+
+.academic-tabs {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 20px 0;
+  list-style: none;
+  background-color: #002147;
+  border-radius: 8px;
+}
+
+.academic-tab-item {
+  padding: 15px 25px;
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.academic-tab-item:hover{
+  background-color: #003674;
+}
+
+.academic-tab-item:last-child {
+  border-bottom: none;
+}
+
+.academic-tab-link {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 16px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+
+.academic-tab-link:hover {
+  color: #fdc800;
+  padding-left: 5px;
+}
+
+.academic-tab-item.active {
+  background-color: #003674;
+}
+
+.academic-tab-item.active .academic-tab-link {
+  color: #fdc800;
+}

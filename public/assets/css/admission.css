@@ -1,0 +1,425 @@
+/* Admission Hero Section */
+.admission-hero-section {
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.admission-hero-slider {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.admission-hero-slider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(22, 22, 66, 0.4); /* Dark blue overlay with transparency */
+  z-index: 1;
+}
+.admission-slide {
+  display: none;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+}
+
+.admission-slide.active {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+}
+
+.admission-slide-content {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  z-index: 2;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: left;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  padding: 30px 40px;
+  border-radius: 10px;
+}
+.admission-slide-content a {
+  color: white;
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  .admission-hero-section {
+    height: 30vh;
+  }
+
+  .admission-slide-content {
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+}
+
+.admission-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.admission-navigation span {
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.admission-navigation span.active {
+  background-color: #002147;
+}
+
+/* Navigation Arrows */
+.admission-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.admission-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.admission-left-arrow {
+  left: 20px;
+}
+
+.admission-right-arrow {
+  right: 20px;
+}
+
+.admission-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #ffc107;
+  color: black;
+  border-radius: 0px;
+  text-decoration: none;
+  border: none;
+}
+.admission-slide-content a {
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+}
+.admission-slide-content p {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Admission Content Section */
+.admission-section {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+}
+
+.admission-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admission-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #002147;
+  margin-bottom: 15px;
+}
+
+.admission-paragraph {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.admission-tab-content {
+  display: none;
+}
+
+.admission-tab-item.active {
+  background-color: #003674;
+}
+.admission-tab-item:hover{
+  background-color: #003674;
+}
+.mri{
+  color: white;
+}
+
+.admission-tab-content.active {
+  display: block;
+}
+
+/* Enquiry Form */
+.admission-enquiry .enquiry-form {
+  background-color: #002147;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.admission-enquiry .form-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.admission-enquiry .admission-form-input {
+  border-radius: 5px;
+}
+
+.admission-enquiry .admission-submit-btn {
+  background-color: #ffc107;
+  color: #002147;
+  font-weight: 700;
+}
+
+/* Quick Links */
+.admission-quick-links {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.admission-quick-links .admission-links-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #002147;
+}
+
+.admission-quick-links .admission-links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.admission-quick-links .admission-links-list li {
+  margin-bottom: 10px;
+}
+
+.admission-links-list a {
+  text-decoration: none;
+  color: #002147;
+  font-weight: 500;
+}
+
+.admission-quick-links .admission-links-list a:hover {
+  color: #ffc107;
+}
+
+/* Admission Page Image Section */
+.admission-page-imgs {
+  text-align: center;
+}
+
+.admission-img-card {
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.admission-img-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.admission-img-card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+/* Tab Section */
+.admission-content-section {
+  background-color: transparent;
+  padding: 0;
+  height: auto;
+  margin-top: 0;
+}
+
+.admission-tabs {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  list-style: none;
+  background-color: #002147;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.admission-tab-item {
+  padding: 10px 20px;
+}
+
+.admission-tab-item.active {
+  background-color: #003a7e;
+}
+
+.admission-tab-link {
+  color: white;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+}
+
+.admission-tab-link:hover {
+  color: #ffd700;
+}
+
+/* Mobile Selector */
+.admission-tabs-mobile {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Content Styles */
+.admission-tab-content {
+  display: none;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admission-tab-content.active {
+  display: block;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .admission-tabs {
+    display: none;
+  }
+
+  .admission-tabs-mobile {
+    display: block;
+  }
+
+  .admission-tab-content {
+    position: absolute;
+    width: 100%;
+    left: 0;
+  }
+}
+
+/* Content Specific Styles */
+.requirement-item {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.requirement-item h3 {
+  color: #002147;
+  margin-bottom: 15px;
+}
+
+.procedure-steps ol {
+  padding-left: 20px;
+}
+
+.procedure-steps li {
+  margin-bottom: 15px;
+  padding-left: 10px;
+}
+
+.scholarship-info {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.dates-list {
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.date-item {
+  margin-bottom: 20px;
+}
+
+.date-item:last-child {
+  margin-bottom: 0;
+}
+
+/* Enquiry Form and Quick Links spacing */
+.admission-enquiry,
+.quick-links {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 768px) {
+  .admission-tabs {
+    display: none;
+  }
+
+  .admission-tabs-mobile {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #002147;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  .admission-tabs-mobile option {
+    background-color: #002147;
+    color: #ffffff;
+    padding: 10px;
+  }
+
+  .admission-content {
+    margin-top: 20px;
+  }
+
+  /* Mobile spacing for forms */
+  .admission-enquiry,
+  .quick-links {
+    margin-top: 30px;
+  }
+}

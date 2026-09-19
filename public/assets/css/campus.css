@@ -1,0 +1,424 @@
+/* Campus Facilities Hero Section */
+.facility-hero-section {
+  position: relative;
+  height: 80vh;
+  overflow: hidden;
+}
+
+.facility-hero-slider {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.facility-hero-slider::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(22, 22, 66, 0.4); /* Dark blue overlay with transparency */
+  z-index: 1;
+}
+
+.facility-slide {
+  display: none;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+}
+
+.facility-slide.active {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-in-out, visibility 0s 0s;
+}
+
+.facility-slide-content {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  z-index: 2;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: left;
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  padding: 30px 40px;
+  border-radius: 10px;
+}
+
+.facility-slide-content a {
+  color: white;
+  font-weight: 400;
+  text-decoration: none;
+}
+.facility-slide-content p {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+/* Mobile-specific styles */
+@media (max-width: 768px) {
+  .facility-hero-section {
+    height: 30vh;
+  }
+
+  .facility-slide-content {
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+
+  .facility-slide-content {
+    top: 50%;
+    left: 50%; /* Center horizontally on mobile */
+    width: 90%; /* Adjust width to fit the screen */
+    transform: translate(-50%, -50%);
+    font-size: 16px; /* Adjust font size for smaller screens */
+    padding: 20px 25px; /* Reduce padding for better spacing */
+    text-align: left; /* Center-align text for mobile */
+  }
+}
+
+.facility-navigation {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.facility-navigation span {
+  width: 15px;
+  height: 15px;
+  background-color: white;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.facility-navigation span.active {
+  background-color: #002147;
+}
+
+/* Facility Tabs for Desktop View */
+.facility-content-section {
+  background-color: #002147;
+  padding: 20px 15px;
+  border-top: 3px solid #fff;
+}
+
+.facility-tabs {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.facility-tab-item {
+  padding: 10px 15px;
+}
+
+.facility-tab-link {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  border-bottom: 2px solid transparent;
+  padding: 5px 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.facility-tab-link:hover {
+  color: #ffc107;
+  border-bottom: 2px solid #ffc107;
+}
+
+.facility-tab-item.active .facility-tab-link {
+  color: white;
+  border-bottom: 3px solid #ffc107;
+}
+
+/* Facility Content Section */
+.facility-section {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+}
+
+.facility-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.facility-heading {
+  font-size: 28px;
+  font-weight: 700;
+  color: #002147;
+  margin-bottom: 15px;
+}
+
+.facility-paragraph {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+}
+
+.facility-tab-content {
+  display: none;
+}
+
+.facility-tab-content.active {
+  display: block;
+}
+
+/* Enquiry Form */
+.facility-enquiry .enquiry-form {
+  background-color: #002147;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.facility-enquiry .form-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.facility-enquiry .facility-form-input {
+  border-radius: 5px;
+}
+
+.facility-enquiry .facility-submit-btn {
+  background-color: #ffc107;
+  color: #002147;
+  font-weight: 700;
+}
+
+/* Quick Links */
+.facility-quick-links {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.facility-quick-links .facility-links-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #002147;
+}
+
+.facility-quick-links .facility-links-list {
+  list-style: none;
+  padding: 0;
+}
+
+.campus-links-list a {
+  text-decoration: none;
+  color: #002147;
+  font-weight: 500;
+}
+
+.facility-quick-links .facility-links-list a:hover {
+  color: #ffc107 !important;
+}
+
+/* Facility Page Image Section */
+.facility-page-imgs {
+  text-align: center;
+}
+
+.facility-img-card {
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.facility-img-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.facility-img-card img {
+  width: 100%;
+  height: auto;
+}
+
+/* Update tab section styling */
+.campus-content-section {
+  background-color: transparent;
+  padding: 0;
+  height: auto;
+  margin-top: 0;
+}
+
+.campus-tabs {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 20px 0;
+  list-style: none;
+  background-color: #002147;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.campus-tab-item {
+  padding: 10px 20px;
+  /* margin: 0; */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: background-color 0.3s ease;
+}
+.mri{
+  color: white;
+}
+.campus-tab-item:hover{
+  background-color: #003674;
+}
+
+.campus-tab-item:last-child {
+  border-bottom: none;
+}
+
+.campus-tab-link {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 16px;
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease-in-out;
+}
+
+.campus-tab-link:hover {
+  color: #fdc800;
+  padding-left: 5px;
+}
+
+.campus-tab-item.active {
+  background-color: #003674;
+}
+
+.campus-tab-item.active .campus-tab-link {
+  color: #fdc800;
+}
+
+@media screen and (max-width: 768px) {
+  .campus-tabs {
+    display: none;
+  }
+
+  .campus-tabs-mobile {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #002147;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+  }
+
+  .campus-tabs-mobile option {
+    background-color: #002147;
+    color: #ffffff;
+    padding: 10px;
+  }
+
+  .campus-content {
+    margin-top: 20px;
+  }
+
+  /* Mobile spacing for forms */
+  .campus-enquiry,
+  .quick-links {
+    margin-top: 30px;
+  }
+}
+
+/* Add proper spacing */
+.campus-section {
+  padding: 50px 0;
+  background-color: #f9f9f9;
+}
+
+.campus-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Update existing tab styling */
+.campus-tabs {
+  margin-bottom: 20px; /* Add space between tabs and content on mobile */
+}
+
+@media screen and (min-width: 768px) {
+  .campus-tabs {
+    margin-bottom: 0; /* Remove extra space on desktop */
+  }
+}
+
+/* Update Enquiry Form styling */
+.campus-enquiry .enquiry-form {
+  background-color: #002147;
+  color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.campus-enquiry .form-heading {
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.campus-enquiry .campus-form-input {
+  border-radius: 5px;
+}
+
+.campus-enquiry .campus-submit-btn {
+  background-color: #fdc800;
+  color: #002147;
+  font-weight: 700;
+  border: none;
+}
+
+.campus-enquiry .campus-submit-btn:hover {
+  background-color: #fdc800;
+  opacity: 0.9;
+}
+
+/* Quick Links section spacing */
+.campus-quick-links {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px; /* Add bottom spacing */
+}
+
+/* Enquiry Form and Quick Links spacing */
+.campus-enquiry,
+.quick-links {
+  margin-top: 15px;
+}

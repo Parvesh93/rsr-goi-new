@@ -1,0 +1,18 @@
+@media screen and (max-width: 768px) {
+  /* Hide desktop version */
+  .d-lg-block {
+    display: none !important;
+  }
+
+  /* Show mobile version */
+  .d-lg-none {
+    display: block !important;
+  }
+
+  /* Proper spacing for mobile forms */
+  .enquiry-form,
+  .quick-links {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+} 
