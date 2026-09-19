@@ -115,7 +115,7 @@
                             <p>
                                 {!! strip_tags($slider->sub_title, '<b><u><i><br>') !!}
                             </p>
-                            <button class="form-btn btn-primary"><a href="{{$slider->button_link}}">{{$slider->button_text}}</a></button>
+                            <button class="form-btn btn-primary"><a href="{{$slider->button_link}}">Learn More</a></button>
                         </div>
                     </div>
                     @endforeach
