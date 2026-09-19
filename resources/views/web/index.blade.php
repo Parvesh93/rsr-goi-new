@@ -276,7 +276,7 @@
                                             required />
                                     </div>
                                     <div class="col-md-6 mb-3">
-                                        <input type="text" class="form-control" placeholder="Email" name="address"
+                                        <input type="text" class="form-control" placeholder="Email" name="email"
                                             required />
                                     </div>
                                 </div>
@@ -286,13 +286,26 @@
                                             <option>Select Your Course</option>
                                             <!-- Add course options here -->
                                             @foreach($programs as $program)
-                                                    <option value="{{$program->title}}">{{$program->title}}</option>
+                                                    <option value="{{$program->id}}">{{$program->title}}</option>
                                              @endforeach
                                         </select>
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <input type="text" class="form-control" placeholder="Contact Number"
                                             name="contact" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <select class="form-select" name="here_me">
+                                            <option value="">How did you hear about us?</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="facebook">Facebook</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" name="ref_persion" placeholder="Reference Person" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -309,7 +322,7 @@
                                 </div>
                                 <div class="row">
                             <div class="mb-3">
-                                <textarea class="form-control" placeholder="Requirement" name="place" rows="4" required></textarea>
+                                <textarea class="form-control" placeholder="Address" name="address" rows="4" required></textarea>
                             </div>
                         </div>
                         
@@ -969,7 +982,7 @@
                                     required />
                             </div>
                             <div class="col-md-6 mb-3">
-                                <input type="text" class="form-control" placeholder="Email" name="address"
+                                <input type="text" class="form-control" placeholder="Email" name="email"
                                     required />
                             </div>
                         </div>
@@ -978,7 +991,7 @@
                                 <select class="form-select" name="course" required>
                                     <option value="">Select Your Course</option>
                                    @foreach($programs as $program)
-                                    <option value="{{$program->title}}">{{$program->title}}</option>
+                                    <option value="{{$program->id}}">{{$program->title}}</option>
                                   @endforeach
                                 </select>
                             </div>
@@ -987,6 +1000,19 @@
                                     placeholder="Contact Number" required />
                             </div>
                         </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <select class="form-select" name="here_me">
+                                            <option value="">How did you hear about us?</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="facebook">Facebook</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" name="ref_persion" placeholder="Reference Person" />
+                                    </div>
+                                </div>
                         
                         <div class="row">
                             <div class="col-md-12 mb-3">
@@ -1003,7 +1029,7 @@
                         </div>
                         <div class="row">
                             <div class="mb-3">
-                                <textarea class="form-control" placeholder="Requirement" name="place" rows="4" required></textarea>
+                                <textarea class="form-control" placeholder="Address" name="address" rows="4" required></textarea>
                             </div>
                         </div>
                         

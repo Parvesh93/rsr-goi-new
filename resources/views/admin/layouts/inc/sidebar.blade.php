@@ -678,6 +678,12 @@
                                 class="">{{ trans_choice('module_department_condition', 2) }}</a></li>
                     @endcanany
 
+                    @canany(['department-condition-view'])
+                        <li class="{{ Request::is('admin/department/program-condition*') ? 'active' : '' }}"><a
+                                href="{{ route('admin.department.condition.program-condition') }}"
+                                class="">Program Condition</a></li>
+                    @endcanany
+
                     @canany(['class-room-create', 'class-room-view'])
                         <li class="{{ Request::is('admin/academic/room*') ? 'active' : '' }}"><a
                                 href="{{ route('admin.room.index') }}"

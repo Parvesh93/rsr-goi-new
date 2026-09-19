@@ -13,9 +13,9 @@
                         <h5>{{ $title }} {{ __('list') }}</h5>
                     </div>
                     <div class="card-block">
-                        @can($access.'-create')
-                        <a href="{{ route($route.'.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ __('btn_add_new') }}</a>
-                        @endcan
+                        <!--@can($access.'-create')-->
+                        <!--<a href="{{ route($route.'.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> {{ __('btn_add_new') }}</a>-->
+                        <!--@endcan-->
 
                         <a href="{{ route($route.'.index') }}" class="btn btn-info"><i class="fas fa-sync-alt"></i> {{ __('btn_refresh') }}</a>
                     </div>
@@ -36,32 +36,22 @@
                                       {{ __('required_field') }} {{ __('field_program') }}
                                     </div>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="reference">{{ __('field_reference') }}</label>
-                                    <select class="form-control" name="reference" id="reference">
-                                        <option value="">{{ __('all') }}</option>
-                                        @foreach( $references as $reference )
-                                        <option value="{{ $reference->id }}" @if($selected_reference == $reference->id) selected @endif>{{ $reference->title }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="form-group col-md-3">
+                                        <label for="person">{{ 'Reference Person Name' }}</label>
+                                        <select class="form-control" name="person" id="person" required>
+                                            <option value="0">{{ __('all') }}</option>
+                                            @foreach ($persons as $person)
+                                                <option value="{{ $person }}"
+                                                    @if ($selected_person == $person) selected @endif>{{ $person }}
+                                                </option>
+                                            @endforeach
+                                        </select>
 
-                                    <div class="invalid-feedback">
-                                      {{ __('required_field') }} {{ __('field_reference') }}
-                                    </div>
+                                        <div class="invalid-feedback">
+                                            {{ __('required_field') }} {{ 'Reference Person Name' }}
+                                        </div>
                                 </div>
-                                <div class="form-group col-md-2">
-                                    <label for="source">{{ __('field_source') }}</label>
-                                    <select class="form-control" name="source" id="source">
-                                        <option value="">{{ __('all') }}</option>
-                                        @foreach( $sources as $source )
-                                        <option value="{{ $source->id }}" @if($selected_source == $source->id) selected @endif>{{ $source->title }}</option>
-                                        @endforeach
-                                    </select>
-
-                                    <div class="invalid-feedback">
-                                      {{ __('required_field') }} {{ __('field_source') }}
-                                    </div>
-                                </div>
+                              
                                 <div class="form-group col-md-2">
                                     <label for="start_date">{{ __('field_from_date') }}</label>
                                     <input type="date" class="form-control date" name="start_date" id="start_date" value="{{ $selected_start_date }}" required>
@@ -99,10 +89,10 @@
                                         <th>{{ __('field_name') }}</th>
                                         <th>{{ __('field_phone') }}</th>
                                         <th>{{ __('field_program') }}</th>
-                                        <th>{{ __('field_source') }}</th>
                                         <th>{{ __('field_date') }}</th>
-                                        <th>{{ __('field_next_follow_up_date') }}</th>
-                                        <th>{{ __('field_assigned') }}</th>
+                                        <th>{{ 'Reference Person' }}</th>
+                                        <th>{{ 'State' }}</th>
+                                        <th>{{ 'Address' }}</th>
                                         <th>{{ __('field_status') }}</th>
                                         <th>{{ __('field_action') }}</th>
                                     </tr>
@@ -112,30 +102,23 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $row->name }}</td>
-                                        <td>{{ $row->phone }}</td>
-                                        <td>{{ $row->program->shortcode ?? '' }}</td>
-                                        <td>{{ $row->source->title ?? '' }}</td>
+                                        <td>{{ $row->contact }}</td>
+                                        <td>{{ $row->program->title ?? '' }}</td>
                                         <td>
                                             @if(isset($setting->date_format))
-                                                {{ date($setting->date_format, strtotime($row->date)) }}
+                                                {{ date($setting->date_format, strtotime($row->enquiry_date)) }}
                                             @else
-                                                {{ date("Y-m-d", strtotime($row->date)) }}
+                                                {{ date("Y-m-d", strtotime($row->enquiry_date)) }}
                                             @endif
                                         </td>
                                         <td>
-                                            @if(isset($row->follow_up_date))
-                                            @if(isset($setting->date_format))
-                                                {{ date($setting->date_format, strtotime($row->follow_up_date)) }}
-                                            @else
-                                                {{ date("Y-m-d", strtotime($row->follow_up_date)) }}
-                                            @endif
-                                            @endif
+                                           {{$row->refrence_persion}}
                                         </td>
+                                        <td>{{ $row->state ?? '' }}</td>
                                         <td>
-                                            @isset($row->assign)
-                                            <a href="{{ route('admin.user.show', $row->assign->id) }}">#{{ $row->assign->staff_id ?? '' }}</a>
-                                            @endisset
+                                           {{$row->address}}
                                         </td>
+                                        
                                         <td>
                                             @if( $row->status == 1 )
                                             <span class="badge badge-pill badge-primary">{{ __('status_pending') }}</span>
@@ -178,17 +161,17 @@
                                                 </form>
                                             </div>
 
-                                            <button type="button" class="btn btn-icon btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#showModal-{{ $row->id }}">
+                                           {{-- <button type="button" class="btn btn-icon btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#showModal-{{ $row->id }}">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <!-- Include Show modal -->
+                                             Include Show modal 
                                             @include($view.'.show')
 
                                             @can($access.'-edit')
                                             <a href="{{ route($route.'.edit', $row->id) }}" class="btn btn-icon btn-primary btn-sm">
                                                 <i class="far fa-edit"></i>
                                             </a>
-                                            @endcan
+                                            @endcan --}}
 
                                             @can($access.'-delete')
                                             <button type="button" class="btn btn-icon btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $row->id }}">

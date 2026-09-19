@@ -14,6 +14,7 @@ use App\Models\PhoneLog;
 use App\Models\Visitor;
 use App\Models\Expense;
 use App\Models\Enquiry;
+use App\Models\StudentEnquiry;
 use App\Models\Payroll;
 use App\Models\Student;
 use App\Models\Program;
@@ -91,7 +92,7 @@ class DashboardController extends Controller
 
       $data['daily_visitors'] = Visitor::where('date', $today_date)->where('status', '1')->get();
       $data['daily_phone_logs'] = PhoneLog::where('date', $today_date)->where('status', '1')->get();
-      $data['daily_enqueries'] = Enquiry::where('date', $today_date)->where('status', '1')->get();
+      $data['daily_enqueries'] = StudentEnquiry::where('enquiry_date', $today_date)->where('status', '1')->get();
       $data['daily_postals'] = PostalExchange::where('date', $today_date)->where('status', '1')->get();
 
 
@@ -170,7 +171,7 @@ class DashboardController extends Controller
         $monthly_phone_logs[] = PhoneLog::whereYear('date', $year)->whereMonth('date', $b)->count();
       }
       for($c = 1; $c <= $month; $c++){
-        $monthly_enqueries[] = Enquiry::whereYear('date', $year)->whereMonth('date', $c)->count();
+        $monthly_enqueries[] = StudentEnquiry::whereYear('enquiry_date', $year)->whereMonth('enquiry_date', $c)->count();
       }
       for($d = 1; $d <= $month; $d++){
         $monthly_complains[] = Complain::whereYear('date', $year)->whereMonth('date', $d)->count();

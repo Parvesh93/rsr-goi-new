@@ -177,8 +177,7 @@
                                                     name="full_name" required />
                                             </div>
                                             <div class="col-md-6 mb-3">
-                                                <input type="text" class="form-control" placeholder="Email"
-                                                    name="address" required />
+                                                <input type="text" class="form-control" placeholder="Email" name="email" required />
                                             </div>
                                         </div>
                                         <div class="row">
@@ -186,7 +185,7 @@
                                                 <select class="form-select" name="course" required>
                                                     <option value="">Select Your Course</option>
                                                     @foreach($programs as $program)
-                                                    <option value="{{$program->title}}">{{$program->title}}</option>
+                                                    <option value="{{$program->id}}">{{$program->title}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -195,6 +194,19 @@
                                                     placeholder="Contact Number" required />
                                             </div>
                                         </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <select class="form-select" name="here_me">
+                                            <option value="">How did you hear about us?</option>
+                                            <option value="instagram">Instagram</option>
+                                            <option value="facebook">Facebook</option>
+                                            <option value="other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" name="ref_persion" placeholder="Reference Person" />
+                                    </div>
+                                </div>
                                         <div class="row">
                                             <div class="col-md-12 mb-3">
                                                 <select class="form-select" name="state" required>
@@ -209,7 +221,7 @@
 
                                         </div>
                                         <div class="mb-3">
-                                            <textarea class="form-control" placeholder="Requirement" name="place" rows="4" required></textarea>
+                                            <textarea class="form-control" placeholder="Address" name="address" rows="4" required></textarea>
                                         </div>
                                         <button type="submit" class="btn btn-primary w-100">
                                             Submit

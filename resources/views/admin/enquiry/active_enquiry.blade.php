@@ -21,11 +21,11 @@
                                         <th>{{ __('field_name') }}</th>
                                         <th>{{ __('field_phone') }}</th>
                                         <th>{{ __('field_program') }}</th>
-                                        <th>{{ __('field_source') }}</th>
                                         <th>{{ __('field_date') }}</th>
-                                        <th>{{ __('field_next_follow_up_date') }}</th>
-                                        <th>{{ __('field_assigned') }}</th>
-                                        <th>{{ __('field_status') }}</th>
+                                        <th>{{ 'Reference Person' }}</th>
+                                        <th>{{ 'State' }}</th>
+                                        <th>{{ 'Address' }}</th>
+                                        <!--<th>{{ __('field_status') }}</th>-->
                                         <th>{{ __('field_action') }}</th>
                                     </tr>
                                 </thead>
@@ -34,83 +34,87 @@
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $row->name }}</td>
-                                        <td>{{ $row->phone }}</td>
-                                        <td>{{ $row->program->shortcode ?? '' }}</td>
-                                        <td>{{ $row->source->title ?? '' }}</td>
+                                        <td>{{ $row->contact }}</td>
+                                        <td>{{ $row->program->title ?? '' }}</td>
                                         <td>
                                             @if(isset($setting->date_format))
-                                                {{ date($setting->date_format, strtotime($row->date)) }}
+                                                {{ date($setting->date_format, strtotime($row->enquiry_date)) }}
                                             @else
-                                                {{ date("Y-m-d", strtotime($row->date)) }}
+                                                {{ date("Y-m-d", strtotime($row->enquiry_date)) }}
                                             @endif
                                         </td>
                                         <td>
-                                            @if(isset($row->follow_up_date))
-                                            @if(isset($setting->date_format))
-                                                {{ date($setting->date_format, strtotime($row->follow_up_date)) }}
-                                            @else
-                                                {{ date("Y-m-d", strtotime($row->follow_up_date)) }}
-                                            @endif
-                                            @endif
+                                           {{$row->refrence_persion}}
                                         </td>
+                                        <td>{{ $row->state ?? '' }}</td>
                                         <td>
-                                            @isset($row->assign)
-                                            <a href="{{ route('admin.user.show', $row->assign->id) }}">#{{ $row->assign->staff_id ?? '' }}</a>
-                                            @endisset
+                                           {{$row->address}}
                                         </td>
+                                        <!--<td>-->
+                                        <!--    @if( $row->status == 1 )-->
+                                        <!--    <span class="badge badge-pill badge-info">{{ __('status_progress') }}</span>-->
+                                            
+                                        <!--    @elseif( $row->status == 2 )-->
+                                        <!--    <span class="badge badge-pill badge-primary">{{ __('status_pending') }}</span>-->
+                                        <!--    @elseif( $row->status == 3 )-->
+                                        <!--    <span class="badge badge-pill badge-success">{{ __('status_resolved') }}</span>-->
+                                        <!--    @elseif( $row->status == 0 )-->
+                                        <!--    <span class="badge badge-pill badge-danger">{{ __('status_closed') }}</span>-->
+                                        <!--    @endif-->
+                                        <!--</td>-->
                                         <td>
-                                            @if( $row->status == 1 )
-                                            <span class="badge badge-pill badge-primary">{{ __('status_pending') }}</span>
-                                            @elseif( $row->status == 2 )
-                                            <span class="badge badge-pill badge-info">{{ __('status_progress') }}</span>
-                                            @elseif( $row->status == 3 )
-                                            <span class="badge badge-pill badge-success">{{ __('status_resolved') }}</span>
-                                            @elseif( $row->status == 0 )
-                                            <span class="badge badge-pill badge-danger">{{ __('status_closed') }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="dropdown show d-inline-block">
-                                                <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="statusMenuLink" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fas fa-question"></i>
-                                                </a>
+                                           
+            {{-- <div class="dropdown show d-inline-block">
+                <a class="btn btn-secondary btn-sm dropdown-toggle" href="#" role="button" id="statusMenuLink"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-question"></i>
+                </a>
 
-                                                <div class="dropdown-menu" aria-labelledby="statusMenuLink">
-                                                    <a class="dropdown-item" href="#" onclick="document.getElementById('status_pending_{{ $row->id }}').submit();">{{ __('status_pending') }}</a>
-                                                    <a class="dropdown-item" href="#" onclick="document.getElementById('status_progress_{{ $row->id }}').submit();">{{ __('status_progress') }}</a>
-                                                    <a class="dropdown-item" href="#" onclick="document.getElementById('status_resolved_{{ $row->id }}').submit();">{{ __('status_resolved') }}</a>
-                                                    <a class="dropdown-item" href="#" onclick="document.getElementById('status_closed_{{ $row->id }}').submit();">{{ __('status_closed') }}</a>
-                                                </div>
+                <div class="dropdown-menu" aria-labelledby="statusMenuLink">
+                    <a class="dropdown-item" href="#"
+                        onclick="document.getElementById('status_pending_{{ $row->id }}').submit();">{{ __('status_pending') }}</a>
+                    <a class="dropdown-item" href="#"
+                        onclick="document.getElementById('status_progress_{{ $row->id }}').submit();">{{ __('status_progress') }}</a>
+                    <a class="dropdown-item" href="#"
+                        onclick="document.getElementById('status_resolved_{{ $row->id }}').submit();">{{ __('status_resolved') }}</a>
+                    <a class="dropdown-item" href="#"
+                        onclick="document.getElementById('status_closed_{{ $row->id }}').submit();">{{ __('status_closed') }}</a>
+                </div>
 
-                                                <form action="{{ route($route.'.status', $row->id) }}" method="post" id="status_pending_{{ $row->id }}">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="1">
-                                                </form>
-                                                <form action="{{ route($route.'.status', $row->id) }}" method="post" id="status_progress_{{ $row->id }}">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="2">
-                                                </form>
-                                                <form action="{{ route($route.'.status', $row->id) }}" method="post" id="status_resolved_{{ $row->id }}">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="3">
-                                                </form>
-                                                <form action="{{ route($route.'.status', $row->id) }}" method="post" id="status_closed_{{ $row->id }}">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="0">
-                                                </form>
-                                            </div>
+                <form action="{{ route($route . '.status', $row->id) }}" method="post"
+                    id="status_pending_{{ $row->id }}">
+                    @csrf
+                    <input type="hidden" name="status" value="1">
+                </form>
+                <form action="{{ route($route . '.status', $row->id) }}" method="post"
+                    id="status_progress_{{ $row->id }}">
+                    @csrf
+                    <input type="hidden" name="status" value="2">
+                </form>
+                <form action="{{ route($route . '.status', $row->id) }}" method="post"
+                    id="status_resolved_{{ $row->id }}">
+                    @csrf
+                    <input type="hidden" name="status" value="3">
+                </form>
+                <form action="{{ route($route . '.status', $row->id) }}" method="post"
+                    id="status_closed_{{ $row->id }}">
+                    @csrf
+                    <input type="hidden" name="status" value="0">
+                </form>
+            </div>
 
-                                            <button type="button" class="btn btn-icon btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#showModal-{{ $row->id }}">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
-                                            <!-- Include Show modal -->
-                                            @include($view.'.show')
+            <button type="button" class="btn btn-icon btn-success btn-sm" data-bs-toggle="modal"
+                data-bs-target="#showModal-{{ $row->id }}">
+                <i class="fas fa-eye"></i>
+            </button>
+            Include Show modal
+            @include($view . '.show')
 
-                                            @can($access.'-edit')
-                                            <a href="{{ route($route.'.edit', $row->id) }}" class="btn btn-icon btn-primary btn-sm">
-                                                <i class="far fa-edit"></i>
-                                            </a>
-                                            @endcan
+            @can($access . '-edit')
+                <a href="{{ route($route . '.edit', $row->id) }}" class="btn btn-icon btn-primary btn-sm">
+                    <i class="far fa-edit"></i>
+                </a>
+            @endcan --}}
 
                                             @can($access.'-delete')
                                             <button type="button" class="btn btn-icon btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ $row->id }}">

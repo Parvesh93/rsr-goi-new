@@ -8,6 +8,7 @@ use App\Models\EnquirySource;
 use Illuminate\Http\Request;
 use App\Models\Program;
 use App\Models\Enquiry;
+use App\Models\StudentEnquiry;
 use Carbon\Carbon;
 use App\Models\User;
 use Toastr;
@@ -51,19 +52,29 @@ class EnquiryController extends Controller
         $data['access'] = $this->access;
 
 
-        if(!empty($request->reference) || $request->reference != null){
-            $data['selected_reference'] = $reference = $request->reference;
-        }
-        else{
-            $data['selected_reference'] = $reference = '0';
-        }
+        if (!empty($request->person) || $request->person != null) {
+            
+            
+            // dd('s1');
+                $data['selected_person'] = $person = $request->person;
+            } else {
+                // dd('s2');
+                $data['selected_person'] = $person = '0';
+                
+                
+            }
+            
+        $data['persons'] = StudentEnquiry::whereNotNull('refrence_persion')
+                               ->where('refrence_persion', '!=', '')
+                              ->distinct()
+                              ->pluck('refrence_persion');
 
-        if(!empty($request->source) || $request->source != null){
-            $data['selected_source'] = $source = $request->source;
-        }
-        else{
-            $data['selected_source'] = $source = '0';
-        }
+        // if(!empty($request->source) || $request->source != null){
+        //     $data['selected_source'] = $source = $request->source;
+        // }
+        // else{
+        //     $data['selected_source'] = $source = '0';
+        // }
 
         if(!empty($request->program) || $request->program != null){
             $data['selected_program'] = $program = $request->program;
@@ -72,6 +83,9 @@ class EnquiryController extends Controller
             $data['selected_program'] = $program = '0';
         }
 
+
+
+    //   dd($program);
         if(!empty($request->start_date) || $request->start_date != null){
             $data['selected_start_date'] = $start_date = $request->start_date;
         }
@@ -87,6 +101,9 @@ class EnquiryController extends Controller
         }
 
 
+    //   $rows = StudentEnquiry::where('course', $program)->get();
+    //   dd($rows);
+
         // Search Filter
         $data['references'] = EnquiryReference::where('status', '1')
                             ->orderBy('title', 'asc')->get();
@@ -95,17 +112,33 @@ class EnquiryController extends Controller
         $data['programs'] = Program::where('status', '1')
                             ->orderBy('title', 'asc')->get();
 
-        $rows = Enquiry::whereDate('date', '>=', $start_date)
-                    ->whereDate('date', '<=', $end_date);
-                    if(!empty($request->reference) || $request->reference != null){
-                        $rows->where('reference_id', $reference);
+        $rows = StudentEnquiry::whereDate('enquiry_date', '>=', $start_date)
+                    ->whereDate('enquiry_date', '<=', $end_date);
+                    
+                    if(!empty($request->program)){
+                        
+                        // dd($program);
+                        
+                        $rows->where('course', $program);
+                        // dd($rows);
                     }
-                    if(!empty($request->source) || $request->source != null){
-                        $rows->where('source_id', $source);
+                    
+                    if(!empty($request->person) || $request->person != '0'){
+                        
+                        // dd($request->person);
+                        
+                        $rows->where('refrence_persion', $person);
                     }
-                    if(!empty($request->program) || $request->program != null){
-                        $rows->where('program_id', $program);
-                    }
+                    
+                    
+                    
+                    
+                    
+                    
+            // dd($rows) ;       
+                    
+                    
+                        
         $data['rows'] = $rows->orderBy('id', 'desc')->get();
 
         return view($this->view .'.index', $data);
@@ -274,9 +307,9 @@ class EnquiryController extends Controller
      * @param  \App\Enquiry  $enquiry
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Enquiry $enquiry)
+    public function destroy($id)
     {
-        // Delete data
+        $enquiry = StudentEnquiry::findOrFail($id);
         $enquiry->delete();
 
         Toastr::success(__('msg_deleted_successfully'), __('msg_success'));
@@ -298,15 +331,19 @@ class EnquiryController extends Controller
 
 
         // Status Update
-        $enquiry = Enquiry::findOrFail($id);
+        $enquiry = StudentStudentEnquiry::findOrFail($id);
         $enquiry->status = $request->status;
         $enquiry->updated_by = Auth::guard('web')->user()->id;
         $enquiry->save();
 
-
-        Toastr::success(__('msg_status_changed'), __('msg_success'));
-
-        return redirect()->back();
+        
+        
+        $notification = array(
+                'message' => __('msg_status_changed'),
+                'alert-type' => __('msg_success')
+            );
+    
+        return redirect()->back()->with($notification);
     }
     
     public function activeEnquiry(){
@@ -327,7 +364,7 @@ class EnquiryController extends Controller
         $data['programs'] = Program::where('status', '1')
                             ->orderBy('title', 'asc')->get();
                             
-       $data['rows'] = Enquiry::where('date', $today_date)->where('status', '1')->get();    
+       $data['rows'] = StudentEnquiry::where('enquiry_date', $today_date)->where('status', '1')->get();    
        
        return view($this->view.'.active_enquiry', $data);
     }

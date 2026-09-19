@@ -851,6 +851,8 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->namespace('Admin')->pref
     Route::get('department/condition', [DepartmentConditionController::class, 'index'])->name('department.condition.index');
 
     Route::post('department/condition/departmentinfo', [DepartmentConditionController::class, 'departmentInfo'])->name('department.condition.departmentinfo');
+    Route::get('department/program-condition', [DepartmentConditionController::class, 'programCondition'])->name('department.condition.program-condition');
+    Route::post('department/program-condition/info', [DepartmentConditionController::class, 'programConditionInfo'])->name('department.condition.program-condition-info');
     // Address Routes
     // Route::resource('setting/province', 'ProvinceController');
     // Route::resource('setting/district', 'DistrictController');
