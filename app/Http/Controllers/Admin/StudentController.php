@@ -1941,4 +1941,737 @@ class StudentController extends Controller
             return view('admin.income.student_fees', $data);
         }
     }
+
+public function cancelStudent(Request $request)
+    {
+
+        $data['title'] = 'Cancelled Students';
+
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+        $data['access'] = $this->access;
+
+
+        $sta = StatusType::where('title', 'Rejected')->where('status', '1')->first();
+
+
+        if (!empty($request->department) || $request->department != null) {
+            $data['college_department'] = $department = $request->department;
+        } else {
+            $data['college_department']  = $department = '0';
+        }
+
+        if (!empty($request->faculty) || $request->faculty != null) {
+            $data['selected_faculty'] = $faculty = $request->faculty;
+        } else {
+            $data['selected_faculty'] = $faculty = '0';
+        }
+
+        if (!empty($request->program) || $request->program != null) {
+            $data['selected_program'] = $program = $request->program;
+        } else {
+            $data['selected_program'] = $program = '0';
+        }
+
+        if (!empty($request->session) || $request->session != null) {
+            $data['selected_session'] = $session = $request->session;
+        } else {
+            $data['selected_session'] = $session = '0';
+        }
+
+        if (!empty($request->semester) || $request->semester != null) {
+            $data['selected_semester'] = $semester = $request->semester;
+        } else {
+            $data['selected_semester'] = $semester = '0';
+        }
+
+        if (!empty($request->section) || $request->section != null) {
+            $data['selected_section'] = $section = $request->section;
+        } else {
+            $data['selected_section'] = $section = '0';
+        }
+
+        if (!empty($request->status) || $request->status != null) {
+            $data['selected_status'] = $status = $request->status;
+        } else {
+            $data['selected_status'] = $status = $sta->id ?? '0';
+        }
+
+        if (!empty($request->student_id) || $request->student_id != null) {
+            $data['selected_student_id'] = $student_id = $request->student_id;
+        } else {
+            $data['selected_student_id'] = $student_id =  Null;
+        }
+
+        if (!empty($request->student_regi) || $request->student_regi != null) {
+            $data['selected_student_regi'] = $student_regi = $request->student_regi;
+        } else {
+            $data['selected_student_regi'] = $student_regi = Null;
+        }
+
+        if (!empty($request->person) || $request->person != null) {
+            $data['selected_person'] = $person = $request->person;
+        } else {
+            $data['selected_person'] = $person = '0';
+        }
+
+        // $data['persons'] = Student::pluck('refrence_person_name');
+        $data['persons'] = Student::whereNotNull('refrence_person_name')
+            ->where('refrence_person_name', '!=', '')
+            ->distinct()
+            ->pluck('refrence_person_name');
+
+
+        $data['departments'] = CollegeDepartment::where('status', '1')->orderBy('title', 'asc')->get();
+
+        $data['faculties'] = Faculty::where('status', '1')
+            ->orderBy('title', 'asc')
+            ->get();
+
+        $data['statuses'] = StatusType::where('title', 'Rejected')->where('status', '1')->orderBy('title', 'asc')->get();
+
+
+        if (!empty($request->faculty) && $request->faculty != '0') {
+            $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
+        }
+
+        if (!empty($request->program) && $request->program != '0') {
+            $sessions = Session::where('status', 1);
+            $sessions->with('programs')->whereHas('programs', function ($query) use ($program) {
+                $query->where('program_id', $program);
+            });
+            $data['sessions'] = $sessions->orderBy('id', 'desc')->get();
+        }
+
+        if (!empty($request->program) && $request->program != '0') {
+            $semesters = Semester::where('status', 1);
+            $semesters->with('programs')->whereHas('programs', function ($query) use ($program) {
+                $query->where('program_id', $program);
+            });
+            $data['semesters'] = $semesters->orderBy('id', 'asc')->get();
+        }
+
+        if (!empty($request->program) && $request->program != '0' && !empty($request->semester) && $request->semester != '0') {
+            $sections = Section::where('status', 1);
+            $sections->with('semesterPrograms')->whereHas('semesterPrograms', function ($query) use ($program, $semester) {
+                $query->where('program_id', $program);
+                $query->where('semester_id', $semester);
+            });
+            $data['sections'] = $sections->orderBy('title', 'asc')->get();
+        }
+
+
+        if (
+            isset($request->faculty) || isset($request->program) || isset($request->session) || isset($request->semester) || isset($request->section) || isset($request->status) || isset($request->student_id) || isset($request->student_regi)
+            || isset($request->person)
+        ) {
+            // Student Filter
+            $students = Student::where('status', '1');
+            if ($faculty != 0) {
+                $students->with('program')->whereHas('program', function ($query) use ($faculty) {
+                    $query->where('faculty_id', $faculty);
+                });
+            }
+            $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester, $section) {
+                if ($program != 0) {
+                    $query->where('program_id', $program);
+                }
+                if ($session != 0) {
+                    $query->where('session_id', $session);
+                }
+                if ($semester != 0) {
+                    $query->where('semester_id', $semester);
+                }
+                if ($section != 0) {
+                    $query->where('section_id', $section);
+                }
+            });
+            if (!empty($request->status)) {
+                $students->with('statuses')->whereHas('statuses', function ($query) use ($status) {
+                    $query->where('status_type_id', $status);
+                });
+            }
+            if (!empty($request->student_id)) {
+                $students->where('student_id', 'LIKE', '%' . $student_id . '%');
+            }
+
+            if (!empty($request->student_regi)) {
+                $students->where('registration_no', 'LIKE', '%' . $student_regi . '%');
+            }
+
+
+            if (!empty($request->person)) {
+                $students->where('refrence_person_name', $person);
+            }
+            $rows = $students->orderBy('student_id', 'desc')->get();
+
+            // Array Sorting
+            $data['rows'] = $rows->sortByDesc(function ($query) {
+
+                return $query->student_id;
+            })->all();
+        }
+
+
+        $data['print'] = IdCardSetting::where('slug', 'student-card')->first();
+
+
+        return view($this->view . '.cancel_student', $data);
+    }
+
+public function feesCollection(Request $request)
+    {
+        // dd('success');
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+        $data['access'] = $this->access;
+
+        // if(!empty($request->college_status) || $request->college_status != null){
+        //     $data['selected_college_id'] = $college = $request->college_status;
+        // }
+        // else{
+        //     $data['selected_college_id'] = $college = '0';
+        // }
+
+
+        if (auth()->user()->is_admin === 1) {
+            // Admin ko saari faculties dikhni chahiye
+
+            // dd('s');
+
+            if (!empty($request->department) || $request->department != null) {
+                $data['college_department'] = $department = $request->department;
+            } else {
+                $data['college_department']  = $department = '0';
+            }
+
+            if (!empty($request->faculty) || $request->faculty != null) {
+                $data['selected_faculty'] = $faculty = $request->faculty;
+            } else {
+                $data['selected_faculty'] = $faculty = '0';
+            }
+
+            if (!empty($request->program) || $request->program != null) {
+                $data['selected_program'] = $program = $request->program;
+            } else {
+                $data['selected_program'] = $program = '0';
+            }
+
+            if (!empty($request->session) || $request->session != null) {
+                $data['selected_session'] = $session = $request->session;
+            } else {
+                $data['selected_session'] = $session = '0';
+            }
+
+            if (!empty($request->semester) || $request->semester != null) {
+                $data['selected_semester'] = $semester = $request->semester;
+            } else {
+                $data['selected_semester'] = $semester = '0';
+            }
+
+            if (!empty($request->section) || $request->section != null) {
+                $data['selected_section'] = $section = $request->section;
+            } else {
+                $data['selected_section'] = $section = '0';
+            }
+
+            if (!empty($request->status) || $request->status != null) {
+                $data['selected_status'] = $status = $request->status;
+            } else {
+                $data['selected_status'] = '0';
+            }
+
+
+
+
+
+            if (!empty($request->student_id) || $request->student_id != null) {
+                $data['selected_student_id'] = $student_id = $request->student_id;
+            } else {
+                $data['selected_student_id'] = $student_id =  Null;
+            }
+
+            if (!empty($request->student_regi) || $request->student_regi != null) {
+                $data['selected_student_regi'] = $student_regi = $request->student_regi;
+            } else {
+                $data['selected_student_regi'] = $student_regi = Null;
+            }
+
+            if (!empty($request->person) || $request->person != null) {
+                $data['selected_person'] = $person = $request->person;
+            } else {
+                $data['selected_person'] = $person = '0';
+            }
+
+            $data['persons'] = Student::pluck('refrence_person_name');
+
+
+            $data['departments'] = CollegeDepartment::where('status', '1')->orderBy('title', 'asc')->get();
+
+            $data['faculties'] = Faculty::where('status', '1')
+                ->orderBy('title', 'asc')
+                ->get();
+
+            $data['statuses'] = StatusType::where('status', '1')->orderBy('title', 'asc')->get();
+
+
+            if (!empty($request->faculty) && $request->faculty != '0') {
+                $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
+            }
+
+            if (!empty($request->program) && $request->program != '0') {
+                $sessions = Session::where('status', 1);
+                $sessions->with('programs')->whereHas('programs', function ($query) use ($program) {
+                    $query->where('program_id', $program);
+                });
+                $data['sessions'] = $sessions->orderBy('id', 'desc')->get();
+            }
+
+            if (!empty($request->program) && $request->program != '0') {
+                $semesters = Semester::where('status', 1);
+                $semesters->with('programs')->whereHas('programs', function ($query) use ($program) {
+                    $query->where('program_id', $program);
+                });
+                $data['semesters'] = $semesters->orderBy('id', 'asc')->get();
+            }
+
+            if (!empty($request->program) && $request->program != '0' && !empty($request->semester) && $request->semester != '0') {
+                $sections = Section::where('status', 1);
+                $sections->with('semesterPrograms')->whereHas('semesterPrograms', function ($query) use ($program, $semester) {
+                    $query->where('program_id', $program);
+                    $query->where('semester_id', $semester);
+                });
+                $data['sections'] = $sections->orderBy('title', 'asc')->get();
+            }
+
+
+            if (
+                isset($request->faculty) || isset($request->program) || isset($request->session) || isset($request->semester) || isset($request->section) || isset($request->status) || isset($request->student_id) || isset($request->student_regi)
+                || isset($request->person)
+            ) {
+                // Student Filter
+                $students = Student::where('status', '1');
+                if ($faculty != 0) {
+                    $students->with('program')->whereHas('program', function ($query) use ($faculty) {
+                        $query->where('faculty_id', $faculty);
+                    });
+                }
+                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester, $section) {
+                    if ($program != 0) {
+                        $query->where('program_id', $program);
+                    }
+                    if ($session != 0) {
+                        $query->where('session_id', $session);
+                    }
+                    if ($semester != 0) {
+                        $query->where('semester_id', $semester);
+                    }
+                    if ($section != 0) {
+                        $query->where('section_id', $section);
+                    }
+                });
+                if (!empty($request->status)) {
+                    $students->with('statuses')->whereHas('statuses', function ($query) use ($status) {
+                        $query->where('status_type_id', $status);
+                    });
+                }
+                if (!empty($request->student_id)) {
+                    $students->where('student_id', 'LIKE', '%' . $student_id . '%');
+                }
+
+                if (!empty($request->student_regi)) {
+                    $students->where('registration_no', 'LIKE', '%' . $student_regi . '%');
+                }
+
+
+                if (!empty($request->person)) {
+                    $students->where('refrence_person_name', $person);
+                }
+                $rows = $students->orderBy('student_id', 'desc')->get();
+
+                // Array Sorting
+                $data['rows'] = $rows->sortByDesc(function ($query) {
+
+                    return $query->student_id;
+                })->all();
+            }
+
+
+            $data['print'] = IdCardSetting::where('slug', 'student-card')->first();
+
+
+            return view('admin.income.add_student_fees', $data);
+        } elseif (auth()->user()->is_admin === 0) {
+            // Teacher ko sirf uske department ki faculties dikhni chahiye
+
+            $teacherDepa = auth()->user()->teacher_department; // ya ->faculty_name
+            $collegeDepartment = auth()->user()->college_department_id;
+
+            $data['persons'] = Student::pluck('refrence_person_name');
+
+
+            $fac = Faculty::where('status', '1')
+                ->where('teacher_department', $teacherDepa) // column match karo
+                ->orderBy('title', 'asc')
+                ->first();
+            //  dd($fac);
+
+            if (!empty($request->department) || $request->department != null) {
+                $data['college_department'] = $department = $request->department;
+            } else {
+                $data['college_department']  = $department =  $collegeDepartment;
+            }
+
+            if (!empty($request->faculty) || $request->faculty != null) {
+                $data['selected_faculty'] = $faculty = $request->faculty;
+            } else {
+                $data['selected_faculty'] = $faculty = $fac->id ?? null;
+            }
+            if (!empty($request->program) || $request->program != null) {
+                $data['selected_program'] = $program = $request->program;
+            } else {
+                $data['selected_program'] = $program = $teacherDepa ?? null;
+            }
+
+
+
+            $data['selected_session'] = $session = $request->session ?? null;
+            $data['selected_semester'] = $semester = $request->semester ?? null;
+            $data['selected_section'] = $section = $request->section ?? null;
+            $data['selected_status'] = $status = $request->status ?? null;
+            $data['selected_student_id'] = $student_id = $request->student_id ?? null;
+
+            if (!empty($request->student_regi) || $request->student_regi != null) {
+                $data['selected_student_regi'] = $student_regi = $request->student_regi;
+            } else {
+                $data['selected_student_regi'] = $student_regi = Null;
+            }
+
+            if (!empty($request->person) || $request->person != null) {
+                $data['selected_person'] = $person = $request->person;
+            } else {
+                $data['selected_person'] = $person = '0';
+            }
+
+
+            // dd($faculty);
+
+
+            $data['departments'] = CollegeDepartment::where('id', $collegeDepartment)->where('status', '1')->orderBy('title', 'asc')->get();
+
+
+
+            $data['faculties'] = Faculty::where('status', '1')
+                ->where('department_id', $collegeDepartment) // column match karo
+                ->orderBy('title', 'asc')
+                ->get();
+
+            $data['statuses'] = StatusType::where('status', '1')->orderBy('title', 'asc')->get();
+
+            // dd($request->faculty);
+
+            if (!empty($request->faculty) && $request->faculty != '0' || !empty($faculty)) {
+                //  dd($faculty);
+                $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
+                // dd($da);
+
+            }
+
+            if (!empty($request->program) && $request->program != '0') {
+                $sessions = Session::where('status', 1);
+                $sessions->with('programs')->whereHas('programs', function ($query) use ($program) {
+                    $query->where('program_id', $program);
+                });
+                $data['sessions'] = $sessions->orderBy('id', 'desc')->get();
+            }
+
+            if (!empty($request->program) && $request->program != '0') {
+                $semesters = Semester::where('status', 1);
+                $semesters->with('programs')->whereHas('programs', function ($query) use ($program) {
+                    $query->where('program_id', $program);
+                });
+                $data['semesters'] = $semesters->orderBy('id', 'asc')->get();
+            }
+
+            if (!empty($request->program) && $request->program != '0' && !empty($request->semester) && $request->semester != '0') {
+                $sections = Section::where('status', 1);
+                $sections->with('semesterPrograms')->whereHas('semesterPrograms', function ($query) use ($program, $semester) {
+                    $query->where('program_id', $program);
+                    $query->where('semester_id', $semester);
+                });
+                $data['sections'] = $sections->orderBy('title', 'asc')->get();
+            }
+
+
+            if (
+                isset($request->faculty) || isset($request->program) || isset($request->session) || isset($request->semester) || isset($request->section) || isset($request->status) || isset($request->student_id)
+                || isset($request->student_regi) || isset($request->person)
+            ) {
+                // Student Filter
+                $students = Student::where('status', '1');
+                if ($faculty != 0) {
+                    $students->with('program')->whereHas('program', function ($query) use ($faculty) {
+                        $query->where('faculty_id', $faculty);
+                    });
+                }
+                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester, $section) {
+                    if ($program != 0) {
+                        $query->where('program_id', $program);
+                    }
+                    if ($session != 0) {
+                        $query->where('session_id', $session);
+                    }
+                    if ($semester != 0) {
+                        $query->where('semester_id', $semester);
+                    }
+                    if ($section != 0) {
+                        $query->where('section_id', $section);
+                    }
+                });
+                if (!empty($request->status)) {
+                    $students->with('statuses')->whereHas('statuses', function ($query) use ($status) {
+                        $query->where('status_type_id', $status);
+                    });
+                }
+                if (!empty($request->student_id)) {
+                    $students->where('student_id', 'LIKE', '%' . $student_id . '%');
+                }
+
+                if (!empty($request->person)) {
+                    $students->where('refrence_person_name', $person);
+                }
+
+                if (!empty($request->student_regi)) {
+                    $students->where('registration_no', 'LIKE', '%' . $student_regi . '%');
+                }
+
+                $rows = $students->orderBy('student_id', 'desc')->get();
+
+                // Array Sorting
+                $data['rows'] = $rows->sortByDesc(function ($query) {
+
+                    return $query->student_id;
+                })->all();
+            }
+
+
+            $data['print'] = IdCardSetting::where('slug', 'student-card')->first();
+
+
+            return view('admin.income.add_student_fees', $data);
+        }
+    }
+
+public function editFeesCollection($id)
+    {
+        // dd($id);
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+
+        $student = Student::findOrFail($id);
+
+        $data['provinces'] = Province::where('status', '1')
+            ->orderBy('title', 'asc')->get();
+        $data['present_districts'] = District::where('status', '1')
+            ->where('province_id', $student->present_province)
+            ->orderBy('title', 'asc')->get();
+        $data['permanent_districts'] = District::where('status', '1')
+            ->where('province_id', $student->permanent_province)
+            ->orderBy('title', 'asc')->get();
+        $data['statuses'] = StatusType::where('status', '1')->get();
+
+        if (auth()->user()->is_admin === 1) {
+            // Admin ko saari batches dikhni chahiye
+            $data['batches'] = Batch::where('status', '1')->orderBy('id', 'desc')->get();
+        } elseif (auth()->user()->is_admin === 0) {
+            // Teacher ko sirf uske department ki batch dikhni chahiye
+            $teacherDepartment = auth()->user()->teacher_department; // ya ->faculty_name
+            $collegeDepartment = auth()->user()->college_department_id;
+
+            $batche = Batch::where('status', '1')->where('department_id', $collegeDepartment);
+
+            //  $batche->with('programs')->whereHas('programs', function ($query) use ($teacherDepartment){
+            //             $query->where('program_id', $teacherDepartment);
+            //         });
+
+
+
+            $data['batches'] = $batche->orderBy('title', 'asc')->get();
+        }
+
+
+
+        $data['row'] = $student;
+
+
+        return view('admin.income.edit_fees_collection', $data);
+    }
+
+public function updateFeesCollection(Request $request, $id)
+    {
+
+        // Update Data
+        try {
+            DB::beginTransaction();
+
+            $student = Student::findOrFail($id);
+
+            if ($request->has('total_amounts')) {
+                $student->total_amounts = $request->total_amounts;
+            }
+            if ($request->has('RefT')) {
+                $student->refTotal = $request->RefT;
+            }
+            if ($request->has('CashT')) {
+                $student->cashTotal = $request->CashT;
+            }
+            if ($request->has('BankT')) {
+                $student->bankTotal = $request->BankT;
+            }
+
+            if ($request->has('deductionT')) {
+                $student->deductionTotal = $request->deductionT;
+            }
+
+
+            $student->updated_by = Auth::guard('web')->user()->id;
+
+            $student->save();
+
+
+            //Remove Old References
+            Refrence::where('student_id', $student->id)->delete();
+
+            if (is_array($request->refrence_ids)) {
+                foreach ($request->refrence_ids as $key => $refrence) {
+                    if ($refrence != '' && $refrence != null) {
+                        // Insert Data
+                        $reference = new Refrence();
+                        $reference->student_id = $student->id;
+                        $reference->utr_no = $request->refrence_ids[$key];
+                        $reference->ref_amount = $request->ref_amounts[$key];
+                        $reference->ref_date = $request->ref_dates[$key];
+                        $reference->ref_name = $request->ref_names[$key];
+                        $reference->save();
+                    }
+                }
+            }
+
+            //Remove Old Cash Received
+            CashReceived::where('student_id', $student->id)->delete();
+
+            if (is_array($request->cash_ids)) {
+                foreach ($request->cash_ids as $key => $cash) {
+                    if ($cash != '' && $cash != null) {
+                        // Insert Data
+                        $cashReceived = new CashReceived();
+                        $cashReceived->student_id = $student->id;
+                        $cashReceived->utr_no = $request->cash_ids[$key];
+                        $cashReceived->cash_amount = $request->cash_amounts[$key];
+                        $cashReceived->cash_date = $request->cash_dates[$key];
+                        $cashReceived->cash_name = $request->cash_names[$key];
+                        $cashReceived->save();
+                    }
+                }
+            }
+
+            //Remove Old Bank Received
+            BankReceived::where('student_id', $student->id)->delete();
+
+            if (is_array($request->bank_ids)) {
+                foreach ($request->bank_ids as $key => $bank) {
+                    if ($bank != '' && $bank != null) {
+                        // Insert Data
+                        $bankReceived = new BankReceived();
+                        $bankReceived->student_id = $student->id;
+                        $bankReceived->receipt_no = $request->bank_ids[$key];
+                        $bankReceived->utr_no = $request->utr_nos[$key];
+                        $bankReceived->bank_amount = $request->bank_amounts[$key];
+                        $bankReceived->bank_date = $request->bank_dates[$key];
+                        $bankReceived->bank_name = $request->bank_names[$key];
+                        $bankReceived->save();
+                    }
+                }
+            }
+
+            //Remove Old Deduction Received
+            Deduction::where('student_id', $student->id)->delete();
+
+            if (is_array($request->deduction_ids)) {
+                foreach ($request->deduction_ids as $key => $deduction) {
+                    if ($deduction != '' && $deduction != null) {
+                        // Insert Data
+                        $deductionReceived = new Deduction();
+                        $deductionReceived->student_id = $student->id;
+                        $deductionReceived->deduction_id = $request->deduction_ids[$key];
+                        $deductionReceived->utr_no  = $request->utr_nos[$key];
+                        $deductionReceived->purpose = $request->purposes[$key];
+                        $deductionReceived->deduction_amount = $request->deduction_amounts[$key];
+                        $deductionReceived->deduction_date = $request->deduction_dates[$key];
+                        $deductionReceived->deduction_name = $request->deduction_names[$key];
+                        
+                        $deductionReceived->save();
+                    }
+                }
+            }
+
+
+            DB::commit();
+
+
+
+            $notification = array(
+                'message' => __('msg_updated_successfully'),
+                'alert-type' => __('msg_success')
+            );
+
+            return redirect()->back()->with($notification);
+        } catch (\Exception $e) {
+
+            toastr('Update Error Occur', 'error');
+
+
+            $notification = array(
+                'message' => __('msg_updated_error'),
+                'alert-type' => __('msg_error')
+            );
+
+            return redirect()->back()->with($notification);
+        }
+    }
+
+public function feesReceipt(Request $request, $id)
+    {
+
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+
+        $data['rows'] = Student::where('id', $id)->orderBy('student_id', 'asc')->get();
+
+        return view('admin.income.fees_receipt', $data);
+    }
+
+public function feesMultiPrint(Request $request)
+    {
+        //
+        $data['title'] = $this->title;
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+
+        $students = explode(",", $request->students);
+
+        // View
+        $data['rows'] = Student::whereIn('id', $students)->orderBy('student_id', 'asc')->get();
+        // $data['print'] = IdCardSetting::where('slug', 'student-card')->firstOrFail();
+
+        return view('admin.income.fees_receipt', $data);
+    }
 }
