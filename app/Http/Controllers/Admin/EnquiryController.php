@@ -324,25 +324,19 @@ class EnquiryController extends Controller
      */
     public function status(Request $request, $id)
     {
-        // Field Validation
         $request->validate([
             'status' => 'required',
         ]);
 
-
-        // Status Update
-        $enquiry = StudentStudentEnquiry::findOrFail($id);
+        $enquiry = StudentEnquiry::findOrFail($id);
         $enquiry->status = $request->status;
-        $enquiry->updated_by = Auth::guard('web')->user()->id;
         $enquiry->save();
 
-        
-        
-        $notification = array(
-                'message' => __('msg_status_changed'),
-                'alert-type' => __('msg_success')
-            );
-    
+        $notification = [
+            'message' => __('msg_status_changed'),
+            'alert-type' => __('msg_success'),
+        ];
+
         return redirect()->back()->with($notification);
     }
     
