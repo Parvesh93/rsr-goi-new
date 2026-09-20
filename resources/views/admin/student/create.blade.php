@@ -1064,6 +1064,12 @@
                                                 {{ __('required_field') }} {{ "Reference Person Name" }}
                                             </div>
                                         </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="refrence_person_contact">Reference Person Contact No</label>
+                                                <input type="text" class="form-control" name="refrence_person_contact"
+                                                    id="refrence_person_contact" value="{{ old('refrence_person_contact') }}">
+                                            </div>
+
                                         
                                         
                                         
@@ -1526,6 +1532,15 @@
                                                             {{ __('required_field') }} {{ __('field_pan_card') }}
                                                         </div>
                                                     </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="domicile">Domicile</label>
+                                                <input type="file" class="form-control" name="domicile" id="domicile">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="caste_certificate">Caste Certificate</label>
+                                                <input type="file" class="form-control" name="caste_certificate" id="caste_certificate">
+                                            </div>
+
                                                 @endif
 
                                                 @if (field('application_photo')->status == 1)
@@ -1555,7 +1570,29 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                            </fieldset>
+                                            
+                                            <div class="col-md-12 mt-3">
+                                                <fieldset class="row scheduler-border">
+                                                    <legend>DRCC-admitted Students</legend>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="bonafide_certificate">Bonafide Certificate</label>
+                                                        <input type="file" class="form-control" name="bonafide_certificate" id="bonafide_certificate">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="drcc_receiving">DRCC Receiving</label>
+                                                        <input type="file" class="form-control" name="drcc_receiving" id="drcc_receiving">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="tpva_form">TPVA Form</label>
+                                                        <input type="file" class="form-control" name="tpva_form" id="tpva_form">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="drcc_selection_letter">DRCC Selection Letter / Agreement</label>
+                                                        <input type="file" class="form-control" name="drcc_selection_letter" id="drcc_selection_letter">
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+</fieldset>
                                             <!-- Form End--->
                                         </content>
                                     @endif

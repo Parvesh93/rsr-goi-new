@@ -132,7 +132,11 @@ class ApplicationController extends Controller
             }
             // $data['persons'] = Application::pluck('ref_persion');
             
-            $data['persons'] = collect();
+            $data['persons'] = Application::whereNotNull('refrence_person_name')
+                ->where('refrence_person_name', '!=', '')
+                ->distinct()
+                ->orderBy('refrence_person_name')
+                ->pluck('refrence_person_name');
 
  
         // Search Filter
@@ -141,7 +145,7 @@ class ApplicationController extends Controller
         $data['programs'] = Program::where('status', '1')->orderBy('title', 'asc')->get();
 
 
-        if(isset($request->program) || isset($request->status) || isset($request->registration_no)){
+        if(isset($request->program) || isset($request->status) || isset($request->registration_no) || isset($request->person) || isset($request->department)){
             // Application Filter
             $applications = Application::whereDate('apply_date', '>=', $start_date)
                         ->whereDate('apply_date', '<=', $end_date);
@@ -150,6 +154,12 @@ class ApplicationController extends Controller
                         }
                         if(!empty($request->program)){
                             $applications->where('program_id', $program);
+                        }
+                        if(!empty($request->department) && $department != '0'){
+                            $applications->where('department_id', $department);
+                        }
+                        if(!empty($request->person) && $person != '0'){
+                            $applications->where('refrence_person_name', $person);
                         }
                         if(!empty($request->registration_no)){
                             $applications->where('registration_no', 'LIKE', '%'.$registration_no.'%');

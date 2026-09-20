@@ -78,6 +78,16 @@
                                     <div class="invalid-feedback">
                                       {{ __('required_field') }} {{ __('field_status') }}
                                     </div>
+                                <div class="form-group col-md-3">
+                                    <label for="person">Reference Person Name</label>
+                                    <select class="form-control" name="person" id="person">
+                                        <option value="0">{{ __('all') }}</option>
+                                        @foreach ($persons as $person)
+                                            <option value="{{ $person }}" @if($selected_person == $person) selected @endif>{{ $person }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
                                 </div>
                                 <div class="form-group col-md-2">
                                     <label for="start_date">{{ __('field_from_date') }}</label>

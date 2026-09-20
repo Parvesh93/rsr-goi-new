@@ -148,6 +148,7 @@
                                                 <th>{{ __('field_student_id') }}</th>
                                                 <th>{{ __('field_regis_no') }}</th>
                                                 <th>{{ __('field_name') }}</th>
+                                                <th>Email</th>
                                                 <th>{{ __('field_program') }}</th>
                                                 <th>{{ __('field_session') }}</th>
                                                 <th>{{ __('field_semester') }}</th>
@@ -178,6 +179,7 @@
                                                     </td>
                                                     <td>{{ $row->registration_no }}</td>
                                                     <td>{{ $row->first_name }} {{ $row->last_name }}</td>
+                                                    <td>{{ $row->email ?? '' }}</td>
                                                     <td>{{ $row->program->title ?? '' }}</td>
                                                     <td>{{ $enroll->session->title ?? '' }}</td>
                                                     <td>{{ $enroll->semester->title ?? '' }}</td>
@@ -238,6 +240,13 @@
                                                             <a href="{{ route($route . '.edit', $row->id) }}"
                                                                 class="btn btn-icon btn-primary btn-sm">
                                                                 <i class="far fa-edit"></i>
+                                                            </a>
+                                                        @endcan
+
+                                                        @can($access . '-edit')
+                                                            <a href="{{ route('admin.edit.income.feesCollection', $row->id) }}"
+                                                                class="btn btn-icon btn-primary btn-sm" title="Fees Collection">
+                                                                <i class="fa fa-inr"></i>
                                                             </a>
                                                         @endcan
 

@@ -946,6 +946,12 @@
                                                 {{ __('required_field') }} {{ "Reference Person Name" }}
                                             </div>
                                         </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="refrence_person_contact">Reference Person Contact No</label>
+                                                <input type="text" class="form-control" name="refrence_person_contact"
+                                                    id="refrence_person_contact" value="{{ $row->refrence_person_contact }}">
+                                            </div>
+
                                     </fieldset>
 
                                     @if (field('student_relatives')->status == 1)
@@ -1639,6 +1645,17 @@
                                                        @endif
                                                     @endif
                                                     </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="domicile">Domicile</label>
+                                                <input type="file" class="form-control" name="domicile" id="domicile">
+                                                @if (!empty($row->domicile) && is_file('uploads/' . $path . '/' . $row->domicile)) <a href="{{ asset('uploads/' . $path . '/' . $row->domicile) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="caste_certificate">Caste Certificate</label>
+                                                <input type="file" class="form-control" name="caste_certificate" id="caste_certificate">
+                                                @if (!empty($row->caste_certificate) && is_file('uploads/' . $path . '/' . $row->caste_certificate)) <a href="{{ asset('uploads/' . $path . '/' . $row->caste_certificate) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                            </div>
+
                                                 @endif
 
                                             @if (field('student_photo')->status == 1)
@@ -1695,7 +1712,33 @@
                                                     @endif
                                                 </div>
                                             @endif
-                                        </fieldset>
+                                        
+                                            <div class="col-md-12 mt-3">
+                                                <fieldset class="row scheduler-border">
+                                                    <legend>DRCC-admitted Students</legend>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="bonafide_certificate">Bonafide Certificate</label>
+                                                        <input type="file" class="form-control" name="bonafide_certificate" id="bonafide_certificate">
+                                                        @if (!empty($row->bonafide_certificate) && is_file('uploads/' . $path . '/' . $row->bonafide_certificate)) <a href="{{ asset('uploads/' . $path . '/' . $row->bonafide_certificate) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="drcc_receiving">DRCC Receiving</label>
+                                                        <input type="file" class="form-control" name="drcc_receiving" id="drcc_receiving">
+                                                        @if (!empty($row->drcc_receiving) && is_file('uploads/' . $path . '/' . $row->drcc_receiving)) <a href="{{ asset('uploads/' . $path . '/' . $row->drcc_receiving) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="tpva_form">TPVA Form</label>
+                                                        <input type="file" class="form-control" name="tpva_form" id="tpva_form">
+                                                        @if (!empty($row->tpva_form) && is_file('uploads/' . $path . '/' . $row->tpva_form)) <a href="{{ asset('uploads/' . $path . '/' . $row->tpva_form) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="drcc_selection_letter">DRCC Selection Letter / Agreement</label>
+                                                        <input type="file" class="form-control" name="drcc_selection_letter" id="drcc_selection_letter">
+                                                        @if (!empty($row->drcc_selection_letter) && is_file('uploads/' . $path . '/' . $row->drcc_selection_letter)) <a href="{{ asset('uploads/' . $path . '/' . $row->drcc_selection_letter) }}" class="btn btn-sm btn-dark mt-1" download><i class="fas fa-download"></i></a> @endif
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+</fieldset>
 
                                         @if (field('student_documents')->status == 1)
                                             <table class="table table-bordered">

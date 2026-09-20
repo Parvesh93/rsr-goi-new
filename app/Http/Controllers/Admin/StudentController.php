@@ -653,6 +653,7 @@ class StudentController extends Controller
             $student->admission_mode = $request->admission_mode;
             $student->total_course_fees = $request->total_course_fees;
             $student->refrence_person_name = $request->refrence_person_name;
+            $student->refrence_person_contact = $request->refrence_person_contact;
 
 
             $student->school_transcript = $this->uploadMedia($request, 'high_school_certificate', $this->path);
@@ -672,8 +673,18 @@ class StudentController extends Controller
             $student->parents_id = $this->uploadMedia($request, 'parents_id', $this->path);
             $student->pan_card = $this->uploadMedia($request, 'pan_card', $this->path);
 
+            $student->domicile = $this->uploadMedia($request, 'domicile', $this->path);
+            $student->caste_certificate = $this->uploadMedia($request, 'caste_certificate', $this->path);
+
+
             $student->photo = $this->uploadImage($request, 'photo', $this->path, 300, 300);
             $student->signature = $this->uploadImage($request, 'signature', $this->path, 300, 100);
+
+            $student->bonafide_certificate = $this->uploadMedia($request, 'bonafide_certificate', $this->path);
+            $student->drcc_receiving = $this->uploadMedia($request, 'drcc_receiving', $this->path);
+            $student->tpva_form = $this->uploadMedia($request, 'tpva_form', $this->path);
+            $student->drcc_selection_letter = $this->uploadMedia($request, 'drcc_selection_letter', $this->path);
+
             $student->status = '1';
             $student->created_by = Auth::guard('web')->user()->id;
             $student->save();
@@ -1067,6 +1078,7 @@ class StudentController extends Controller
             $student->admission_mode = $request->admission_mode;
             $student->total_course_fees = $request->total_course_fees;
             $student->refrence_person_name = $request->refrence_person_name;
+            $student->refrence_person_contact = $request->refrence_person_contact;
 
 
 
@@ -1089,8 +1101,18 @@ class StudentController extends Controller
             $student->parents_id = $this->updateMultiMedia($request, 'parents_id', $this->path, $student, 'parents_id');
             $student->pan_card = $this->updateMultiMedia($request, 'pan_card', $this->path, $student, 'pan_card');
 
+            $student->domicile = $this->updateMultiMedia($request, 'domicile', $this->path, $student, 'domicile');
+            $student->caste_certificate = $this->updateMultiMedia($request, 'caste_certificate', $this->path, $student, 'caste_certificate');
+
+
             $student->photo = $this->updateImage($request, 'photo', $this->path, 300, 300, $student, 'photo');
             $student->signature = $this->updateImage($request, 'signature', $this->path, 300, 100, $student, 'signature');
+
+            $student->bonafide_certificate = $this->updateMultiMedia($request, 'bonafide_certificate', $this->path, $student, 'bonafide_certificate');
+            $student->drcc_receiving = $this->updateMultiMedia($request, 'drcc_receiving', $this->path, $student, 'drcc_receiving');
+            $student->tpva_form = $this->updateMultiMedia($request, 'tpva_form', $this->path, $student, 'tpva_form');
+            $student->drcc_selection_letter = $this->updateMultiMedia($request, 'drcc_selection_letter', $this->path, $student, 'drcc_selection_letter');
+
             $student->updated_by = Auth::guard('web')->user()->id;
             $student->save();
 
