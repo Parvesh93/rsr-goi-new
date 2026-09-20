@@ -22,6 +22,7 @@ use App\Models\CollegeDepartment;
 use Carbon\Carbon;
 
 use DB;
+use Illuminate\Support\Facades\Schema;
 
 class ApplicationController extends Controller
 {
@@ -144,6 +145,13 @@ class ApplicationController extends Controller
             
             $student->pan_id = $request->pan_id;
             $student->admission_mode=$request->admission_mode;
+
+            if (Schema::hasColumn('applications', 'ref_persion')) {
+                $student->ref_persion = $request->ref_persion;
+            }
+            if (Schema::hasColumn('applications', 'refrence_person_contact')) {
+                $student->refrence_person_contact = $request->refrence_person_contact;
+            }
             
 
             $student->dob = $request->dob;

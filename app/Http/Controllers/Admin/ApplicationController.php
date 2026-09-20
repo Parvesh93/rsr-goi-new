@@ -27,6 +27,7 @@ use App\Models\CollegeDepartment;
 use Auth;
 use Hash;
 use DB;
+use Illuminate\Support\Facades\Schema;
 
 class ApplicationController extends Controller
 {
@@ -132,11 +133,13 @@ class ApplicationController extends Controller
             }
             // $data['persons'] = Application::pluck('ref_persion');
             
-            $data['persons'] = Application::whereNotNull('refrence_person_name')
-                ->where('refrence_person_name', '!=', '')
-                ->distinct()
-                ->orderBy('refrence_person_name')
-                ->pluck('refrence_person_name');
+            $data['persons'] = Schema::hasColumn('applications', 'ref_persion')
+                ? Application::whereNotNull('ref_persion')
+                    ->where('ref_persion', '!=', '')
+                    ->distinct()
+                    ->orderBy('ref_persion')
+                    ->pluck('ref_persion')
+                : collect();
 
  
         // Search Filter
@@ -159,7 +162,9 @@ class ApplicationController extends Controller
                             $applications->where('department_id', $department);
                         }
                         if(!empty($request->person) && $person != '0'){
-                            $applications->where('refrence_person_name', $person);
+                            if (Schema::hasColumn('applications', 'ref_persion')) {
+                            $applications->where('ref_persion', $person);
+                        }
                         }
                         if(!empty($request->registration_no)){
                             $applications->where('registration_no', 'LIKE', '%'.$registration_no.'%');

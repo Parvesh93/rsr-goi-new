@@ -350,6 +350,18 @@
                                                                 {{ __('required_field') }} {{ __('field_father_name') }}
                                                             </div>
                                                         </div>
+                                <div class="form-group col-md-6">
+                                    <label for="ref_persion">Reference Person Name</label>
+                                    <input type="text" class="form-control" name="ref_persion"
+                                        id="ref_persion" value="{{ old('ref_persion') }}">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label for="refrence_person_contact">Reference Person Contact No</label>
+                                    <input type="text" class="form-control" name="refrence_person_contact"
+                                        id="refrence_person_contact" value="{{ old('refrence_person_contact') }}">
+                                </div>
+
                                                     @endif
 
                                                     @if (field('application_father_occupation')->status == 1)
