@@ -10,6 +10,7 @@ use App\Models\StudentEnquiry;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class EnquiryController extends Controller
 {
@@ -64,7 +65,15 @@ class EnquiryController extends Controller
                     'sender' => $mail->sender_name,
                 ];
 
-                Mail::to($mail->sender_email)->send(new enquirymail($data));
+                // Email failure should not prevent a successfully saved enquiry.
+                try {
+                    Mail::to($mail->sender_email)->send(new enquirymail($data));
+                } catch (\Throwable $mailException) {
+                    Log::error('Enquiry email failed', [
+                        'message' => $mailException->getMessage(),
+                        'enquiry_id' => $studentEnquiry->id,
+                    ]);
+                }
             }
 
             $notification = [
@@ -73,11 +82,16 @@ class EnquiryController extends Controller
             ];
 
             return redirect()->back()->with($notification);
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
+            Log::error('Enquiry submission failed', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             report($e);
 
             $notification = [
-                'message' => __('msg_updated_error'),
+                'message' => 'Unable to save enquiry. Please try again.',
                 'alert-type' => __('msg_error'),
             ];
 
