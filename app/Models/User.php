@@ -147,6 +147,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Models\ExamRoutine', 'exam_routine_user', 'user_id', 'exam_routine_id');
     }
 
+    public function graduationSemester()
+    {
+        return $this->hasMany(GraduationSemester::class, 'user_id', 'id');
+    }
+
     public function assignments()
     {
         return $this->hasMany('App\Models\Assignment', 'assign_by', 'id');

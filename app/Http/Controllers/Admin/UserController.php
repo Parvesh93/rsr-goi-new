@@ -15,6 +15,7 @@ use App\Models\MailSetting;
 use App\Mail\SendPassword;
 use App\Models\Department;
 use App\Models\CollegeDepartment;
+use App\Models\GraduationSemester;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Document;
@@ -282,15 +283,56 @@ class UserController extends Controller
             $user->bank_name = $request->bank_name;
             $user->ifsc_code = $request->ifsc_code;
             $user->bank_brach = $request->bank_brach;
+            $user->branch_code = $request->branch_code;
             $user->tin_no = $request->tin_no;
+
+            
+            $user->passbook = $this->uploadMedia($request, 'passbook', $this->path);
+            $user->high_school_marksheet = $this->uploadMedia($request, 'high_school_marksheet', $this->path);
+            $user->intermediate_marksheet = $this->uploadMedia($request, 'intermediate_marksheet', $this->path);
+            $user->graduation_registration_certificate = $this->uploadMedia($request, 'graduation_registration_certificate', $this->path);
+            $user->graduation_degree_certificate = $this->uploadMedia($request, 'graduation_degree_certificate', $this->path);
+            $user->first_year_marksheet = $this->uploadMedia($request, 'first_year_marksheet', $this->path);
+            $user->second_year_marksheet = $this->uploadMedia($request, 'second_year_marksheet', $this->path);
+            $user->experience_letter = $this->uploadMedia($request, 'experience_letter', $this->path);
+            $user->pg_registration_certificate = $this->uploadMedia($request, 'pg_registration_certificate', $this->path);
+            $user->pg_degree_certificate = $this->uploadMedia($request, 'pg_degree_certificate', $this->path);
 
             $user->photo = $this->uploadImage($request, 'photo', $this->path, 300, 300);
             $user->signature = $this->uploadImage($request, 'signature', $this->path, 300, 100);
             $user->resume = $this->uploadMedia($request, 'resume', $this->path);
             $user->joining_letter = $this->uploadMedia($request, 'joining_letter', $this->path);
+            $user->aadhar_card = $this->uploadMedia($request, 'aadhar_card', $this->path);
+            $user->pan_card = $this->uploadMedia($request, 'pan_card', $this->path);
             $user->status = '1';
             $user->created_by = Auth::guard('web')->user()->id;
             $user->save();
+
+            if ($request->hasFile('semester_marksheets')) {
+                $marksheets = $request->file('semester_marksheets', []);
+                foreach ($marksheets as $key => $file) {
+                    if (!$file || empty($request->graduation_semesters[$key])) {
+                        continue;
+                    }
+
+                    $extension = strtolower($file->getClientOriginalExtension());
+                    $allowed = ['jpg','jpeg','png','gif','ico','svg','webp','pdf','doc','docx','txt','zip','rar','csv','xls','xlsx','ppt','pptx'];
+                    if (!in_array($extension, $allowed, true)) {
+                        continue;
+                    }
+
+                    $safeName = preg_replace('/[^A-Za-z0-9_]/', '_', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+                    $fileName = $safeName.'_marksheet_'.time().'_'.$key.'.'.$extension;
+                    $file->move('uploads/'.$this->path.'/', $fileName);
+
+                    $semester = new GraduationSemester();
+                    $semester->user_id = $user->id;
+                    $semester->semester = $request->graduation_semesters[$key];
+                    $semester->attach = $fileName;
+                    $semester->save();
+                }
+            }
+
 
 
             // User Documents
@@ -534,14 +576,73 @@ class UserController extends Controller
             $user->bank_name = $request->bank_name;
             $user->ifsc_code = $request->ifsc_code;
             $user->bank_brach = $request->bank_brach;
+            $user->branch_code = $request->branch_code;
             $user->tin_no = $request->tin_no;
+
+
+            $user->high_school_marksheet = $this->updateMultiMedia($request, 'high_school_marksheet', $this->path, $user, 'high_school_marksheet');
+            $user->intermediate_marksheet = $this->updateMultiMedia($request, 'intermediate_marksheet', $this->path, $user, 'intermediate_marksheet');
+            $user->graduation_registration_certificate = $this->updateMultiMedia($request, 'graduation_registration_certificate', $this->path, $user, 'graduation_registration_certificate');
+            $user->graduation_degree_certificate = $this->updateMultiMedia($request, 'graduation_degree_certificate', $this->path, $user, 'graduation_degree_certificate');
+            $user->first_year_marksheet = $this->updateMultiMedia($request, 'first_year_marksheet', $this->path, $user, 'first_year_marksheet');
+            $user->second_year_marksheet = $this->updateMultiMedia($request, 'second_year_marksheet', $this->path, $user, 'second_year_marksheet');
+            $user->experience_letter = $this->updateMultiMedia($request, 'experience_letter', $this->path, $user, 'experience_letter');
+            $user->pg_registration_certificate = $this->updateMultiMedia($request, 'pg_registration_certificate', $this->path, $user, 'pg_registration_certificate');
+            $user->pg_degree_certificate = $this->updateMultiMedia($request, 'pg_degree_certificate', $this->path, $user, 'pg_degree_certificate');
+            $user->passbook = $this->updateMultiMedia($request, 'passbook', $this->path, $user, 'passbook');
 
             $user->photo = $this->updateImage($request, 'photo', $this->path, 300, 300, $user, 'photo');
             $user->signature = $this->updateImage($request, 'signature', $this->path, 300, 100, $user, 'signature');
             $user->resume = $this->updateMultiMedia($request, 'resume', $this->path, $user, 'resume');
             $user->joining_letter = $this->updateMultiMedia($request, 'joining_letter', $this->path, $user, 'joining_letter');
+            $user->aadhar_card = $this->updateMultiMedia($request, 'aadhar_card', $this->path, $user, 'aadhar_card');
+            $user->pan_card = $this->updateMultiMedia($request, 'pan_card', $this->path, $user, 'pan_card');
             $user->updated_by = Auth::guard('web')->user()->id;
             $user->save();
+
+            if (is_array($request->graduation_semesters)) {
+                $marksheets = $request->file('semester_marksheets', []);
+                $allowed = ['jpg','jpeg','png','gif','ico','svg','webp','pdf','doc','docx','txt','zip','rar','csv','xls','xlsx','ppt','pptx'];
+
+                foreach ($request->graduation_semesters as $key => $semesterValue) {
+                    if (empty($semesterValue) && empty($marksheets[$key])) {
+                        continue;
+                    }
+
+                    $semester = null;
+                    if (!empty($request->graduation_semester_ids[$key])) {
+                        $semester = GraduationSemester::where('user_id', $user->id)
+                            ->where('id', $request->graduation_semester_ids[$key])
+                            ->first();
+                    }
+
+                    if (!$semester) {
+                        $semester = new GraduationSemester();
+                        $semester->user_id = $user->id;
+                    }
+
+                    $semester->semester = $semesterValue;
+
+                    if (!empty($marksheets[$key])) {
+                        $file = $marksheets[$key];
+                        $extension = strtolower($file->getClientOriginalExtension());
+
+                        if (in_array($extension, $allowed, true)) {
+                            if (!empty($semester->attach) && is_file('uploads/'.$this->path.'/'.$semester->attach)) {
+                                @unlink('uploads/'.$this->path.'/'.$semester->attach);
+                            }
+
+                            $safeName = preg_replace('/[^A-Za-z0-9_]/', '_', pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME));
+                            $fileName = $safeName.'_marksheet_'.time().'_'.$key.'.'.$extension;
+                            $file->move('uploads/'.$this->path.'/', $fileName);
+                            $semester->attach = $fileName;
+                        }
+                    }
+
+                    $semester->save();
+                }
+            }
+
 
 
             // User Documents

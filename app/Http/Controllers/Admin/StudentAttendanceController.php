@@ -198,9 +198,9 @@ class StudentAttendanceController extends Controller
             if(!empty($request->semester) && $request->semester != '0'){
                 $enrolls->where('semester_id', $semester);
             }
-            // if(!empty($request->section) && $request->section != '0'){
-            //     $enrolls->where('section_id', $section);
-            // }
+            if(!empty($request->section) && $request->section != '0'){
+            $enrolls->where('section_id', $section);
+        }
             $enrolls->with('subjects')->whereHas('subjects', function ($query) use ($subject){
                 $query->where('subject_id', $subject);
             });
@@ -225,7 +225,7 @@ class StudentAttendanceController extends Controller
             $attendances = StudentAttendance::where('subject_id', $request->subject)->where('date', $date);
 
             if(!empty($request->program) && !empty($request->session)){
-                $attendances->with('studentEnroll')->whereHas('studentEnroll', function ($query) use ($program, $session, $semester){
+                $attendances->with('studentEnroll')->whereHas('studentEnroll', function ($query) use ($program, $session, $semester, $section){
                     if($program != '0'){
                         $query->where('program_id', $program);
                     }
@@ -235,9 +235,9 @@ class StudentAttendanceController extends Controller
                     if($semester != '0'){
                         $query->where('semester_id', $semester);
                     }
-                    // if($section != '0'){
-                    //     $query->where('section_id', $section);
-                    // }
+                    if($section != '0'){
+                $query->where('section_id', $section);
+            }
                 });
             }
 
@@ -456,9 +456,9 @@ class StudentAttendanceController extends Controller
             if(!empty($request->semester) && $request->semester != '0'){
                 $enrolls->where('semester_id', $semester);
             }
-            // if(!empty($request->section) && $request->section != '0'){
-            //     $enrolls->where('section_id', $section);
-            // }
+            if(!empty($request->section) && $request->section != '0'){
+            $enrolls->where('section_id', $section);
+        }
             $enrolls->with('subjects')->whereHas('subjects', function ($query) use ($subject){
                 $query->where('subject_id', $subject);
             });
@@ -482,7 +482,7 @@ class StudentAttendanceController extends Controller
             $attendances = StudentAttendance::where('subject_id', $request->subject)->whereYear('date', $year)->whereMonth('date', $month);
 
             if(!empty($request->program) && !empty($request->session)){
-                $attendances->with('studentEnroll')->whereHas('studentEnroll', function ($query) use ($program, $session, $semester){
+                $attendances->with('studentEnroll')->whereHas('studentEnroll', function ($query) use ($program, $session, $semester, $section){
                     if($program != '0'){
                         $query->where('program_id', $program);
                     }
@@ -492,9 +492,9 @@ class StudentAttendanceController extends Controller
                     if($semester != '0'){
                         $query->where('semester_id', $semester);
                     }
-                    // if($section != '0'){
-                    //     $query->where('section_id', $section);
-                    // }
+                    if($section != '0'){
+                $query->where('section_id', $section);
+            }
                 });
             }
 

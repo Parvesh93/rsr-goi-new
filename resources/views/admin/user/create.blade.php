@@ -4,6 +4,44 @@
 @section('page_css')
     <!-- Wizard css -->
     <link rel="stylesheet" href="{{ asset('dashboard/css/pages/wizard.css') }}">
+
+<script>
+(function($) {
+    'use strict';
+    $(document).on('click', '.addGraduationSemesterField', function() {
+        const html = `
+            <div class="row Field_graduation_semester_group mt-3">
+                <div class="form-group col-md-5">
+                    <label>Semester <span>*</span></label>
+                    <select class="form-control" name="graduation_semesters[]" required>
+                        <option value="">Select</option>
+                        <option value="1">1st Semester</option>
+                        <option value="2">2nd Semester</option>
+                        <option value="3">3rd Semester</option>
+                        <option value="4">4th Semester</option>
+                        <option value="5">5th Semester</option>
+                        <option value="6">6th Semester</option>
+                        <option value="7">7th Semester</option>
+                        <option value="8">8th Semester</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-5">
+                    <label>Semester Marksheet</label>
+                    <input type="file" class="form-control" name="semester_marksheets[]">
+                </div>
+                <div class="form-group col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-danger removeSemesterField"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </div>`;
+        $('#add_Field_graduation_semester').append(html);
+    });
+
+    $(document).on('click', '.removeSemesterField', function() {
+        $(this).closest('.Field_graduation_semester_group').remove();
+    });
+})(jQuery);
+</script>
+
 @endsection
 
 @section('content')
@@ -498,6 +536,12 @@
                                                             {{ __('required_field') }} {{ __('field_script') }}
                                                         </div>
                                                     </div>
+                                                    
+                                                    <div class="form-group col-md-12">
+                                                        <label for="present_pin">{{ __('field_pin_code') }}</label>
+                                                        <input type="text" class="form-control" name="present_pin" id="present_pin" value="{{ old('present_pin') }}">
+                                                    </div>
+
                                                     @include('common.inc.present_province_address')
 
 
