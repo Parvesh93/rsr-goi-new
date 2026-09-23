@@ -296,7 +296,15 @@
 
 @foreach($rows as $row)
 @php
- $enroll = \App\Models\Student::enroll($row->id);
+    $enroll = \App\Models\Student::enroll($row->id);
+    $batch = $row->batch;
+    $program = optional($enroll)->program ?: $row->program;
+    $session = optional($enroll)->session;
+
+    $collegeName = optional($batch)->clc_college ?: 'Ram Sharan Roy Group of Institutions';
+    $collegeAddress = optional($batch)->clc_college_add ?: '';
+    $courseCode = optional($program)->shortcode ?: optional($program)->title ?: 'N/A';
+    $sessionTitle = optional($session)->title ?: 'N/A';
 @endphp
 <div class="printable">
 <div class="">
@@ -306,9 +314,9 @@
           <img src="{{asset('uploads/setting/rsr_logo.png')}}" alt="College Logo" />
         </div>
         <div class="college-info">
-          <div class="college-name">{{$row->batch->clc_college}}</div>
+          <div class="college-name">{{ $collegeName }}</div>
           <div class="college-address">
-            {{$row->batch->clc_college_add}}
+            {{ $collegeAddress }}
           </div>
         </div>
       </div>
@@ -316,11 +324,11 @@
       <div class="info-bar">
         <div class="info-item">
           <span class="info-label">Course:</span>
-          <span>{{$enroll->program->shortcode}}</span>
+          <span>{{ $courseCode }}</span>
         </div>
         <div class="info-item">
           <span class="info-label">Reg No:</span>
-          <span>RSR/{{$enroll->program->shortcode}}/{{$enroll->session->title}}/{{$row->registration_no}}</span>
+          <span>RSR/{{ $courseCode }}/{{ $sessionTitle }}/{{ $row->registration_no }}</span>
         </div>
         <!--<div class="info-item" style="margin-left: auto">-->
         <!--  <span class="info-label">Code:</span>-->
@@ -392,7 +400,7 @@
             <div class="detail-value" style="white-space: normal; word-wrap: break-word;">{{$row->present_address}}</div>
           </div>
         </div>
-        <div class="session">SESSI0N {{$enroll->session->title}}</div>
+        <div class="session">SESSION {{ $sessionTitle }}</div>
       </div>
     </div>
 </div>
