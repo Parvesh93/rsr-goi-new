@@ -24,6 +24,7 @@ use App\Models\ApplicationSetting;
 use App\Models\Application;
 use App\Models\District;
 use App\Models\Semester;
+use App\Models\ProgramCondition;
 use App\Models\Document;
 use App\Models\Session;
 use App\Models\Program;
@@ -34,6 +35,9 @@ use App\Models\Faculty;
 use App\Models\Batch;
 use App\Models\Grade;
 use App\Models\Fee;
+use App\Models\NursingData;
+use App\Models\GnmData;
+use App\Models\AnmData;
 use Carbon\Carbon;
 use Toastr;
 use Auth;
@@ -433,6 +437,7 @@ class StudentController extends Controller
         $data['route'] = $this->route;
         $data['view'] = $this->view;
         $data['path'] = $this->path;
+        $data['programCondition'] = ProgramCondition::where('status', '1')->first();
 
 
 
@@ -839,6 +844,8 @@ class StudentController extends Controller
                 }
             }
 
+                        $this->syncUniversityData($student, $request);
+
             DB::commit();
 
 
@@ -918,6 +925,7 @@ class StudentController extends Controller
             ->where('province_id', $student->permanent_province)
             ->orderBy('title', 'asc')->get();
         $data['statuses'] = StatusType::where('status', '1')->get();
+        $data['programCondition'] = ProgramCondition::where('status', '1')->first();
 
         if (auth()->user()->is_admin === 1) {
             // Admin ko saari batches dikhni chahiye
@@ -1247,6 +1255,8 @@ class StudentController extends Controller
                     }
                 }
             }
+
+                        $this->syncUniversityData($student, $request);
 
             DB::commit();
 
@@ -2696,4 +2706,142 @@ public function feesMultiPrint(Request $request)
 
         return view('admin.income.fees_receipt', $data);
     }
+
+    /**
+     * Save the course-specific university records used by B.Sc Nursing, GNM and ANM.
+     */
+    private function syncUniversityData(Student $student, Request $request): void
+    {
+        $this->syncUniversityRows(
+            $student,
+            $request,
+            NursingData::class,
+            'nursing_years',
+            'nursing_ids',
+            'nursing_semester_marksheets',
+            'nursing_admit_cards',
+            'nursing'
+        );
+
+        $this->syncUniversityRows(
+            $student,
+            $request,
+            GnmData::class,
+            'gnm_years',
+            'gnm_ids',
+            'gnm_marksheets',
+            'gnm_admit_cards',
+            'gnm'
+        );
+
+        $this->syncUniversityRows(
+            $student,
+            $request,
+            AnmData::class,
+            'anm_years',
+            'anm_ids',
+            'anm_marksheets',
+            'anm_admit_cards',
+            'anm'
+        );
+    }
+
+    private function syncUniversityRows(
+        Student $student,
+        Request $request,
+        string $modelClass,
+        string $periodField,
+        string $idField,
+        string $marksheetField,
+        string $admitCardField,
+        string $prefix
+    ): void {
+        $periods = $request->input($periodField, []);
+
+        if (!is_array($periods)) {
+            return;
+        }
+
+        $ids = $request->input($idField, []);
+        $marksheets = $request->file($marksheetField, []);
+        $admitCards = $request->file($admitCardField, []);
+
+        foreach ($periods as $key => $period) {
+            $marksheet = $marksheets[$key] ?? null;
+            $admitCard = $admitCards[$key] ?? null;
+
+            if (empty($period) && !$marksheet && !$admitCard) {
+                continue;
+            }
+
+            $record = null;
+
+            if (!empty($ids[$key])) {
+                $record = $modelClass::where('student_id', $student->id)
+                    ->where('id', $ids[$key])
+                    ->first();
+            }
+
+            if (!$record) {
+                $record = new $modelClass();
+                $record->student_id = $student->id;
+            }
+
+            if (!empty($period)) {
+                $record->year = (int) $period;
+            }
+
+            if ($marksheet && $marksheet->isValid()) {
+                $this->deleteUniversityFile($record->marksheet ?? null);
+                $record->marksheet = $this->storeUniversityFile($marksheet, $prefix . '_marksheet');
+            }
+
+            if ($admitCard && $admitCard->isValid()) {
+                $this->deleteUniversityFile($record->admit_card ?? null);
+                $record->admit_card = $this->storeUniversityFile($admitCard, $prefix . '_admit');
+            }
+
+            $record->save();
+        }
+    }
+
+    private function storeUniversityFile($file, string $prefix): string
+    {
+        $allowed = [
+            'jpg', 'jpeg', 'png', 'gif', 'ico', 'svg', 'webp',
+            'pdf', 'doc', 'docx', 'txt', 'zip', 'rar', 'csv',
+            'xls', 'xlsx', 'ppt', 'pptx'
+        ];
+
+        $extension = strtolower($file->getClientOriginalExtension());
+
+        if (!in_array($extension, $allowed, true)) {
+            throw new \RuntimeException('Unsupported university document type.');
+        }
+
+        $baseName = preg_replace(
+            '/[^A-Za-z0-9_]/',
+            '_',
+            pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+        );
+
+        $fileName = $baseName . '_' . $prefix . '_' . time() . '_' . uniqid() . '.' . $extension;
+        $file->move('uploads/' . $this->path . '/', $fileName);
+
+        return $fileName;
+    }
+
+    private function deleteUniversityFile(?string $fileName): void
+    {
+        if (empty($fileName)) {
+            return;
+        }
+
+        $filePath = 'uploads/' . $this->path . '/' . $fileName;
+
+        if (is_file($filePath)) {
+            @unlink($filePath);
+        }
+    }
+
 }

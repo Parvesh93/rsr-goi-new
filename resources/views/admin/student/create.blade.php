@@ -1599,7 +1599,8 @@
 
 
 
-                            </form>
+                                                            @include('admin.student.partials.university-data')
+</form>
                         </div>
 
                     </div>
@@ -1911,4 +1912,5 @@
     <!-- Filter Search -->
     @include('common.js.batch_filter')
       @include('common.js.special_filter')
+    @include('admin.student.partials.university-data-script')
 @endsection

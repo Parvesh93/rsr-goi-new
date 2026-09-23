@@ -104,6 +104,21 @@ class Student extends Authenticatable
         return $this->hasMany(Deduction::class, 'student_id', 'id');
     }
 
+    public function nursingData()
+    {
+        return $this->hasMany(NursingData::class, 'student_id', 'id');
+    }
+
+    public function gnmData()
+    {
+        return $this->hasMany(GnmData::class, 'student_id', 'id');
+    }
+
+    public function anmData()
+    {
+        return $this->hasMany(AnmData::class, 'student_id', 'id');
+    }
+
     public function exams()
     {
         return $this->hasMany(Exam::class, 'student_id', 'id');

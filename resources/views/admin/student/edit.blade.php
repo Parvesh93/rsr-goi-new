@@ -1777,7 +1777,8 @@
                                         <!-- Form End--->
                                     </content>
                                 @endif
-                            </form>
+                                                            @include('admin.student.partials.university-data')
+</form>
                         </div>
 
                     </div>
@@ -2082,4 +2083,5 @@
         }(jQuery));
     </script>
 
+    @include('admin.student.partials.university-data-script')
 @endsection
