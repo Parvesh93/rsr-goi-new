@@ -180,7 +180,7 @@
                                                     <td>{{ $row->registration_no }}</td>
                                                     <td>{{ $row->first_name }} {{ $row->last_name }}</td>
                                                     <td>{{ $row->email ?? '' }}</td>
-                                                    <td>{{ $row->program->title ?? '' }}</td>
+                                                    <td>{{ $row->program->title ?? $enroll->program->title ?? '' }}</td>
                                                     <td>{{ $enroll->session->title ?? '' }}</td>
                                                     <td>{{ $enroll->semester->title ?? '' }}</td>
                                                     <!--<td>{{ $enroll->section->title ?? '' }}</td>-->
