@@ -127,17 +127,20 @@ class StudentSingleEnrollController extends Controller
             'program' => 'required',
             'semester' => 'required',
             'session' => 'required',
-            
+            'section' => 'required',
             'subjects' => 'required',
             
         ]);
 
 
         try{
-            // DB::beginTransaction();
+            DB::beginTransaction();
             // Duplicate Enroll Check
-            $duplicate_check = StudentEnroll::where('student_id', $request->student)->where('session_id', $request->session)->where('semester_id', $request->semester)
-            ->first();
+            $duplicate_check = StudentEnroll::where('student_id', $request->student)
+                ->where('session_id', $request->session)
+                ->where('semester_id', $request->semester)
+                ->where('section_id', $request->section)
+                ->first();
              
             $session_check = StudentEnroll::where('student_id', $request->student)
             ->where('session_id', $request->session)
@@ -159,7 +162,7 @@ class StudentSingleEnrollController extends Controller
                 $enroll->program_id = $request->program;
                 $enroll->session_id = $request->session;
                 $enroll->semester_id = $request->semester;
-                $enroll->section_id = 1;
+                $enroll->section_id = $request->section;
                 
                 
                 $enroll->created_by = Auth::guard('web')->user()->id;
@@ -180,8 +183,8 @@ class StudentSingleEnrollController extends Controller
                 'alert-type' => __('msg_success')
             );
     
-             return redirect()->back()->with($notification);
-            //  DB::commit();
+                DB::commit();
+                return redirect()->back()->with($notification);
 
             }
             else{
@@ -193,13 +196,12 @@ class StudentSingleEnrollController extends Controller
                 'alert-type' => __('msg_success')
             );
     
-            return redirect()->back()->with($notification);
+                DB::rollBack();
+                return redirect()->back()->with($notification);
             }
-           
-
-            
         }
         catch(\Exception $e){
+            DB::rollBack();
 
             // Toastr::error(__('msg_created_error'), __('msg_error'));
                 $notification = array(

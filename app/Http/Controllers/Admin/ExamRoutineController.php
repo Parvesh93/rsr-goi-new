@@ -116,7 +116,7 @@ class ExamRoutineController extends Controller
         $data['types'] = ExamType::where('status', '1')->orderBy('title', 'asc')->get();
         $data['faculties'] = Faculty::where('status', '1')->orderBy('title', 'asc')->get();
 
-        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester)){
+        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
         $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
 
         $sessions = Session::where('status', 1);
@@ -140,7 +140,7 @@ class ExamRoutineController extends Controller
 
 
         // Filter Routine
-        if(!empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->type)){
+        if(!empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section) && !empty($request->type)){
 
             $routines = ExamRoutine::where('status', '1');
 
@@ -262,10 +262,10 @@ class ExamRoutineController extends Controller
 
             $subjects = Subject::where('status', 1)->whereNotIn('id', $routine);
 
-            $subjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester){
+            $subjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester, $section){
                 $query->where('program_id', $program);
                 $query->where('semester_id', $semester);
-                // $query->where('section_id', $section);
+                $query->where('section_id', $section);
             });
             $data['subjects'] = $subjects->orderBy('code', 'asc')->get();
         }
@@ -296,10 +296,10 @@ class ExamRoutineController extends Controller
             $data['sections'] = $sections->orderBy('title', 'asc')->get();
 
             $editSubjects = Subject::where('status', 1);
-            $editSubjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester){
+            $editSubjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester, $section){
                 $query->where('program_id', $program);
                 $query->where('semester_id', $semester);
-                // $query->where('section_id', $section);
+                $query->where('section_id', $section);
             });
             $data['editSubjects'] = $editSubjects->orderBy('code', 'asc')->get();
         }
@@ -332,7 +332,7 @@ class ExamRoutineController extends Controller
             'session' => 'required',
             'program' => 'required',
             'semester' => 'required',
-            // 'section' => 'required',
+            'section' => 'required',
             'subject' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -353,7 +353,7 @@ class ExamRoutineController extends Controller
         $examRoutine->session_id = $request->session;
         $examRoutine->program_id = $request->program;
         $examRoutine->semester_id = $request->semester;
-        $examRoutine->section_id = 1;
+        $examRoutine->section_id = $request->section;
         $examRoutine->date = $request->date;
        
         $examRoutine->start_time= $request->start_time;
@@ -415,7 +415,7 @@ class ExamRoutineController extends Controller
             'session' => 'required',
             'program' => 'required',
             'semester' => 'required',
-            // 'section' => 'required',
+            'section' => 'required',
             'subject' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
@@ -433,6 +433,10 @@ class ExamRoutineController extends Controller
         $examRoutine->subject_id = $request->subject;
        
         $examRoutine->exam_type_id = $request->type;
+        $examRoutine->session_id = $request->session;
+        $examRoutine->program_id = $request->program;
+        $examRoutine->semester_id = $request->semester;
+        $examRoutine->section_id = $request->section;
         $examRoutine->date = $request->date;
         $examRoutine->start_time= $request->start_time;
         $examRoutine->end_time= $request->end_time;

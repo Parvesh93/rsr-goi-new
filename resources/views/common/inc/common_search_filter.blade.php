@@ -58,10 +58,10 @@
 		{{ __('required_field') }} {{ __('field_semester') }}
 	</div>
 </div>
-<div class="form-group col-md-3" hidden="">
-  <label for="section">{{ __('field_section') }} </label>
-	<select class="form-control section" name="section" id="section" >
-		<option value="0">{{ __('all') }}</option>
+<div class="form-group col-md-3">
+  <label for="section">{{ __('field_section') }} <span>*</span></label>
+	<select class="form-control section" name="section" id="section" required>
+		<option value="">{{ __('select') }}</option>
 		@if(isset($sections))
 		@foreach( $sections->sortBy('title') as $section )
 		<option value="{{ $section->id }}" @if( $selected_section == $section->id) selected @endif>{{ $section->title }}</option>
@@ -180,7 +180,7 @@
         success:function(response){
             // var jsonData=JSON.parse(response);
             $('option', section).remove();
-            $('.section').append('<option value="0">{{ __("all") }}</option>');
+            $('.section').append('<option value="">{{ __("select") }}</option>');
             $.each(response, function(){
               $('<option/>', {
                 'value': this.id,

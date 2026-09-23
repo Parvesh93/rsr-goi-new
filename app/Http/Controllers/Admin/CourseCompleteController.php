@@ -100,7 +100,7 @@ class CourseCompleteController extends Controller
         $data['sessions'] = Session::where('status', 1)->orderBy('title', 'asc')->get();
         $data['semesters']= Semester::where('status', 1)->get(); 
         $data['sections'] = Section::where('status', 1)->get();
-        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester)  ){
+        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
 
             $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
 
@@ -138,13 +138,13 @@ class CourseCompleteController extends Controller
                 });
             }
 
-            if(!empty($request->program) && !empty($request->session) && !empty($request->semester) ){
-                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester){
+            if(!empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
+                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester, $section){
                     $query->where('program_id', $program);
                     $query->where('session_id', $session);
                     $query->where('semester_id', $semester);
                     // $query->where('admission_college', $admission_college);
-                    // $query->where('section_id', $section);
+                    $query->where('section_id', $section);
                     $query->where('status', '1');
                 });
             }

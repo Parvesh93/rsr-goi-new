@@ -51,7 +51,7 @@
                                         <th>#</th>
                                         <th>{{ __('field_program') }}</th>
                                         <th>{{ __('field_semester') }}</th>
-                                        <!--<th>{{ __('field_section') }}</th>-->
+                                        <th>{{ __('field_section') }}</th>
                                         <th>{{ __('field_subject') }}</th>
                                         <th>{{ __('field_status') }}</th>
                                         <th>{{ __('field_action') }}</th>
@@ -63,7 +63,7 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $row->program->title }}</td>
                                         <td>{{ $row->semester->title }}</td>
-                                        <!--<td>{{ $row->section->title }}</td>-->
+                                        <td>{{ $row->section->title ?? '' }}</td>
                                         <td>
                                             @foreach($row->subjects->sortBy('code') as $key => $subject)
                                                 <span class="badge badge-primary">{{ $subject->code }}</span>

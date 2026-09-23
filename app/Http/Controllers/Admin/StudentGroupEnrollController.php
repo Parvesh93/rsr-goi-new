@@ -100,7 +100,7 @@ class StudentGroupEnrollController extends Controller
         $data['faculties'] = Faculty::where('status', '1')->orderBy('title', 'asc')->get();
 
 
-        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) ){
+        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
 
             $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
 
@@ -134,7 +134,7 @@ class StudentGroupEnrollController extends Controller
 
 
         // Student Filter
-        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) ){
+        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
 
             $students = Student::where('status', '1');
             if(!empty($request->faculty)){
@@ -142,12 +142,12 @@ class StudentGroupEnrollController extends Controller
                     $query->where('faculty_id', $faculty);
                 });
             }
-            if(!empty($request->program) && !empty($request->session) && !empty($request->semester) ){
-                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester ){
+            if(!empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
+                $students->with('currentEnroll')->whereHas('currentEnroll', function ($query) use ($program, $session, $semester, $section){
                     $query->where('program_id', $program);
                     $query->where('session_id', $session);
                     $query->where('semester_id', $semester);
-                    
+                    $query->where('section_id', $section);
                     $query->where('status', '1');
                 });
             }
@@ -179,7 +179,7 @@ class StudentGroupEnrollController extends Controller
         $request->validate([
             'semester' => 'required',
             'session' => 'required',
-           
+            'section' => 'required',
             'program' => 'required',
             'students' => 'required',
             'subjects' => 'required',
@@ -187,14 +187,20 @@ class StudentGroupEnrollController extends Controller
 
 
         try{
-      
+            DB::beginTransaction();
+
+            $promoted = 0;
+            $duplicates = 0;
 
             foreach($request->students as $key => $student){
             if(!empty($student) || $student == ''){
 
                 // Duplicate Enroll Check
-                $duplicate_check = StudentEnroll::where('student_id', $student)->where('session_id', $request->session)->where('semester_id', $request->semester)
-                ->first();
+                $duplicate_check = StudentEnroll::where('student_id', $student)
+                    ->where('session_id', $request->session)
+                    ->where('semester_id', $request->semester)
+                    ->where('section_id', $request->section)
+                    ->first();
                 $session_check = StudentEnroll::where('student_id', $student)
                 ->where('session_id', $request->session)
                 
@@ -215,7 +221,7 @@ class StudentGroupEnrollController extends Controller
                     $enroll->program_id = $request->program;
                     $enroll->session_id = $request->session;
                     $enroll->semester_id = $request->semester;
-                     $enroll->section_id = 1;
+                    $enroll->section_id = $request->section;
                    
                     
                     $enroll->created_by = Auth::guard('web')->user()->id;
@@ -225,33 +231,27 @@ class StudentGroupEnrollController extends Controller
                     $enroll->subjects()->attach($request->subjects);
 
                    
-                    // toastr('Promoted Successfully!','success');
-                    $notification = array(
-                'message' => 'Promoted Successfully',
-                'alert-type' => __('msg_success')
-            );
-    
-            return redirect()->back()->with($notification);
+                    $promoted++;
                 }
                 else{
-                    
-                        $notification = array(
-                'message' => 'Duplicate Enroll Already Exists',
-                'alert-type' => __('msg_success')
-            );
-    
-            return redirect()->back()->with($notification);
-
-                    
-                    // toastr('Duplicate Enroll Already Exists','error');
+                    $duplicates++;
                 }
             }}
-            
-            // return redirect()->back();
+
+            DB::commit();
+
+            $notification = [
+                'message' => $promoted > 0
+                    ? ($promoted . ' student(s) promoted successfully' . ($duplicates ? '; ' . $duplicates . ' duplicate(s) skipped' : ''))
+                    : 'Duplicate Enroll Already Exists',
+                'alert-type' => $promoted > 0 ? __('msg_success') : __('msg_error')
+            ];
+
+            return redirect()->back()->with($notification);
         }
         catch(\Exception $e){
+            DB::rollBack();
 
-          
             // toastr('Created Fail!','error');
                      $notification = array(
                 'message' => 'Created Fail!',

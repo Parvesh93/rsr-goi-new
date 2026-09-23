@@ -81,15 +81,14 @@ class EnrollSubjectController extends Controller
         $request->validate([
             'program' => 'required',
             'semester' => 'required',
-            // 'section' => 'required',
+            'section' => 'required',
             'subjects' => 'required',
             
         ]);
 
         // Insert Data
         $enrollSubject = EnrollSubject::firstOrCreate(
-            ['program_id' => $request->program, 'semester_id' => $request->semester, 'section_id' => 1,],
-            // ['program_id' => $request->program, 'semester_id' => $request->semester, 'section_id' => $request->section]
+            ['program_id' => $request->program, 'semester_id' => $request->semester, 'section_id' => $request->section]
         );
 
         // Attach Update
@@ -174,12 +173,16 @@ class EnrollSubjectController extends Controller
         $request->validate([
             'program' => 'required',
             'semester' => 'required',
-            // 'section' => 'required',
+            'section' => 'required',
             'subjects' => 'required',
             
         ]);
 
-        $enroll = EnrollSubject::where('id', '!=', $enrollSubject->id)->where('program_id', $request->program)->where('semester_id', $request->semester)->first();
+        $enroll = EnrollSubject::where('id', '!=', $enrollSubject->id)
+            ->where('program_id', $request->program)
+            ->where('semester_id', $request->semester)
+            ->where('section_id', $request->section)
+            ->first();
 
         if(isset($enroll)){
             // Toastr::error(__('msg_data_already_exists'), __('msg_error'));

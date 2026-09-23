@@ -98,7 +98,7 @@ class ClassRoutineController extends Controller
         // Search Filter
         $data['faculties'] = Faculty::where('status', '1')->orderBy('title', 'asc')->get();
 
-        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) ){
+        if(!empty($request->faculty) && !empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
         $data['programs'] = Program::where('faculty_id', $faculty)->where('status', '1')->orderBy('title', 'asc')->get();
 
         $sessions = Session::where('status', 1);
@@ -122,7 +122,7 @@ class ClassRoutineController extends Controller
 
 
         // Routine Filter
-        if(!empty($request->program) && !empty($request->session) && !empty($request->semester)){
+        if(!empty($request->program) && !empty($request->session) && !empty($request->semester) && !empty($request->section)){
 
             $routines = ClassRoutine::where('status', '1');
 
@@ -135,9 +135,9 @@ class ClassRoutineController extends Controller
             if(!empty($request->semester)){
                 $routines->where('semester_id', $request->semester);
             }
-            // if(!empty($request->section)){
-            //     $routines->where('section_id', $request->section);
-            // }
+            if(!empty($request->section)){
+                $routines->where('section_id', $request->section);
+            }
             $data['rows'] = $routines->orderBy('start_time', 'asc')->get();   
         }
 
@@ -229,10 +229,10 @@ class ClassRoutineController extends Controller
         $data['sections'] = $sections->orderBy('title', 'asc')->get();
 
         $subjects = Subject::where('status', 1);
-        $subjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester){
+        $subjects->with('subjectEnrolls')->whereHas('subjectEnrolls', function ($query) use ($program, $semester, $section){
             $query->where('program_id', $program);
             $query->where('semester_id', $semester);
-            // $query->where('section_id', $section);
+            $query->where('section_id', $section);
         });
         $data['subjects'] = $subjects->orderBy('code', 'asc')->get();
         }
@@ -288,7 +288,7 @@ class ClassRoutineController extends Controller
             'session' => 'required',
             'program' => 'required',
             'semester' => 'required',
-            // 'section' => 'required',
+            'section' => 'required',
             'subject' => 'required',
             'teacher' => 'required',
             'room' => 'required',
@@ -317,7 +317,7 @@ class ClassRoutineController extends Controller
             $day = $request->day;
             $program = $request->program;
             $session = $request->session;
-            $section = 1;
+            $section = $request->section;
             $semester = $request->semester;
           
 
@@ -351,7 +351,7 @@ class ClassRoutineController extends Controller
                 ->first();
 
                 //Period Check
-                $period_check = ClassRoutine::where('session_id', $session)->where('program_id', $program)->where('semester_id', $semester)
+                $period_check = ClassRoutine::where('session_id', $session)->where('program_id', $program)->where('semester_id', $semester)->where('section_id', $section)
                 ->where('start_time', $start)
                 ->where('day', $day)
                 ->first();
@@ -373,7 +373,7 @@ class ClassRoutineController extends Controller
                     // $classRoutine->admission_college = $college;
                     $classRoutine->program_id = $program;
                     $classRoutine->semester_id = $semester;
-                    $classRoutine->section_id = 1;
+                    $classRoutine->section_id = $section;
                     $classRoutine->start_time= $data['start_time'][$j];
                     $classRoutine->end_time= $data['end_time'][$j];
                     $classRoutine->day= $day;

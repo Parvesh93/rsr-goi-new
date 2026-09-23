@@ -162,17 +162,17 @@
                                 </div>
                             </div>
                             <!--<div class="form-group col-md-3">-->
-                            <!--    <label for="section">{{ __('field_section') }} </label>-->
-                            <!--    <select class="form-control next_section" name="section" id="section" required>-->
-                            <!--      <option value="">{{ __('select') }}</option>-->
-                            <!--      @foreach( $sections as $section )-->
-                            <!--      <option value="{{ $section->id }}" @if( $selected_section == $section->id) selected @endif>{{ $section->title }}</option>-->
-                            <!--      @endforeach-->
-                            <!--    </select>-->
+                                <label for="section">{{ __('field_section') }} <span>*</span></label>
+                                <select class="form-control next_section" name="section" id="section" required>
+                                  <option value="">{{ __('select') }}</option>
+                                  @foreach( $sections as $section )
+                                  <option value="{{ $section->id }}" @if( $selected_section == $section->id) selected @endif>{{ $section->title }}</option>
+                                  @endforeach
+                                </select>
 
-                            <!--    <div class="invalid-feedback">-->
-                            <!--      {{ __('required_field') }} {{ __('field_section') }}-->
-                            <!--    </div>-->
+                                <div class="invalid-feedback">
+                                  {{ __('required_field') }} {{ __('field_section') }}
+                                </div>
                             <!--</div>-->
                             <div class="form-group col-md-12">
                                 <label for="subject">{{ __('field_subject') }} <span>* ({{ __('select_multiple') }})</span></label>
