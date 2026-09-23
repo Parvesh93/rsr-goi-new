@@ -1315,10 +1315,7 @@ table {
 <body>
 
 @php
-
-$batch=App\Models\Batch::where('department_id',$application->department_id)->where('status', '1')->first();
-
-
+    $batch = $student->batch;
 @endphp    
     
 
