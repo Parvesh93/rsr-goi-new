@@ -1608,11 +1608,14 @@ class StudentController extends Controller
         $data['applicationSetting'] = ApplicationSetting::where('slug', 'admission')->where('status', '1')->firstOrFail();
 
 
-        $apStudent = Student::where('id', $id)->where('status', '1')->first();
+        $apStudent = Student::where('id', $id)->where('status', '1')->firstOrFail();
 
         $data['student'] = $apStudent;
 
-        $data['application'] = Application::where('email', $apStudent->email)->first();
+        // Some students were created/imported directly and do not have a matching
+        // row in the applications table. Use the student record as a fallback so
+        // the downloadable admission form can still be generated.
+        $data['application'] = Application::where('email', $apStudent->email)->first() ?: $apStudent;
 
         return view($this->view . '.download_application', $data);
     }
