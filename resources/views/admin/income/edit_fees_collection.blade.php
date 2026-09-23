@@ -78,7 +78,7 @@
             <div class="col-md-4 mb-2">
                 <p>
                     <mark class="text-primary">Course :</mark><br>
-                    {{ $row->program->title }}
+                    {{ $enroll->program->title ?? $row->program->title ?? 'N/A' }}
                 </p>
             </div>
            
@@ -86,7 +86,7 @@
             <div class="col-md-4 mb-2">
                 <p>
                     <mark class="text-primary"> Session :</mark><br>
-                    {{ $enroll->session->title }}
+                    {{ $enroll->session->title ?? 'N/A' }}
                 </p>
             </div>
 
