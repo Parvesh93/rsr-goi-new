@@ -1,8 +1,5 @@
 @php
-$img = '';
-foreach ($rows as $row) {
-    $img = optional($row->batch)->clc_college_img ?? '';
-}
+$img = optional($row->batch)->clc_college_img ?? '';
 @endphp
 
 
