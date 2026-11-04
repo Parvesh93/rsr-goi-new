@@ -343,7 +343,7 @@ class NursingClcController extends Controller
             $nursing_clc->college_name = $request->college_name;
            
             $nursing_clc->save();
-            $nursing_clc->serial_no = '000' . $nursing_clc->id;
+            $nursing_clc->serial_no = str_pad($nursing_clc->id, 4, '0', STR_PAD_LEFT);
             
             $nursing_clc->save();
 
