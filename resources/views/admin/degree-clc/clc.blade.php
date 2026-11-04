@@ -319,198 +319,155 @@ $img=$row->batch->clc_college_img;
 </head>
 
 <body>
-  @foreach($rows as $row) @php foreach($batches as $batch) {
-  if($batch->id===$row->batch_id) { $college_title=$batch->title; } } @endphp
+  @foreach($rows as $row)
+    @php
+      $batch = $row->batch;
+      $program = $row->program;
+      $session = $row->session;
+      $departmentTitle = optional(optional($program)->faculty)->title
+          ?? optional(optional($program)->department)->title
+          ?? '';
+      $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
+      $issueDate = \Carbon\Carbon::parse($row->date)->format('d-m-Y');
+    @endphp
 
-  <div class="printable">
-
-    <!-- College Leaving Certificate -->
-
-    <div class="space-update1">
-
-      <div class="border-color">
-        <div class="certificate ">
-          <div class="header">
-            <!--<img-->
-            <!--  src="{{asset('uploads/setting/rsr_logo.png')}}"-->
-            <!--  alt="Logo"-->
-            <!--  class="logo"-->
-            <!--/>-->
-            <div class="college-details change-font-heading ">
-              <!--<h1>{{$college_title}}</h1>-->
-              <img src="{{asset('uploads/batch/'.$row->batch->clc_logo_img)}}" alt="Logo" class="logo" />
-              <h1>{{$row->batch->clc_college}}</h1>
-              <h1 id="add1">{{$row->batch->clc_college_add}}</h1>
-              <h2 class="run">{{$row->batch->clc_college_run}}</h2>
-              <h2 class="mb-3">
-                {{$row->batch->clc_college_reco}}
-              </h2>
-              <h2>{{$row->batch->clc_college_app}}</h2>
-              <!--<h2>{{$row->batch->clc_college_var}}</h2 />-->
-              <h3 class="mb-3">
-                <a href="">Email: {{$row->batch->college_email}} </a>
-                ‪
-              </h3>
+    <div class="printable">
+      <div class="space-update1">
+        <div class="border-color">
+          <div class="certificate">
+            <div class="header">
+              <div class="college-details change-font-heading">
+                @if(!empty(optional($batch)->clc_logo_img))
+                  <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
+                @endif
+                <h1>{{ optional($batch)->clc_college }}</h1>
+                <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
+                <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
+                <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
+                <h2>{{ optional($batch)->clc_college_app }}</h2>
+                <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
+              </div>
             </div>
-          </div>
 
-          <h4 class="title change-font-heading">College Leaving Certificate</h4>
-          <!--<div class="subtext" >            </div>-->
+            <h4 class="title change-font-heading">College Leaving Certificate</h4>
 
-          <div class="row1 change-font-heading">
-            <div class="left ">
-    <span class="label">SL.No.: </span> &nbsp;{{$row->serial_no}}
-  </div>
-  <div class="spacer"></div>
-  <div class="right row">
-    <span class="label">Date: </span>{{\Carbon\Carbon::parse($row->date)->format('d-m-Y')}}
-  </div>
-          </div>
-          <!--<div class="row"><span class="label">Date:</span>{{\Carbon\Carbon::parse($row->date)->format('d-m-Y')}}</div>-->
-
-          <p class="change-font">
-            This is to certify that Mr./Ms.
-            <span class="bold change-font-heading-imp" >{{ $row->name }}</span>, son/daughter of
-            <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> and
-            <span class="bold change-font-heading-imp">{{$row->mother_name}}</span>, was a student of
-            this college, enrolled in the course
-            <span class="bold change-font-heading-imp">{{$row->program->title}}</span>, for the session
-            <span class="bold change-font-heading-imp">{{$row->session->title}}</span>.
-          </p>
-
-          <p class="change-font">
-    He/She was registered under the Board/University
-    <span class="bold change-font-heading-imp">{{$row->college_name}}</span>,
-    bearing University Registration No
-    <span class="bold change-font-heading-imp">{{$row->registration_no}}</span>,
-    his/her College Roll Number is
-    <span class="bold change-font-heading-imp">{{$row->student_id}}</span>,
-    Exam Roll No.
-    <span class="bold change-font-heading-imp">{{$row->exam_role_no}}</span>
-    and M.R. No.
-    <span class="bold change-font-heading-imp">{{$row->mr_no}}</span>.
-    He/She passed with
-    <span class="bold change-font-heading-imp">{{$row->division}}</span> Division.
-</p>
-
-          <p class="change-font">
-            During his/her period of study, he/she maintained good conduct and
-            satisfactory academic performance. He/She has completed all
-            necessary formalities for the issuance of this College Leaving Certificate.
-          </p>
-
-          <div class="signature-row">
-            <div class="signature-box">
-              <!--<img src="" alt="Assistant Signature" /> -->
-              <!--<div>{{$row->batch->start_date}}</div>-->
-              <div class="bold change-font-heading">CLERK</div>
+            <div class="row1 change-font-heading">
+              <div class="left"><span class="label">SL.No.:</span>&nbsp;{{ $serial }}</div>
+              <div class="spacer"></div>
+              <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
             </div>
-            <div class="signature-box">
-              <!--<img src="" alt="Principal Signature" /> -->
-              <!--<div>Dummy Signature</div>-->
-              <div class="bold change-font-heading">PRINCIPAL</div>
-            </div>
-          </div>
-        </div>
-      </div>
 
+            <p class="change-font">
+              This is to certify that Mr./Ms.
+              <span class="bold change-font-heading-imp">{{ $row->name }}</span>, son/daughter of
+              <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> was a
+              regular student of the
+              <span class="bold change-font-heading-imp">{{ optional($program)->title }}</span>
+              course under the department of
+              <span class="bold change-font-heading-imp">{{ $departmentTitle }}</span>
+              in this institution during the academic session
+              <span class="bold change-font-heading-imp">{{ optional($session)->title }}</span>.
+            </p>
 
+            <p class="change-font">
+              He/She was registered under the Board/University
+              <span class="bold change-font-heading-imp">{{ $row->college_name }}</span>,
+              he/she bears University Registration No
+              <span class="bold change-font-heading-imp">{{ $row->registration_no }}</span>, &amp; his/her
+              College Roll Number is
+              <span class="bold change-font-heading-imp">{{ $row->student_id }}</span>,
+              Exam Roll No.
+              <span class="bold change-font-heading-imp">{{ $row->exam_role_no }}</span>
+              and M.R. No.
+              <span class="bold change-font-heading-imp">{{ $row->mr_no }}</span>.
+              He/She passed with
+              <span class="bold change-font-heading-imp">{{ $row->division }}</span> Division.
+            </p>
 
-
-      <!-- Divider -->
-      <div class="divider"></div>
-
-      <div class="space-update">
-        <div class="certificate1 ">
-          <!-- Character Certificate -->
-          <div class="header">
-
-            <div class="college-details change-font-heading">
-              <img src="{{asset('uploads/batch/'.$row->batch->clc_logo_img)}}" alt="Logo" class="logo" />
-              <!--<h1>{{$college_title}}</h1>-->
-              <h1>{{$row->batch->clc_college}}</h1>
-              <h1 id="add1">{{$row->batch->clc_college_add}}</h1>
-              <h2 class="run">{{$row->batch->clc_college_run}}</h2>
-              <h2 class="mb-3">
-                {{$row->batch->clc_college_reco}}
-              </h2>
-              <h2>{{$row->batch->clc_college_app}}</h2>
-              <!--<h2>{{$row->batch->clc_college_var}}</h2 />-->
-              <h3>
-                <a href="">Email: {{$row->batch->college_email}} </a>
-                
-              </h3>
-            </div>
-          </div>
-
-          <h4 class="title change-font-heading">Character Certificate</h4>
-
-          <div class="row1 change-font-heading">
-            <div class="left">
-    <span class="label">SL.No.: </span> &nbsp;{{$row->serial_no}}
-  </div>
-  <div class="spacer"></div>
-  <div class="right row">
-    <span class="label">Date: </span>{{\Carbon\Carbon::parse($row->date)->format('d-m-Y')}}
-  </div>
-          </div>
-          <!--<div class="row"><span class="label">Date:</span>{{\Carbon\Carbon::parse($row->date)->format('d-m-Y')}}</div>-->
-
-          <p class="change-font">
-            This is to certify that Mr./Ms.
-            <span class="bold change-font-heading-imp">{{ $row->name }}</span>, son/daughter of
-            <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> and
-            <span class="bold change-font-heading-imp">{{$row->mother_name}}</span>, was a student of
-            this college, enrolled in the course
-            <span class="bold change-font-heading-imp">{{$row->program->title}}</span>, for the session
-            <span class="bold change-font-heading-imp">{{$row->session->title}}</span>.
-          </p>
-
-          <p class="change-font">
-            He/She was registered under the
-            <span class="bold change-font-heading-imp">{{$row->college_name}}</span>. He/she bears
-            <span class="bold change-font-heading-imp">GOOD MORAL CHARACTER</span>. I wish him/her all
-            success in future.
-          </p>
-          <p class="change-font">
+            <p class="change-font">
               During his/her period of study, he/she maintained good conduct and satisfactory academic
-              performance. He/She has completed all necessary formalities for the issuance of this College Character Certificate.
-          </p>
+              performance. He/She has completed all necessary formalities for the issuance of this College
+              Leaving Certificate.
+            </p>
 
-          <div class="signature-row">
-            <div class="signature-box">
-              {{--
-              <img src="/images/sign1.png" alt="Assistant Signature" /> --}}
-              <div class="bold change-font-heading">CLERK</div>
+            <div class="signature-row">
+              <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
+              <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
             </div>
-            <div class="signature-box">
-              {{--
-              <img src="/images/sign2.png" alt="Principal Signature" /> --}}
-              <div class="bold change-font-heading">PRINCIPAL</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="space-update">
+          <div class="certificate1">
+            <div class="header">
+              <div class="college-details change-font-heading">
+                @if(!empty(optional($batch)->clc_logo_img))
+                  <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
+                @endif
+                <h1>{{ optional($batch)->clc_college }}</h1>
+                <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
+                <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
+                <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
+                <h2>{{ optional($batch)->clc_college_app }}</h2>
+                <h3><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
+              </div>
+            </div>
+
+            <h4 class="title change-font-heading">Character Certificate</h4>
+
+            <div class="row1 change-font-heading">
+              <div class="left"><span class="label">SL.No.:</span>&nbsp;{{ $serial }}</div>
+              <div class="spacer"></div>
+              <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
+            </div>
+
+            <p class="change-font">
+              This is to certify that Mr./Ms.
+              <span class="bold change-font-heading-imp">{{ $row->name }}</span>, son/daughter of
+              <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> was a
+              regular student of the
+              <span class="bold change-font-heading-imp">{{ optional($program)->title }}</span>
+              course under the department of
+              <span class="bold change-font-heading-imp">{{ $departmentTitle }}</span>
+              in this institution during the academic session
+              <span class="bold change-font-heading-imp">{{ optional($session)->title }}</span>.
+            </p>
+
+            <p class="change-font">
+              He/She was registered under the
+              <span class="bold change-font-heading-imp">{{ $row->college_name }}</span>.
+              He/she bears <span class="bold change-font-heading-imp">GOOD MORAL CHARACTER</span>.
+              I wish him/her all success in future.
+            </p>
+
+            <p class="change-font">
+              During his/her period of study, he/she maintained good conduct and satisfactory academic
+              performance. He/She has completed all necessary formalities for the issuance of this College
+              Character Certificate.
+            </p>
+
+            <div class="signature-row">
+              <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
+              <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
             </div>
           </div>
         </div>
       </div>
 
+      <div class="page-break"></div>
     </div>
-
-    <!--<h1>Ram</h1>-->
-    <div class="page-break"></div>
-  </div>
   @endforeach
-  <!--<div>Ram</div>-->
 
-  <!-- Print Js -->
   <script src="{{ asset('dashboard/plugins/jquery/js/jquery.min.js') }}"></script>
   <script src="{{ asset('dashboard/plugins/print/js/jQuery.print.min.js') }}"></script>
-
   <script type="text/javascript">
     $(document).ready(function () {
       "use strict";
       $.print(".printable");
     });
   </script>
-  
 </body>
 
 </html>

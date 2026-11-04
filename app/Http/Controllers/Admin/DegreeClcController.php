@@ -346,7 +346,7 @@ class DegreeClcController extends Controller
             $degree_clc->college_name = $request->college_name;
            
             $degree_clc->save();
-            $degree_clc->serial_no = '000' . $degree_clc->id;
+            $degree_clc->serial_no = str_pad($degree_clc->id, 4, '0', STR_PAD_LEFT);
             
             $degree_clc->save();
 

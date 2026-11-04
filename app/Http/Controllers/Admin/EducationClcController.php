@@ -346,7 +346,7 @@ class EducationClcController extends Controller
             $education_clc->college_name = $request->college_name;
            
             $education_clc->save();
-            $education_clc->serial_no = '000' . $education_clc->id;
+            $education_clc->serial_no = str_pad($education_clc->id, 4, '0', STR_PAD_LEFT);
             
             $education_clc->save();
 

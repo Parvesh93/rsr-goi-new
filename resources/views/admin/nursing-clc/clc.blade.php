@@ -344,12 +344,22 @@ foreach ($rows as $row) {
       $programTitle = optional($program)->title ?? '';
       $sessionTitle = optional($session)->title ?? '';
 
+      $serialProgramCode = $programShortcode;
       $courseCertificateTitle = $programTitle;
       $courseCompletionTitle = $programTitle;
 
-      if ($programShortcode === 'ANM') {
+      if ($programShortcode === 'ANM' || str_contains(strtoupper($programTitle), 'AUXILIARY')) {
+          $serialProgramCode = 'ANM';
           $courseCertificateTitle = 'Auxiliary Nursing Midwifery (ANM)';
           $courseCompletionTitle = 'Auxiliary Nurse Midwifery (ANM)';
+      } elseif ($programShortcode === 'GNM' || str_contains(strtoupper($programTitle), 'GENERAL NURSING')) {
+          $serialProgramCode = 'GNM';
+          $courseCertificateTitle = 'General Nursing Midwifery (GNM)';
+          $courseCompletionTitle = 'General Nursing Midwifery (GNM)';
+      } elseif (in_array($programShortcode, ['BSN', 'BSCN', 'BSC'], true) || str_contains(strtoupper($programTitle), 'B.SC')) {
+          $serialProgramCode = 'BSN';
+          $courseCertificateTitle = 'B.Sc NURSING';
+          $courseCompletionTitle = 'B.Sc NURSING';
       }
 
       $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
@@ -381,7 +391,7 @@ foreach ($rows as $row) {
 
           <div class="row1 change-font-heading">
             <div class="left">
-              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $programShortcode }}/{{ $serial }}
+              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $serialProgramCode }}/{{ $serial }}
             </div>
             <div class="spacer"></div>
             <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
@@ -440,7 +450,7 @@ foreach ($rows as $row) {
 
           <div class="row1 change-font-heading">
             <div class="left">
-              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $programShortcode }}/{{ $serial }}
+              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $serialProgramCode }}/{{ $serial }}
             </div>
             <div class="spacer"></div>
             <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
@@ -494,7 +504,7 @@ foreach ($rows as $row) {
 
           <div class="row1 change-font-heading">
             <div class="left">
-              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $programShortcode }}/{{ $serial }}
+              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $serialProgramCode }}/{{ $serial }}
             </div>
             <div class="spacer"></div>
             <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
