@@ -368,12 +368,12 @@ foreach ($rows as $row) {
               @if(!empty(optional($batch)->clc_logo_img))
                 <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
               @endif
-              <h1>RAM SHARAN ROY COLLEGE</h1>
-              <h1 id="add1">PANAPUR-MAKKANPUR, JANDAHA, VAISHALI-844505</h1>
-              <h2 class="run">RUN BY- RAM SHARAN ROY MEMORIAL EDUCATIONAL AND SOCIAL WELFARE TRUST</h2>
-              <h2 class="mb-3">Recognized by - Bihar Nurses Registration Council (BNRC), Patna</h2>
-              <h2>Approved by Health Department Govt. of Bihar</h2>
-              <h3 class="mb-3"><a href="">Email: rsrcnursing@gmail.com</a></h3>
+              <h1>{{ optional($batch)->clc_college }}</h1>
+              <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
+              <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
+              <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
+              <h2>{{ optional($batch)->clc_college_app }}</h2>
+              <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
             </div>
           </div>
 
@@ -427,12 +427,12 @@ foreach ($rows as $row) {
               @if(!empty(optional($batch)->clc_logo_img))
                 <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
               @endif
-              <h1>RAM SHARAN ROY COLLEGE</h1>
-              <h1 id="add1">PANAPUR-MAKKANPUR, JANDAHA, VAISHALI-844505</h1>
-              <h2 class="run">RUN BY- RAM SHARAN ROY MEMORIAL EDUCATIONAL AND SOCIAL WELFARE TRUST</h2>
-              <h2 class="mb-3">Recognized by - Bihar Nurses Registration Council (BNRC), Patna</h2>
-              <h2>Approved by Health Department Govt. of Bihar</h2>
-              <h3 class="mb-3"><a href="">Email: rsrcnursing@gmail.com</a></h3>
+              <h1>{{ optional($batch)->clc_college }}</h1>
+              <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
+              <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
+              <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
+              <h2>{{ optional($batch)->clc_college_app }}</h2>
+              <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
             </div>
           </div>
 
@@ -483,12 +483,12 @@ foreach ($rows as $row) {
               @if(!empty(optional($batch)->clc_logo_img))
                 <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
               @endif
-              <h1>RAM SHARAN ROY COLLEGE</h1>
-              <h1 id="add1">PANAPUR-MAKKANPUR, JANDAHA, VAISHALI-844505</h1>
-              <h2 class="run">RUN BY- RAM SHARAN ROY MEMORIAL EDUCATIONAL AND SOCIAL WELFARE TRUST</h2>
-              <h2 class="mb-3">Recognized by - Bihar Nurses Registration Council (BNRC), Patna</h2>
-              <h2>Approved by Health Department Govt. of Bihar</h2>
-              <h3 class="mb-3"><a href="">Email: rsrcnursing@gmail.com</a></h3>
+              <h1>{{ optional($batch)->clc_college }}</h1>
+              <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
+              <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
+              <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
+              <h2>{{ optional($batch)->clc_college_app }}</h2>
+              <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
             </div>
           </div>
 
