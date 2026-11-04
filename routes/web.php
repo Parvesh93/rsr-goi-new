@@ -928,6 +928,10 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->prefix('admin')
         Route::resource('old-student', OldStudentController::class);
         Route::resource('degree-clc', DegreeClcController::class);
         Route::resource('nursing-clc', NursingClcController::class);
+        Route::get('course-completion-certificate', [NursingClcController::class, 'courseCompletionIndex'])
+            ->name('course-completion.index');
+        Route::get('course-completion-certificate/{id}/print', [NursingClcController::class, 'courseCompletion'])
+            ->name('course-completion.print');
         Route::resource('education-clc', EducationClcController::class);
         Route::resource('engineering-clc', EngineeringClcController::class);
         Route::resource('inter-clc', InterClcController::class);

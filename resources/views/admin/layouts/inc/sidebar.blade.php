@@ -132,6 +132,7 @@
                     Request::is('admin/engineering-clc*') ||
                     Request::is('admin/inter-clc*') ||
                     Request::is('admin/nursing-clc*') ||
+                    Request::is('admin/course-completion-certificate*') ||
                     Request::is('admin/degree-provisional*') ||
                     Request::is('admin/nursing-provisional*') ||
                     Request::is('admin/engineering-provisional*') ||
@@ -202,6 +203,12 @@
 
 
                                 </ul>
+                            </li>
+                        @endcanany
+
+                        @canany(['nursing-clc-view'])
+                            <li class="{{ Request::is('admin/course-completion-certificate*') ? 'active' : '' }}">
+                                <a href="{{ route('admin.course-completion.index') }}">Course Completion Certificate</a>
                             </li>
                         @endcanany
 
@@ -287,6 +294,7 @@
                     Request::is('admin/engineering-clc*') ||
                     Request::is('admin/inter-clc*') ||
                     Request::is('admin/nursing-clc*') ||
+                    Request::is('admin/course-completion-certificate*') ||
                     Request::is('admin/degree-provisional*') ||
                     Request::is('admin/nursing-provisional*') ||
                     Request::is('admin/engineering-provisional*') ||
@@ -360,6 +368,14 @@
                                 </ul>
                             </li>
                         @endcanany
+
+                        @if ($departmentCondition->nursing_id === auth()->user()->college_department_id)
+                            @canany(['nursing-clc-view'])
+                                <li class="{{ Request::is('admin/course-completion-certificate*') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.course-completion.index') }}">Course Completion Certificate</a>
+                                </li>
+                            @endcanany
+                        @endif
 
                         @canany(['provisional-create', 'provisional-view', 'degree-provisional-create',
                             'degree-provisional-view', 'education-clc-create', 'education-clc-view',

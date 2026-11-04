@@ -522,4 +522,31 @@ class NursingClcController extends Controller
         return view($this->view . '.clc', $data);
     }
 
+
+    public function courseCompletionIndex(Request $request)
+    {
+        $view = $this->index($request);
+        $data = $view->getData();
+        $data['title'] = 'Course Completion Certificate';
+
+        return view($this->view . '.course-completion-index', $data);
+    }
+
+    public function courseCompletion($id)
+    {
+        $data['title'] = 'Course Completion Certificate';
+        $data['route'] = $this->route;
+        $data['view'] = $this->view;
+        $data['path'] = $this->path;
+        $data['access'] = $this->access;
+
+        $data['rows'] = NursingClc::where('id', $id)
+            ->where('status', '1')
+            ->get();
+
+        abort_if($data['rows']->isEmpty(), 404);
+
+        return view($this->view . '.course-completion', $data);
+    }
+
 }

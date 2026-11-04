@@ -486,55 +486,7 @@ foreach ($rows as $row) {
         </div>
       </div>
 
-      <div class="certificate-page">
-        <div class="certificate">
-          <div class="header">
-            <div class="college-details change-font-heading">
-              @if(!empty(optional($batch)->clc_logo_img))
-                <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
-              @endif
-              <h1>{{ optional($batch)->clc_college }}</h1>
-              <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
-              <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
-              <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
-              <h2>{{ optional($batch)->clc_college_app }}</h2>
-              <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
-            </div>
-          </div>
 
-          <div class="row1 change-font-heading">
-            <div class="left">
-              <span class="label">SL. No.:</span>&nbsp; RSR/NSG/{{ $serialProgramCode }}/{{ $serial }}
-            </div>
-            <div class="spacer"></div>
-            <div class="right row"><span class="label">Date:</span>{{ $issueDate }}</div>
-          </div>
-
-          <h4 class="title change-font-heading course-completion-title">Course Completion Certificate</h4>
-
-          <p class="change-font" style="text-align:center;">
-            This is to certify that Mr./Ms.
-            <span class="bold change-font-heading-imp">{{ $row->name }}</span> son/daughter of
-            <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> has completed
-            <span class="bold change-font-heading-imp">{{ $courseCompletionTitle }}</span> course as per
-            the curriculum of Indian Nursing Council, New Delhi, Bihar Nurses Registration council, Patna
-            from Ram Saran Roy College starting from………………...to…………...……
-          </p>
-
-          <p class="change-font">
-            He/she was relieved from this institution in the afternoon of
-            <span class="bold change-font-heading-imp">{{ $relievingDate }}</span> his/her character was
-            <span class="bold change-font-heading-imp">Good</span> during the study period.<br>
-            Institution has no objection if he/she joins anywhere.<br>
-            I wish him/her for a bright future.
-          </p>
-
-          <div class="signature-row">
-            <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
-            <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
-          </div>
-        </div>
-      </div>
 
     </div>
   @endforeach
