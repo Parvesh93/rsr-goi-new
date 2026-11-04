@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\ComplainTypeController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\ContentTypeController;
 use App\Http\Controllers\Admin\CourseCompleteController;
+use App\Http\Controllers\Admin\CourseCompletionCertificateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\DesignationController;
@@ -928,9 +929,19 @@ Route::middleware(['auth:web', 'XSS'])->name('admin.')->prefix('admin')
         Route::resource('old-student', OldStudentController::class);
         Route::resource('degree-clc', DegreeClcController::class);
         Route::resource('nursing-clc', NursingClcController::class);
-        Route::get('course-completion-certificate', [NursingClcController::class, 'courseCompletionIndex'])
+        Route::get('course-completion/{type}', [CourseCompletionCertificateController::class, 'index'])
             ->name('course-completion.index');
-        Route::get('course-completion-certificate/{id}/print', [NursingClcController::class, 'courseCompletion'])
+        Route::get('course-completion/{type}/create', [CourseCompletionCertificateController::class, 'create'])
+            ->name('course-completion.create');
+        Route::post('course-completion/{type}', [CourseCompletionCertificateController::class, 'store'])
+            ->name('course-completion.store');
+        Route::get('course-completion/{type}/{courseCompletion}/edit', [CourseCompletionCertificateController::class, 'edit'])
+            ->name('course-completion.edit');
+        Route::put('course-completion/{type}/{courseCompletion}', [CourseCompletionCertificateController::class, 'update'])
+            ->name('course-completion.update');
+        Route::delete('course-completion/{type}/{courseCompletion}', [CourseCompletionCertificateController::class, 'destroy'])
+            ->name('course-completion.destroy');
+        Route::get('course-completion/{type}/{courseCompletion}/print', [CourseCompletionCertificateController::class, 'print'])
             ->name('course-completion.print');
         Route::resource('education-clc', EducationClcController::class);
         Route::resource('engineering-clc', EngineeringClcController::class);

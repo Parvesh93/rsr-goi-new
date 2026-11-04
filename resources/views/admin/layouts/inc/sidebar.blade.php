@@ -132,7 +132,7 @@
                     Request::is('admin/engineering-clc*') ||
                     Request::is('admin/inter-clc*') ||
                     Request::is('admin/nursing-clc*') ||
-                    Request::is('admin/course-completion-certificate*') ||
+                    Request::is('admin/course-completion*') ||
                     Request::is('admin/degree-provisional*') ||
                     Request::is('admin/nursing-provisional*') ||
                     Request::is('admin/engineering-provisional*') ||
@@ -206,9 +206,43 @@
                             </li>
                         @endcanany
 
-                        @canany(['nursing-clc-view'])
-                            <li class="{{ Request::is('admin/course-completion-certificate*') ? 'active' : '' }}">
-                                <a href="{{ route('admin.course-completion.index') }}">Course Completion Certificate</a>
+                        @canany(['inter-clc-view', 'degree-clc-view', 'nursing-clc-view', 'old-student-view', 'education-clc-view', 'engineering-clc-view'])
+                            <li class="nav-item pcoded-hasmenu {{ Request::is('admin/course-completion*') ? 'pcoded-trigger active' : '' }}">
+                                <a href="#!" class="nav-link">
+                                    <span class="pcoded-mtext">Course Completion Certificate</span>
+                                </a>
+                                <ul class="pcoded-submenu">
+                                    @canany(['inter-clc-view'])
+                                        <li class="{{ Request::is('admin/course-completion/inter*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'inter']) }}">Inter Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['degree-clc-view'])
+                                        <li class="{{ Request::is('admin/course-completion/degree*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'degree']) }}">Degree Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['nursing-clc-view'])
+                                        <li class="{{ Request::is('admin/course-completion/nursing*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'nursing']) }}">Nursing Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['old-student-view'])
+                                        <li class="{{ Request::is('admin/course-completion/pharmacy*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'pharmacy']) }}">Pharmacy Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['education-clc-view'])
+                                        <li class="{{ Request::is('admin/course-completion/education*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'education']) }}">Education Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                    @canany(['engineering-clc-view'])
+                                        <li class="{{ Request::is('admin/course-completion/engineering*') ? 'active' : '' }}">
+                                            <a href="{{ route('admin.course-completion.index', ['type' => 'engineering']) }}">Engineering Course Completion</a>
+                                        </li>
+                                    @endcanany
+                                </ul>
                             </li>
                         @endcanany
 
@@ -294,7 +328,7 @@
                     Request::is('admin/engineering-clc*') ||
                     Request::is('admin/inter-clc*') ||
                     Request::is('admin/nursing-clc*') ||
-                    Request::is('admin/course-completion-certificate*') ||
+                    Request::is('admin/course-completion*') ||
                     Request::is('admin/degree-provisional*') ||
                     Request::is('admin/nursing-provisional*') ||
                     Request::is('admin/engineering-provisional*') ||
@@ -369,13 +403,52 @@
                             </li>
                         @endcanany
 
-                        @if ($departmentCondition->nursing_id === auth()->user()->college_department_id)
-                            @canany(['nursing-clc-view'])
-                                <li class="{{ Request::is('admin/course-completion-certificate*') ? 'active' : '' }}">
-                                    <a href="{{ route('admin.course-completion.index') }}">Course Completion Certificate</a>
-                                </li>
-                            @endcanany
-                        @endif
+                        @canany(['inter-clc-view', 'degree-clc-view', 'nursing-clc-view', 'old-student-view', 'education-clc-view', 'engineering-clc-view'])
+                            <li class="nav-item pcoded-hasmenu {{ Request::is('admin/course-completion*') ? 'pcoded-trigger active' : '' }}">
+                                <a href="#!" class="nav-link">
+                                    <span class="pcoded-mtext">Course Completion Certificate</span>
+                                </a>
+                                <ul class="pcoded-submenu">
+                                    @if ($departmentCondition->inter_id === auth()->user()->college_department_id)
+                                        @canany(['inter-clc-view'])
+                                            <li class="{{ Request::is('admin/course-completion/inter*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'inter']) }}">Inter Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @elseif($departmentCondition->nursing_id === auth()->user()->college_department_id)
+                                        @canany(['nursing-clc-view'])
+                                            <li class="{{ Request::is('admin/course-completion/nursing*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'nursing']) }}">Nursing Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @elseif($departmentCondition->degree_id === auth()->user()->college_department_id)
+                                        @canany(['degree-clc-view'])
+                                            <li class="{{ Request::is('admin/course-completion/degree*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'degree']) }}">Degree Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @elseif($departmentCondition->education_id === auth()->user()->college_department_id)
+                                        @canany(['education-clc-view'])
+                                            <li class="{{ Request::is('admin/course-completion/education*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'education']) }}">Education Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @elseif($departmentCondition->engineering_id === auth()->user()->college_department_id)
+                                        @canany(['engineering-clc-view'])
+                                            <li class="{{ Request::is('admin/course-completion/engineering*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'engineering']) }}">Engineering Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @elseif($departmentCondition->pharmacy_id === auth()->user()->college_department_id)
+                                        @canany(['old-student-view'])
+                                            <li class="{{ Request::is('admin/course-completion/pharmacy*') ? 'active' : '' }}">
+                                                <a href="{{ route('admin.course-completion.index', ['type' => 'pharmacy']) }}">Pharmacy Course Completion</a>
+                                            </li>
+                                        @endcanany
+                                    @endif
+                                </ul>
+                            </li>
+                        @endcanany
 
                         @canany(['provisional-create', 'provisional-view', 'degree-provisional-create',
                             'degree-provisional-view', 'education-clc-create', 'education-clc-view',
