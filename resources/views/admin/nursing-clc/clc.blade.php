@@ -360,7 +360,7 @@ $img=$row->batch->clc_college_img;
 
           <div class="row1 change-font-heading">
             <div class="left ">
-    <span class="label">SL.No.: </span> &nbsp;RSRNUR/{{$row->program->shortcode}}/{{$row->serial_no}}
+    <span class="label">SL.No.: </span> &nbsp;RSR/NSG/{{$row->program->shortcode}}/{{ str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT) }}
   </div>
   <div class="spacer"></div>
   <div class="right row">
@@ -442,7 +442,7 @@ $img=$row->batch->clc_college_img;
 
           <div class="row1 change-font-heading">
             <div class="left">
-    <span class="label">SL.No.: </span> &nbsp;RSRNUR/{{$row->program->shortcode}}/{{$row->serial_no}}
+    <span class="label">SL.No.: </span> &nbsp;RSR/NSG/{{$row->program->shortcode}}/{{ str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT) }}
   </div>
   <div class="spacer"></div>
   <div class="right row">
