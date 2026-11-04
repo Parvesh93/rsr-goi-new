@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class NursingClc extends Model
 {
       protected $fillable = [
-        'student_id', 'registration_no', 'serial_no','program_id', 'session_id', 'name', 'father_name', 'mother_name', 'date'
+        'student_id', 'registration_no', 'serial_no','program_id', 'session_id', 'name', 'father_name', 'mother_name', 'date', 'relieving_date'
     ];
 
 

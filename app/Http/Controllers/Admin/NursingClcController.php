@@ -314,6 +314,7 @@ class NursingClcController extends Controller
             'mother_name' => 'required',
             'division' => 'required',
             'dob' => 'required|date',
+            'relieving_date' => 'nullable|date',
             
             'registration_no' => 'required',
             'college_name' => 'required',
@@ -339,6 +340,7 @@ class NursingClcController extends Controller
             $nursing_clc->mother_name = $request->mother_name;
             $nursing_clc->division = $request->division;
             $nursing_clc->date = $request->dob;
+            $nursing_clc->relieving_date = $request->relieving_date;
         
             $nursing_clc->college_name = $request->college_name;
            
@@ -448,6 +450,7 @@ class NursingClcController extends Controller
             'mother_name' => 'required',
             'division' => 'required',
             'dob' => 'required|date',
+            'relieving_date' => 'nullable|date',
             
 
             'college_name' => 'required',
@@ -471,6 +474,7 @@ class NursingClcController extends Controller
         $nursing_clc->mother_name = $request->mother_name;
         $nursing_clc->division = $request->division;
         $nursing_clc->date = $request->dob;
+            $nursing_clc->relieving_date = $request->relieving_date;
 
         $nursing_clc->college_name = $request->college_name;
       

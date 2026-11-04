@@ -206,6 +206,13 @@
 
 
                                             <div class="form-group col-md-6">
+                                                <label for="relieving_date">Relieving Date</label>
+                                                <input type="date" class="form-control" name="relieving_date"
+                                                    id="relieving_date" value="{{ old('relieving_date') }}">
+                                                <small class="form-text text-muted">Used on the Course Completion Certificate.</small>
+                                            </div>
+
+                                            <div class="form-group col-md-6">
                                                 <label for="college_name">{{ 'Board/University/College' }}
                                                     <span>*</span></label>
                                                 <input type="text" class="form-control" name="college_name"
