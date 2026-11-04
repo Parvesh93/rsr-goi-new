@@ -13,7 +13,7 @@
                             
                             <div class="row">
                                 <div class="form-group col-md-4">
-                                    <label>Batch <span>*</span></label>
+                                    <label>College <span>*</span></label>
                                     <select class="form-control" name="batch_id" required>
                                         <option value="">{{ __('select') }}</option>
                                         @foreach($batches as $batch)
