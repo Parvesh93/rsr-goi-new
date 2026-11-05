@@ -1,17 +1,68 @@
 /*
- * Shared code-generated watermark for CLC, Provisional and
+ * Shared printable watermark layer for CLC, Provisional and
  * Course Completion certificates.
+ *
+ * Uses real HTML text/logo elements instead of CSS background images so
+ * browser PDF printing does not depend on "background graphics" settings.
  */
 .certificate,
 .certificate1 {
-    background-image:
-        var(--certificate-watermark-pattern, none),
-        linear-gradient(rgba(255, 255, 255, 0.925), rgba(255, 255, 255, 0.925)),
-        var(--certificate-watermark-logo, none) !important;
-    background-repeat: repeat, no-repeat, no-repeat !important;
-    background-position: left top, center center, center center !important;
-    background-size:
-        var(--certificate-watermark-tile-width, 60px) 29px,
-        100% 100%,
-        48% auto !important;
+    position: relative !important;
+    overflow: hidden !important;
+    isolation: isolate;
+}
+
+.certificate > :not(.certificate-watermark-layer),
+.certificate1 > :not(.certificate-watermark-layer) {
+    position: relative;
+    z-index: 2;
+}
+
+.certificate-watermark-layer {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+}
+
+.certificate-watermark-text {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -18px;
+    right: -18px;
+    display: grid;
+    grid-auto-rows: 29px;
+    align-content: start;
+    column-gap: 0;
+    overflow: hidden;
+    opacity: 0.18;
+    color: #7b7b7b;
+    font-family: Arial, sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 29px;
+}
+
+.certificate-watermark-text span {
+    display: block;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.certificate-watermark-logo {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.certificate-watermark-logo img {
+    width: 48% !important;
+    max-width: 430px !important;
+    height: auto !important;
+    opacity: 0.075 !important;
+    filter: grayscale(100%);
 }
