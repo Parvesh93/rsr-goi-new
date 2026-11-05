@@ -373,10 +373,10 @@ foreach ($rows as $row) {
     <div class="printable">
 
       <div class="certificate-page">
-        <div class="certificate" style="position:relative !important; overflow:hidden !important;">
+        <div class="certificate" style="position:relative !important; overflow:hidden !important; break-inside:avoid !important; page-break-inside:avoid !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
-          <div style="position:relative; z-index:2;">
-          <div class="header">
+          <div style="position:relative !important; z-index:2 !important;">
+            <div class="header">
             <div class="college-details change-font-heading">
               @if(!empty(optional($batch)->clc_logo_img))
                 <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
@@ -437,7 +437,8 @@ foreach ($rows as $row) {
       <div class="certificate-page">
         <div class="certificate" style="position:relative !important; overflow:hidden !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
-          <div class="header">
+          <div style="position:relative !important; z-index:2 !important;">
+            <div class="header">
             <div class="college-details change-font-heading">
               @if(!empty(optional($batch)->clc_logo_img))
                 <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
@@ -487,6 +488,7 @@ foreach ($rows as $row) {
           <div class="signature-row">
             <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
             <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
+          </div>
           </div>
         </div>
       </div>
