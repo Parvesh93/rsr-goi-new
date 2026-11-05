@@ -1,8 +1,3 @@
-@php
-$img = optional($row->batch)->cc_college_img ?? '';
-@endphp
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,10 +107,40 @@ $img = optional($row->batch)->cc_college_img ?? '';
       outline: 4px solid #76037c;
       outline-offset: 5px;
       padding: 50px 10px;
-      background-image: url("{{asset('uploads/batch/'.$img)}}");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .watermark-pattern {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-repeat: repeat;
+      pointer-events: none;
+    }
+
+    .watermark-center-logo {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .watermark-center-logo img {
+      width: 48% !important;
+      max-width: 430px !important;
+      height: auto !important;
+      opacity: 0.075;
+      filter: grayscale(100%);
+    }
+
+    .certificate-content {
+      position: relative;
+      z-index: 2;
     }
 
     /*.border-color {*/
@@ -131,12 +156,10 @@ $img = optional($row->batch)->cc_college_img ?? '';
       border: 3px solid #76037c;
       outline: 4px solid #76037c;
       outline-offset: 5px;
-       
       padding: 50px 10px;
-      background-image: url("{{asset('uploads/batch/'.$img)}}");
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
     }
 
 
@@ -334,6 +357,28 @@ $img = optional($row->batch)->cc_college_img ?? '';
 @php
     $batch = $row->batch;
     $program = $row->program;
+
+    // Course Completion watermark:
+    // 1) repeating text is configurable per college;
+    // 2) if empty, generate initials from the CC college name;
+    // 3) center watermark automatically reuses the existing CLC logo.
+    $watermarkText = trim((string) optional($batch)->cc_watermark_text);
+    if ($watermarkText === '') {
+        $collegeForWatermark = preg_replace('/[^A-Za-z0-9 ]+/', ' ', (string) optional($batch)->cc_college);
+        $words = preg_split('/\s+/', trim($collegeForWatermark), -1, PREG_SPLIT_NO_EMPTY);
+        $watermarkText = collect($words)
+            ->map(fn ($word) => strtoupper(substr($word, 0, 1)))
+            ->implode('');
+    }
+
+    $watermarkText = $watermarkText !== '' ? $watermarkText : 'CC';
+    $safeWatermarkText = htmlspecialchars($watermarkText, ENT_QUOTES | ENT_XML1, 'UTF-8');
+    $watermarkTileWidth = max(90, (strlen($watermarkText) * 14) + 22);
+    $watermarkSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="' . $watermarkTileWidth . '" height="27">'
+        . '<text x="4" y="19" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#7b7b7b" fill-opacity="0.18">'
+        . $safeWatermarkText
+        . '</text></svg>';
+    $watermarkDataUri = 'data:image/svg+xml;base64,' . base64_encode($watermarkSvg);
     $programTitle = optional($program)->title ?? '';
     $programShortcode = strtoupper(optional($program)->shortcode ?? '');
     $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
@@ -363,6 +408,16 @@ $img = optional($row->batch)->cc_college_img ?? '';
 
 <div class="printable">
     <div class="certificate">
+        <div class="watermark-pattern"
+             style="background-image: url('{{ $watermarkDataUri }}'); background-size: {{ $watermarkTileWidth }}px 27px;"></div>
+
+        @if(!empty(optional($batch)->clc_logo_img))
+            <div class="watermark-center-logo">
+                <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="" />
+            </div>
+        @endif
+
+        <div class="certificate-content">
         <div class="header">
             <div class="college-details change-font-heading">
                 @if(!empty(optional($batch)->cc_logo_img))
@@ -419,6 +474,7 @@ $img = optional($row->batch)->cc_college_img ?? '';
         <div class="signature-row">
             <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
             <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
+        </div>
         </div>
     </div>
 </div>
