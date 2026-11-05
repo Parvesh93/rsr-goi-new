@@ -117,17 +117,18 @@
       inset: 0;
       z-index: 0;
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-auto-rows: 27px;
+      grid-auto-rows: 29px;
       align-content: start;
+      justify-content: center;
+      column-gap: 5px;
       overflow: hidden;
       pointer-events: none;
       opacity: 0.18;
       color: #7b7b7b;
       font-family: Arial, sans-serif;
-      font-size: 15px;
+      font-size: 17px;
       font-weight: 700;
-      line-height: 27px;
+      line-height: 29px;
     }
 
     .watermark-pattern span {
@@ -388,6 +389,19 @@
     }
 
     $watermarkText = $watermarkText !== '' ? strtoupper($watermarkText) : 'CC';
+
+    // Keep columns close together while still supporting longer dynamic watermark text.
+    $watermarkLength = max(1, strlen($watermarkText));
+    if ($watermarkLength <= 5) {
+        $watermarkColumns = 12;
+    } elseif ($watermarkLength <= 8) {
+        $watermarkColumns = 9;
+    } elseif ($watermarkLength <= 12) {
+        $watermarkColumns = 7;
+    } else {
+        $watermarkColumns = 5;
+    }
+
     $programTitle = optional($program)->title ?? '';
     $programShortcode = strtoupper(optional($program)->shortcode ?? '');
     $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
@@ -417,7 +431,8 @@
 
 <div class="printable">
     <div class="certificate">
-        <div class="watermark-pattern" aria-hidden="true">
+        <div class="watermark-pattern" aria-hidden="true"
+             style="grid-template-columns: repeat({{ $watermarkColumns }}, max-content);">
             @for($i = 0; $i < 315; $i++)
                 <span>{{ $watermarkText }}</span>
             @endfor
