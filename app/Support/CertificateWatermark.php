@@ -44,8 +44,14 @@ class CertificateWatermark
 
         $logoValue = $logo !== '' ? 'url("' . e($logo) . '")' : 'none';
 
-        return '--certificate-watermark-pattern:url("' . $pattern . '");'
-            . '--certificate-watermark-logo:' . $logoValue . ';'
-            . '--certificate-watermark-tile-width:' . $tileWidth . 'px;';
+        // Apply the complete watermark directly on the certificate element.
+        // This is intentionally inline because the print plugin may clone only
+        // the printable node and can lose inherited CSS custom properties.
+        return 'background-image:url("' . $pattern . '"),'
+            . 'linear-gradient(rgba(255,255,255,0.925),rgba(255,255,255,0.925)),'
+            . $logoValue . ' !important;'
+            . 'background-repeat:repeat,no-repeat,no-repeat !important;'
+            . 'background-position:left top,center center,center center !important;'
+            . 'background-size:' . $tileWidth . 'px 29px,100% 100%,48% auto !important;';
     }
 }
