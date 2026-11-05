@@ -322,7 +322,7 @@
     @foreach ($rows as $row)
       
 
-        <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+        <div class="printable">
           
             <!-- College Leaving Certificate -->
 
@@ -331,7 +331,7 @@
 
                 <div class="border-color">
                    
-                    <div class="certificate ">
+                    <div class="certificate " style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
                          <div class="left ">
                                 <span class="label change-font-heading">SL.No.: </span><span  class="label change-font-heading"> &nbsp;&nbsp;&nbsp;{{ $row->serial_no }}</span> 
                             </div>
