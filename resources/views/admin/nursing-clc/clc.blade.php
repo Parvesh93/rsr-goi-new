@@ -373,7 +373,7 @@ foreach ($rows as $row) {
     <div class="printable">
 
       <div class="certificate-page">
-        <div class="certificate" style="position:relative !important; overflow:hidden !important; break-inside:avoid !important; page-break-inside:avoid !important;">
+        <div class="certificate" style="position:relative !important; overflow:hidden !important; background-image:none !important; break-inside:avoid !important; page-break-inside:avoid !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
           <div style="position:relative !important; z-index:2 !important;">
             <div class="header">
@@ -435,7 +435,7 @@ foreach ($rows as $row) {
       </div>
 
       <div class="certificate-page">
-        <div class="certificate" style="position:relative !important; overflow:hidden !important;">
+        <div class="certificate" style="position:relative !important; overflow:hidden !important; background-image:none !important; break-inside:avoid !important; page-break-inside:avoid !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
           <div style="position:relative !important; z-index:2 !important;">
             <div class="header">
