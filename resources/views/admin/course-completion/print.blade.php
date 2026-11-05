@@ -1,5 +1,5 @@
 @php
-$img = optional($row->batch)->clc_college_img ?? '';
+$img = optional($row->batch)->cc_college_img ?? '';
 @endphp
 
 
@@ -365,15 +365,15 @@ $img = optional($row->batch)->clc_college_img ?? '';
     <div class="certificate">
         <div class="header">
             <div class="college-details change-font-heading">
-                @if(!empty(optional($batch)->clc_logo_img))
-                    <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="Logo" class="logo" />
+                @if(!empty(optional($batch)->cc_logo_img))
+                    <img src="{{ asset('uploads/batch/' . $batch->cc_logo_img) }}" alt="Logo" class="logo" />
                 @endif
-                <h1>{{ optional($batch)->clc_college }}</h1>
-                <h1 id="add1">{{ optional($batch)->clc_college_add }}</h1>
-                <h2 class="run">{{ optional($batch)->clc_college_run }}</h2>
-                <h2 class="mb-3">{{ optional($batch)->clc_college_reco }}</h2>
-                <h2>{{ optional($batch)->clc_college_app }}</h2>
-                <h3 class="mb-3"><a href="">Email: {{ optional($batch)->college_email }}</a></h3>
+                <h1>{{ optional($batch)->cc_college }}</h1>
+                <h1 id="add1">{{ optional($batch)->cc_college_add }}</h1>
+                <h2 class="run">{{ optional($batch)->cc_college_run }}</h2>
+                <h2 class="mb-3">{{ optional($batch)->cc_college_reco }}</h2>
+                <h2>{{ optional($batch)->cc_college_app }}</h2>
+                <h3 class="mb-3"><a href="">Email: {{ optional($batch)->cc_college_email }}</a></h3>
             </div>
         </div>
 
@@ -392,7 +392,7 @@ $img = optional($row->batch)->clc_college_img ?? '';
                 <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> has completed
                 <span class="bold change-font-heading-imp">{{ $courseTitle }}</span> course as per the curriculum of
                 Indian Nursing Council, New Delhi, Bihar Nurses Registration council, Patna from
-                <span class="bold change-font-heading-imp">{{ optional($batch)->clc_college }}</span>
+                <span class="bold change-font-heading-imp">{{ optional($batch)->cc_college }}</span>
                 starting from <span class="bold change-font-heading-imp">{{ $startDate }}</span>
                 to <span class="bold change-font-heading-imp">{{ $endDate }}</span>.
             </p>
@@ -402,7 +402,7 @@ $img = optional($row->batch)->clc_college_img ?? '';
                 <span class="bold change-font-heading-imp">{{ $row->name }}</span> son/daughter of
                 <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> has successfully completed
                 <span class="bold change-font-heading-imp">{{ $courseTitle }}</span> course from
-                <span class="bold change-font-heading-imp">{{ optional($batch)->clc_college }}</span>
+                <span class="bold change-font-heading-imp">{{ optional($batch)->cc_college }}</span>
                 starting from <span class="bold change-font-heading-imp">{{ $startDate }}</span>
                 to <span class="bold change-font-heading-imp">{{ $endDate }}</span>.
             </p>
