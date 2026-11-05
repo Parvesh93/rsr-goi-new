@@ -323,14 +323,14 @@ $img=$row->batch->clc_college_img;
   @foreach($rows as $row) @php foreach($batches as $batch) {
   if($batch->id===$row->batch_id) { $college_title=$batch->title; } } @endphp
 
-  <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+  <div class="printable">
 
     <!-- College Leaving Certificate -->
 
     <div class="space-update1">
 
       <div class="border-color">
-        <div class="certificate ">
+        <div class="certificate " style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
           <div class="header">
             <!--<img-->
             <!--  src="{{asset('uploads/setting/rsr_logo.png')}}"-->
@@ -416,7 +416,7 @@ $img=$row->batch->clc_college_img;
       <div class="divider"></div>
 
       <div class="space-update">
-        <div class="certificate1 ">
+        <div class="certificate1 " style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
           <!-- Character Certificate -->
           <div class="header">
 
