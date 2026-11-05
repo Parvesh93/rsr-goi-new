@@ -1,0 +1,17 @@
+/*
+ * Shared code-generated watermark for CLC, Provisional and
+ * Course Completion certificates.
+ */
+.certificate,
+.certificate1 {
+    background-image:
+        var(--certificate-watermark-pattern, none),
+        linear-gradient(rgba(255, 255, 255, 0.925), rgba(255, 255, 255, 0.925)),
+        var(--certificate-watermark-logo, none) !important;
+    background-repeat: repeat, no-repeat, no-repeat !important;
+    background-position: left top, center center, center center !important;
+    background-size:
+        var(--certificate-watermark-tile-width, 60px) 29px,
+        100% 100%,
+        48% auto !important;
+}
