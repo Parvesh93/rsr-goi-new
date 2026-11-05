@@ -331,6 +331,7 @@ foreach ($rows as $row) {
     }
 
   </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
 </head>
 
 <body>
@@ -369,7 +370,7 @@ foreach ($rows as $row) {
           : \Carbon\Carbon::parse($row->date)->format('d/m/Y');
     @endphp
 
-    <div class="printable">
+    <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
 
       <div class="certificate-page">
         <div class="certificate">
