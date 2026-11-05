@@ -316,6 +316,7 @@ $img=$row->batch->clc_college_img;
    
     
   </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
 </head>
 
 <body>
@@ -331,7 +332,7 @@ $img=$row->batch->clc_college_img;
       $issueDate = \Carbon\Carbon::parse($row->date)->format('d-m-Y');
     @endphp
 
-    <div class="printable">
+    <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
       <div class="space-update1">
         <div class="border-color">
           <div class="certificate">
