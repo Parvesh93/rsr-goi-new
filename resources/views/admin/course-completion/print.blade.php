@@ -116,8 +116,24 @@
       position: absolute;
       inset: 0;
       z-index: 0;
-      background-repeat: repeat;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-auto-rows: 27px;
+      align-content: start;
+      overflow: hidden;
       pointer-events: none;
+      opacity: 0.18;
+      color: #7b7b7b;
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 27px;
+    }
+
+    .watermark-pattern span {
+      display: block;
+      white-space: nowrap;
+      text-align: center;
     }
 
     .watermark-center-logo {
@@ -371,14 +387,7 @@
             ->implode('');
     }
 
-    $watermarkText = $watermarkText !== '' ? $watermarkText : 'CC';
-    $safeWatermarkText = htmlspecialchars($watermarkText, ENT_QUOTES | ENT_XML1, 'UTF-8');
-    $watermarkTileWidth = max(90, (strlen($watermarkText) * 14) + 22);
-    $watermarkSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="' . $watermarkTileWidth . '" height="27">'
-        . '<text x="4" y="19" font-family="Arial, sans-serif" font-size="15" font-weight="700" fill="#7b7b7b" fill-opacity="0.18">'
-        . $safeWatermarkText
-        . '</text></svg>';
-    $watermarkDataUri = 'data:image/svg+xml;base64,' . base64_encode($watermarkSvg);
+    $watermarkText = $watermarkText !== '' ? strtoupper($watermarkText) : 'CC';
     $programTitle = optional($program)->title ?? '';
     $programShortcode = strtoupper(optional($program)->shortcode ?? '');
     $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
@@ -408,8 +417,11 @@
 
 <div class="printable">
     <div class="certificate">
-        <div class="watermark-pattern"
-             style="background-image: url('{{ $watermarkDataUri }}'); background-size: {{ $watermarkTileWidth }}px 27px;"></div>
+        <div class="watermark-pattern" aria-hidden="true">
+            @for($i = 0; $i < 315; $i++)
+                <span>{{ $watermarkText }}</span>
+            @endfor
+        </div>
 
         @if(!empty(optional($batch)->clc_logo_img))
             <div class="watermark-center-logo">
