@@ -109,7 +109,7 @@ class BatchController extends Controller
         $batch->cc_college_reco = $request->cc_college_reco;
         $batch->cc_college_app = $request->cc_college_app;
         $batch->cc_college_var = $request->cc_college_veri;
-        $batch->cc_college_img = $this->uploadImage($request, 'cc_attach', $this->path,1024, 1536,);
+        $batch->cc_watermark_text = $request->cc_watermark_text;
         $batch->cc_logo_img = $this->uploadImage($request, 'cc_image', $this->path,213, 213,);
         $batch->cc_college_email = $request->cc_college_email;
         $batch->cc_college_phone = $request->cc_college_phone;
@@ -195,7 +195,7 @@ class BatchController extends Controller
         $batch->cc_college_reco = $request->cc_college_reco;
         $batch->cc_college_app = $request->cc_college_app;
         $batch->cc_college_var = $request->cc_college_veri;
-        $batch->cc_college_img = $this->updateImage($request, 'cc_attach', $this->path, 1024, 1536, $batch, 'cc_college_img');
+        $batch->cc_watermark_text = $request->cc_watermark_text;
         $batch->cc_logo_img = $this->updateImage($request, 'cc_image', $this->path, 213, 213, $batch, 'cc_logo_img');
         $batch->cc_college_email = $request->cc_college_email;
         $batch->cc_college_phone = $request->cc_college_phone;
