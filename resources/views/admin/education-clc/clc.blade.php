@@ -335,7 +335,7 @@ $img=$row->batch->clc_college_img;
     <div class="printable">
       <div class="space-update1">
         <div class="border-color">
-          <div class="certificate">
+          <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
             <div class="header">
               <div class="college-details change-font-heading">
@@ -398,7 +398,7 @@ $img=$row->batch->clc_college_img;
         <div class="divider"></div>
 
         <div class="space-update">
-          <div class="certificate1">
+          <div class="certificate1" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
             <div class="header">
               <div class="college-details change-font-heading">
