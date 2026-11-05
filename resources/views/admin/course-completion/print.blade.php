@@ -359,7 +359,8 @@
 @endphp
 
 <div class="printable">
-    <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+    <div class="certificate">
+            @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
         <div class="header">
             <div class="college-details change-font-heading">
                 @if(!empty(optional($batch)->cc_logo_img))
