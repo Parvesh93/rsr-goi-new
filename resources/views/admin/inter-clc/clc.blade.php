@@ -316,13 +316,14 @@ $img=$row->batch->clc_college_img;
    
     
   </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
 </head>
 
 <body>
   @foreach($rows as $row) @php foreach($batches as $batch) {
   if($batch->id===$row->batch_id) { $college_title=$batch->title; } } @endphp
 
-  <div class="printable">
+  <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
 
     <!-- College Leaving Certificate -->
 
