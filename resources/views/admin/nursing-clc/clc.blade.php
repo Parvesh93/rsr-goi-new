@@ -373,8 +373,9 @@ foreach ($rows as $row) {
     <div class="printable">
 
       <div class="certificate-page">
-        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+        <div class="certificate" style="position:relative !important; overflow:hidden !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
+          <div style="position:relative; z-index:2;">
           <div class="header">
             <div class="college-details change-font-heading">
               @if(!empty(optional($batch)->clc_logo_img))
@@ -429,11 +430,12 @@ foreach ($rows as $row) {
             <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
             <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
           </div>
+          </div>
         </div>
       </div>
 
       <div class="certificate-page">
-        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+        <div class="certificate" style="position:relative !important; overflow:hidden !important;">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
           <div class="header">
             <div class="college-details change-font-heading">
