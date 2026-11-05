@@ -1,47 +1,32 @@
 /*
- * Shared printable watermark layer for CLC, Provisional and
- * Course Completion certificates.
- *
- * A single inline SVG is used for the repeated text pattern. This avoids
- * hundreds of DOM nodes being fragmented into extra printed pages.
+ * Shared certificate watermark support.
+ * Repeating text is applied as an inline background on the certificate.
+ * Only the faded center logo is an absolutely positioned HTML overlay.
  */
 .certificate,
 .certificate1 {
     position: relative !important;
     overflow: hidden !important;
     isolation: isolate;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
 }
 
-.certificate > :not(.certificate-watermark-layer),
-.certificate1 > :not(.certificate-watermark-layer) {
+.certificate > :not(.certificate-watermark-logo),
+.certificate1 > :not(.certificate-watermark-logo) {
     position: relative;
     z-index: 2;
-}
-
-.certificate-watermark-layer {
-    position: absolute !important;
-    inset: 0 !important;
-    z-index: 0 !important;
-    overflow: hidden !important;
-    pointer-events: none !important;
-}
-
-.certificate-watermark-svg {
-    position: absolute !important;
-    inset: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-    overflow: hidden !important;
 }
 
 .certificate-watermark-logo {
     position: absolute !important;
     inset: 0 !important;
+    z-index: 0 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     pointer-events: none !important;
+    overflow: hidden !important;
 }
 
 .certificate-watermark-logo img {
