@@ -370,10 +370,10 @@ foreach ($rows as $row) {
           : \Carbon\Carbon::parse($row->date)->format('d/m/Y');
     @endphp
 
-    <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
+    <div class="printable">
 
       <div class="certificate-page">
-        <div class="certificate">
+        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
           <div class="header">
             <div class="college-details change-font-heading">
               @if(!empty(optional($batch)->clc_logo_img))
@@ -432,7 +432,7 @@ foreach ($rows as $row) {
       </div>
 
       <div class="certificate-page">
-        <div class="certificate">
+        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
           <div class="header">
             <div class="college-details change-font-heading">
               @if(!empty(optional($batch)->clc_logo_img))
