@@ -179,12 +179,12 @@
 
 
                             <div class="form-group">
-                                <label for="cc_watermark_text-{{ $row->id }}" class="form-label">CC Watermark Text</label>
+                                <label for="cc_watermark_text-{{ $row->id }}" class="form-label">Certificate Watermark Text</label>
                                 <input type="text" class="form-control" name="cc_watermark_text" id="cc_watermark_text-{{ $row->id }}"
                                     value="{{ $row->cc_watermark_text }}" maxlength="50"
                                     placeholder="Example: RSRCN">
                                 <small class="form-text text-muted">
-                                    Repeats lightly in the certificate background. Leave blank to generate it automatically from the CC college name.
+                                    Used across CLC, Provisional and Course Completion PDFs. Leave blank to generate it automatically from the college name.
                                 </small>
                             </div>
 
