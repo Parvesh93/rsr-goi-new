@@ -83,6 +83,7 @@ class BatchController extends Controller
             
             'clc_college'=>'required',
             'cc_college'=>'required',
+            'cc_watermark_text' => 'nullable|string|max:50',
             'start_date' => 'required|date',
             'programs' => 'required',
             'college_department'=>'required',
@@ -168,6 +169,7 @@ class BatchController extends Controller
             'title' => 'required|max:191|unique:batches,title,'.$batch->id,
             'clc_college'=>'required',
             'cc_college'=>'required',
+            'cc_watermark_text' => 'nullable|string|max:50',
             
             'start_date' => 'required|date',
             'programs' => 'required',
