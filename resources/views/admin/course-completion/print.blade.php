@@ -112,56 +112,6 @@
       isolation: isolate;
     }
 
-    .watermark-pattern {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -40px;
-      right: -40px;
-      z-index: 0;
-      display: grid;
-      grid-auto-rows: 29px;
-      align-content: start;
-      column-gap: 0;
-      overflow: hidden;
-      pointer-events: none;
-      opacity: 0.18;
-      color: #7b7b7b;
-      font-family: Arial, sans-serif;
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 29px;
-    }
-
-    .watermark-pattern span {
-      display: block;
-      white-space: nowrap;
-      text-align: center;
-    }
-
-    .watermark-center-logo {
-      position: absolute;
-      inset: 0;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-    }
-
-    .watermark-center-logo img {
-      width: 48% !important;
-      max-width: 430px !important;
-      height: auto !important;
-      opacity: 0.075;
-      filter: grayscale(100%);
-    }
-
-    .certificate-content {
-      position: relative;
-      z-index: 2;
-    }
-
     /*.border-color {*/
       /*padding: 2px;*/
     /*  margin-top: -2px;*/
@@ -373,39 +323,13 @@
     }
 
   </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
 </head>
 
 <body>
 @php
     $batch = $row->batch;
     $program = $row->program;
-
-    // Course Completion watermark:
-    // 1) repeating text is configurable per college;
-    // 2) if empty, generate initials from the CC college name;
-    // 3) center watermark automatically reuses the existing CLC logo.
-    $watermarkText = trim((string) optional($batch)->cc_watermark_text);
-    if ($watermarkText === '') {
-        $collegeForWatermark = preg_replace('/[^A-Za-z0-9 ]+/', ' ', (string) optional($batch)->cc_college);
-        $words = preg_split('/\s+/', trim($collegeForWatermark), -1, PREG_SPLIT_NO_EMPTY);
-        $watermarkText = collect($words)
-            ->map(fn ($word) => strtoupper(substr($word, 0, 1)))
-            ->implode('');
-    }
-
-    $watermarkText = $watermarkText !== '' ? strtoupper($watermarkText) : 'CC';
-
-    // Keep columns close together while still supporting longer dynamic watermark text.
-    $watermarkLength = max(1, strlen($watermarkText));
-    if ($watermarkLength <= 5) {
-        $watermarkColumns = 12;
-    } elseif ($watermarkLength <= 8) {
-        $watermarkColumns = 9;
-    } elseif ($watermarkLength <= 12) {
-        $watermarkColumns = 7;
-    } else {
-        $watermarkColumns = 5;
-    }
 
     $programTitle = optional($program)->title ?? '';
     $programShortcode = strtoupper(optional($program)->shortcode ?? '');
@@ -434,22 +358,8 @@
     }
 @endphp
 
-<div class="printable">
+<div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
     <div class="certificate">
-        <div class="watermark-pattern" aria-hidden="true"
-             style="grid-template-columns: repeat({{ $watermarkColumns }}, minmax(0, 1fr));">
-            @for($i = 0; $i < 1200; $i++)
-                <span>{{ $watermarkText }}</span>
-            @endfor
-        </div>
-
-        @if(!empty(optional($batch)->clc_logo_img))
-            <div class="watermark-center-logo">
-                <img src="{{ asset('uploads/batch/' . $batch->clc_logo_img) }}" alt="" />
-            </div>
-        @endif
-
-        <div class="certificate-content">
         <div class="header">
             <div class="college-details change-font-heading">
                 @if(!empty(optional($batch)->cc_logo_img))
@@ -506,7 +416,6 @@
         <div class="signature-row">
             <div class="signature-box"><div class="bold change-font-heading">HEAD CLERK</div></div>
             <div class="signature-box"><div class="bold change-font-heading">PRINCIPAL</div></div>
-        </div>
         </div>
     </div>
 </div>
