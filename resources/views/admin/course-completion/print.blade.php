@@ -114,13 +114,15 @@
 
     .watermark-pattern {
       position: absolute;
-      inset: 0;
+      top: 0;
+      bottom: 0;
+      left: -40px;
+      right: -40px;
       z-index: 0;
       display: grid;
       grid-auto-rows: 29px;
       align-content: start;
-      justify-content: center;
-      column-gap: 5px;
+      column-gap: 0;
       overflow: hidden;
       pointer-events: none;
       opacity: 0.18;
@@ -432,7 +434,7 @@
 <div class="printable">
     <div class="certificate">
         <div class="watermark-pattern" aria-hidden="true"
-             style="grid-template-columns: repeat({{ $watermarkColumns }}, max-content);">
+             style="grid-template-columns: repeat({{ $watermarkColumns }}, minmax(0, 1fr));">
             @for($i = 0; $i < 1200; $i++)
                 <span>{{ $watermarkText }}</span>
             @endfor
