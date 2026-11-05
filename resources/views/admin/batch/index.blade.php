@@ -199,11 +199,15 @@
                                             value="{{ old('cc_college_phone') }}">
                                     </div>
 
+
                                     <div class="form-group">
-                                        <label for="cc_attach">CC Watermark:
-                                            <span>{{ __('image_size', ['height' => '1536', 'width' => 1024]) }}</span>
-                                        </label>
-                                        <input type="file" class="form-control" name="cc_attach" id="cc_attach">
+                                        <label for="cc_watermark_text" class="form-label">CC Watermark Text</label>
+                                        <input type="text" class="form-control" name="cc_watermark_text" id="cc_watermark_text"
+                                            value="{{ old('cc_watermark_text') }}" maxlength="50"
+                                            placeholder="Example: RSRCN">
+                                        <small class="form-text text-muted">
+                                            Repeats lightly in the certificate background. Leave blank to generate it automatically from the CC college name.
+                                        </small>
                                     </div>
 
                                     <div class="form-group">
