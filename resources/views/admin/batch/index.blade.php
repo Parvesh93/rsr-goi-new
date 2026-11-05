@@ -148,6 +148,71 @@
                             </div>
                         </div>  
 
+                                    <hr>
+                                    <h6 class="mt-3 mb-3"><strong>Course Completion Certificate Details</strong></h6>
+
+                                    <div class="form-group">
+                                        <label for="cc_college" class="form-label">CC College Name <span>*</span></label>
+                                        <input type="text" class="form-control" name="cc_college" id="cc_college"
+                                            value="{{ old('cc_college') }}" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_add" class="form-label">CC College Address</label>
+                                        <input type="text" class="form-control" name="cc_college_add" id="cc_college_add"
+                                            value="{{ old('cc_college_add') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_run" class="form-label">CC College Running By</label>
+                                        <input type="text" class="form-control" name="cc_college_run" id="cc_college_run"
+                                            value="{{ old('cc_college_run') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_reco" class="form-label">CC College Recognized</label>
+                                        <input type="text" class="form-control" name="cc_college_reco" id="cc_college_reco"
+                                            value="{{ old('cc_college_reco') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_app" class="form-label">CC College Approved</label>
+                                        <input type="text" class="form-control" name="cc_college_app" id="cc_college_app"
+                                            value="{{ old('cc_college_app') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_veri" class="form-label">CC College Verification</label>
+                                        <input type="text" class="form-control" name="cc_college_veri" id="cc_college_veri"
+                                            value="{{ old('cc_college_veri') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_email" class="form-label">CC College Email</label>
+                                        <input type="email" class="form-control" name="cc_college_email" id="cc_college_email"
+                                            value="{{ old('cc_college_email') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_college_phone" class="form-label">CC College Phone Number</label>
+                                        <input type="text" class="form-control" name="cc_college_phone" id="cc_college_phone"
+                                            value="{{ old('cc_college_phone') }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_attach">CC Watermark:
+                                            <span>{{ __('image_size', ['height' => '1536', 'width' => 1024]) }}</span>
+                                        </label>
+                                        <input type="file" class="form-control" name="cc_attach" id="cc_attach">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="cc_image">CC Logo:
+                                            <span>{{ __('image_size', ['height' => 185, 'width' => 185]) }}</span>
+                                        </label>
+                                        <input type="file" class="form-control" name="cc_image" id="cc_image">
+                                    </div>
+
 
                                     <div class="form-group">
                                         <label for="start_date" class="form-label">{{ __('field_start_date') }}
