@@ -14,24 +14,32 @@
     $watermarkText = strtoupper($watermarkText !== '' ? $watermarkText : 'CC');
     $watermarkLength = max(1, strlen($watermarkText));
 
-    if ($watermarkLength <= 5) {
-        $watermarkColumns = 12;
-    } elseif ($watermarkLength <= 8) {
-        $watermarkColumns = 9;
-    } elseif ($watermarkLength <= 12) {
-        $watermarkColumns = 7;
-    } else {
-        $watermarkColumns = 5;
-    }
+    // Tight spacing similar to the Course Completion certificate watermark.
+    $tileWidth = max(58, ($watermarkLength * 12) + 10);
+    $patternId = 'certificate-watermark-' . (optional($batch)->id ?? 'default') . '-' . uniqid();
 @endphp
 
 <div class="certificate-watermark-layer" aria-hidden="true">
-    <div class="certificate-watermark-text"
-         style="grid-template-columns: repeat({{ $watermarkColumns }}, minmax(0, 1fr));">
-        @for($i = 0; $i < 1200; $i++)
-            <span>{{ $watermarkText }}</span>
-        @endfor
-    </div>
+    <svg class="certificate-watermark-svg"
+         viewBox="0 0 1000 1400"
+         preserveAspectRatio="none"
+         xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <pattern id="{{ $patternId }}"
+                     width="{{ $tileWidth }}"
+                     height="30"
+                     patternUnits="userSpaceOnUse">
+                <text x="1"
+                      y="21"
+                      font-family="Arial, sans-serif"
+                      font-size="17"
+                      font-weight="700"
+                      fill="#7b7b7b"
+                      fill-opacity="0.18">{{ $watermarkText }}</text>
+            </pattern>
+        </defs>
+        <rect x="-30" y="0" width="1060" height="1400" fill="url(#{{ $patternId }})" />
+    </svg>
 
     @if(!empty(optional($batch)->clc_logo_img))
         <div class="certificate-watermark-logo">
