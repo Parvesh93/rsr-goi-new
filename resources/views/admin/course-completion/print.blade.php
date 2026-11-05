@@ -433,7 +433,7 @@
     <div class="certificate">
         <div class="watermark-pattern" aria-hidden="true"
              style="grid-template-columns: repeat({{ $watermarkColumns }}, max-content);">
-            @for($i = 0; $i < 315; $i++)
+            @for($i = 0; $i < 1200; $i++)
                 <span>{{ $watermarkText }}</span>
             @endfor
         </div>
