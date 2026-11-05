@@ -259,7 +259,9 @@
     .label {
       font-weight: bold;
       display: inline-block;
-      width: 60px;
+      width: auto;
+      min-width: 78px;
+      white-space: nowrap;
       font-size: 21px;
     }
     
@@ -329,8 +331,9 @@
 
     @media (max-width: 600px) {
       .label {
-        display: block;
-        margin-bottom: 5px;
+        display: inline-block;
+        margin-bottom: 0;
+        white-space: nowrap;
       }
 
       .header {
