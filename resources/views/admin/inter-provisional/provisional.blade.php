@@ -315,13 +315,14 @@
             margin-top:-10px;
         }
     </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
 </head>
 
 <body>
     @foreach ($rows as $row)
       
 
-        <div class="printable">
+        <div class="printable" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
           
             <!-- College Leaving Certificate -->
 
