@@ -82,6 +82,7 @@ class BatchController extends Controller
             'title' => 'required|max:191|unique:batches,title',
             
             'clc_college'=>'required',
+            'cc_college'=>'required',
             'start_date' => 'required|date',
             'programs' => 'required',
             'college_department'=>'required',
@@ -100,6 +101,18 @@ class BatchController extends Controller
         $batch->clc_college_var=$request->clc_college_veri;
         $batch->clc_college_img=$this->uploadImage($request, 'attach', $this->path,1024, 1536,);
         $batch->clc_logo_img=$this->uploadImage($request, 'clc_image', $this->path,213, 213,);
+
+        // Separate Course Completion Certificate header/settings
+        $batch->cc_college = $request->cc_college;
+        $batch->cc_college_add = $request->cc_college_add;
+        $batch->cc_college_run = $request->cc_college_run;
+        $batch->cc_college_reco = $request->cc_college_reco;
+        $batch->cc_college_app = $request->cc_college_app;
+        $batch->cc_college_var = $request->cc_college_veri;
+        $batch->cc_college_img = $this->uploadImage($request, 'cc_attach', $this->path,1024, 1536,);
+        $batch->cc_logo_img = $this->uploadImage($request, 'cc_image', $this->path,213, 213,);
+        $batch->cc_college_email = $request->cc_college_email;
+        $batch->cc_college_phone = $request->cc_college_phone;
         
         $batch->college_email = $request->college_email;
         $batch->college_phone = $request->college_phone;
@@ -154,6 +167,7 @@ class BatchController extends Controller
         $request->validate([
             'title' => 'required|max:191|unique:batches,title,'.$batch->id,
             'clc_college'=>'required',
+            'cc_college'=>'required',
             
             'start_date' => 'required|date',
             'programs' => 'required',
@@ -173,6 +187,18 @@ class BatchController extends Controller
         $batch->clc_college_var=$request->clc_college_veri;
         $batch->clc_college_img=$this->updateImage($request, 'attach', $this->path, 1024, 1536, $batch, 'clc_college_img');
          $batch->clc_logo_img=$this->updateImage($request, 'clc_image', $this->path, 213, 213, $batch, 'clc_logo_img');
+
+        // Separate Course Completion Certificate header/settings
+        $batch->cc_college = $request->cc_college;
+        $batch->cc_college_add = $request->cc_college_add;
+        $batch->cc_college_run = $request->cc_college_run;
+        $batch->cc_college_reco = $request->cc_college_reco;
+        $batch->cc_college_app = $request->cc_college_app;
+        $batch->cc_college_var = $request->cc_college_veri;
+        $batch->cc_college_img = $this->updateImage($request, 'cc_attach', $this->path, 1024, 1536, $batch, 'cc_college_img');
+        $batch->cc_logo_img = $this->updateImage($request, 'cc_image', $this->path, 213, 213, $batch, 'cc_logo_img');
+        $batch->cc_college_email = $request->cc_college_email;
+        $batch->cc_college_phone = $request->cc_college_phone;
         
         $batch->college_email = $request->college_email;
         $batch->college_phone = $request->college_phone;
