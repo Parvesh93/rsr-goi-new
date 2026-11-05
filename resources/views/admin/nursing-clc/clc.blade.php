@@ -373,7 +373,7 @@ foreach ($rows as $row) {
     <div class="printable">
 
       <div class="certificate-page">
-        <div class="certificate">
+        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
           <div class="header">
             <div class="college-details change-font-heading">
@@ -433,7 +433,7 @@ foreach ($rows as $row) {
       </div>
 
       <div class="certificate-page">
-        <div class="certificate">
+        <div class="certificate" style="{!! \App\Support\CertificateWatermark::style($row->batch) !!}">
             @include('admin.partials.certificate-watermark', ['batch' => $row->batch])
           <div class="header">
             <div class="college-details change-font-heading">
