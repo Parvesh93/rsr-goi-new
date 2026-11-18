@@ -331,6 +331,7 @@ foreach ($rows as $row) {
     }
 
   </style>
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-serial.css') }}" media="screen, print" />
 </head>
 
 <body>
