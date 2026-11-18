@@ -326,9 +326,7 @@ $img=$row->batch->clc_college_img;
       $batch = $row->batch;
       $program = $row->program;
       $session = $row->session;
-      $departmentTitle = optional(optional($program)->faculty)->title
-          ?? optional(optional($program)->department)->title
-          ?? '';
+      $departmentTitle = optional(optional($program)->department)->title ?? '';
       $serial = str_pad((int) $row->serial_no, 4, '0', STR_PAD_LEFT);
       $issueDate = \Carbon\Carbon::parse($row->date)->format('d-m-Y');
     @endphp
