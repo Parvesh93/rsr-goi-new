@@ -317,6 +317,7 @@ $img=$row->batch->clc_college_img;
     
   </style>
   <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-watermark.css') }}" media="screen, print" />
+  <link rel="stylesheet" type="text/css" href="{{ asset('dashboard/css/prints/certificate-serial.css') }}" media="screen, print" />
 </head>
 
 <body>
