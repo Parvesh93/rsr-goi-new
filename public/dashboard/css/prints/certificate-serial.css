@@ -1,0 +1,52 @@
+/*
+ * RSRGOI certificate serial number alignment.
+ * Keeps "SL. No.:" and the certificate number on one line in all print templates.
+ */
+.certificate .row1 .left,
+.certificate1 .row1 .left {
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: nowrap !important;
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: max-content !important;
+    flex: 1 1 auto !important;
+}
+
+.certificate > .left,
+.certificate1 > .left {
+    white-space: nowrap !important;
+    width: auto !important;
+    min-width: max-content !important;
+}
+
+.certificate .left .label,
+.certificate1 .left .label,
+.certificate .row1 .left .label,
+.certificate1 .row1 .left .label {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    white-space: nowrap !important;
+    margin: 0 6px 0 0 !important;
+    vertical-align: middle !important;
+}
+
+@media print {
+    .certificate .row1 .left,
+    .certificate1 .row1 .left,
+    .certificate > .left,
+    .certificate1 > .left,
+    .certificate .left .label,
+    .certificate1 .left .label {
+        white-space: nowrap !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .certificate .left .label,
+    .certificate1 .left .label {
+        display: inline-block !important;
+        margin-bottom: 0 !important;
+    }
+}
