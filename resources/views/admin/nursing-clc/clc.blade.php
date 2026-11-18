@@ -472,7 +472,9 @@ foreach ($rows as $row) {
             <span class="bold change-font-heading-imp">{{ $row->father_name }}</span> was a
             regular student of the
             <span class="bold change-font-heading-imp">{{ $courseCertificateTitle }}</span>
-            course under the department of Nursing in this institution during the academic session
+            course under the department of
+            <span class="bold change-font-heading-imp">{{ $departmentTitle }}</span>
+            in this institution during the academic session
             <span class="bold change-font-heading-imp">{{ $sessionTitle }}</span>.
           </p>
 
