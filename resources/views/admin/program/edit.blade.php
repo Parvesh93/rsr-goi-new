@@ -71,6 +71,15 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <label for="certificate_board_university_college-{{ $row->id }}" class="form-label">Default Board / University / College</label>
+                        <input type="text" class="form-control" name="certificate_board_university_college"
+                            id="certificate_board_university_college-{{ $row->id }}"
+                            value="{{ $row->certificate_board_university_college }}"
+                            placeholder="Used as the default on certificates">
+                        <small class="form-text text-muted">Certificate forms will auto-fill this value. Staff can still edit it on each certificate.</small>
+                    </div>
+
                     {{-- <div class="form-group">
                         <div class="switch d-inline m-r-10">
                             <input type="checkbox" id="switch-{{ $row->id }}" name="registration" value="1" @if($row->registration == 1) checked @endif>
