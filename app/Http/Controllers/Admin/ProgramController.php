@@ -155,6 +155,7 @@ class ProgramController extends Controller
             'shortcode' => 'required|max:191|unique:programs,shortcode,'.$program->id,
             'coursecode'=>'required',
             'college_department'=>'required',
+            'certificate_board_university_college' => 'nullable|string|max:255',
             
         ]);
 
