@@ -82,6 +82,7 @@ class ProgramController extends Controller
             'shortcode' => 'required|max:191|unique:programs,shortcode',
             'coursecode'=>'required',
             'college_department'=>'required',
+            'certificate_board_university_college' => 'nullable|string|max:255',
             
         ]);
 
@@ -103,6 +104,7 @@ class ProgramController extends Controller
 
         $program->shortcode = $request->shortcode;
         $program->coursecode = $request->coursecode;
+        $program->certificate_board_university_college = $request->certificate_board_university_college;
         $program->registration = $registration;
         $program->save();
 
@@ -171,6 +173,7 @@ class ProgramController extends Controller
         $program->slug = Str::slug($request->title, '-');
         $program->shortcode = $request->shortcode;
         $program->coursecode = $request->coursecode;
+        $program->certificate_board_university_college = $request->certificate_board_university_college;
         
         $program->registration = $registration;
         $program->status = $request->status;
