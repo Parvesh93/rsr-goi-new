@@ -12,7 +12,7 @@ class Program extends Model
      * @var array
      */
     protected $fillable = [
-        'faculty_id', 'title', 'slug', 'shortcode', 'registration', 'status',
+        'faculty_id', 'title', 'slug', 'shortcode', 'certificate_board_university_college', 'registration', 'status',
     ];
 
     public function faculty()
