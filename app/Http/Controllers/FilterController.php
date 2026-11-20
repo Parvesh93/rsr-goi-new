@@ -30,6 +30,14 @@ class FilterController extends Controller
         return response()->json($programs);
     }
     
+    public function filterCertificateProgramDefault(Program $program)
+    {
+        return response()->json([
+            'id' => $program->id,
+            'certificate_board_university_college' => (string) ($program->certificate_board_university_college ?? ''),
+        ]);
+    }
+
     public function filterProgram(Request $request)
     {
         //
