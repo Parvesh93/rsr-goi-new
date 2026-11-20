@@ -23,7 +23,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>{{ __('field_program') }} <span>*</span></label>
-                                    <select class="form-control" name="program_id" required>
+                                    <select class="form-control program" name="program_id" id="program" required>
                                         <option value="">{{ __('select') }}</option>
                                         @foreach($programs as $program)
                                             <option value="{{ $program->id }}" @selected(old('program_id', $row->program_id) == $program->id)>{{ $program->title }}</option>
@@ -93,4 +93,5 @@
         </div>
     </div>
 </div>
+    @include('admin.partials.certificate-program-default')
 @endsection
