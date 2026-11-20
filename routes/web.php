@@ -378,7 +378,7 @@ Route::middleware(['XSS'])->group(function () {
     Route::post('filter-district', [AddressController::class, 'filterDistrict'])->name('filter-district');
     Route::post('filter-batch', [FilterController::class, 'filterBatch'])->name('filter-batch');
     Route::post('filter-program', [FilterController::class, 'filterProgram'])->name('filter-program');
-    Route::get('filter-certificate-program-default/{program}', [FilterController::class, 'filterCertificateProgramDefault'])->name('filter-certificate-program-default');
+    Route::get('filter-certificate-program-default/{program}', [FilterController::class, 'filterCertificateProgramDefault'])->middleware('auth:web')->name('filter-certificate-program-default');
     Route::post('filter-college', [FilterController::class, 'filterCollege'])->name('filter-college');
     Route::post('filter-student_id', [FilterController::class, 'filterStudentId'])->name('filter-student_id');
 
