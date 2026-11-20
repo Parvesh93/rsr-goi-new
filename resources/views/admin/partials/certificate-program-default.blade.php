@@ -1,6 +1,6 @@
 @if(isset($programs))
 <script>
-(function ($) {
+(function () {
     "use strict";
 
     const certificateProgramDefaults = @json(
@@ -10,35 +10,42 @@
     );
 
     function applyCertificateProgramDefault(force) {
-        const $program = $('.program').first();
-        const $collegeName = $('input[name="college_name"]').first();
+        const program = document.querySelector('.program');
+        const collegeName = document.querySelector('input[name="college_name"]');
 
-        if (!$program.length || !$collegeName.length) {
+        if (!program || !collegeName) {
             return;
         }
 
-        const programId = String($program.val() || '');
+        const programId = String(program.value || '');
         const defaultValue = certificateProgramDefaults[programId] || '';
 
         if (!defaultValue) {
             return;
         }
 
-        // On initial load, preserve old/saved/manual values.
-        // When the user changes Program, use the selected Program's default,
-        // but the field remains fully editable afterwards.
-        if (force || !$collegeName.val().trim()) {
-            $collegeName.val(defaultValue).trigger('change');
+        // Preserve an existing saved/manual value on initial load.
+        // If the Program is changed, populate the newly selected Program's
+        // default. The field remains editable afterwards.
+        if (force || !collegeName.value.trim()) {
+            collegeName.value = defaultValue;
+            collegeName.dispatchEvent(new Event('change', { bubbles: true }));
         }
     }
 
-    $(document).on('change', '.program', function () {
-        applyCertificateProgramDefault(true);
+    document.addEventListener('change', function (event) {
+        if (event.target && event.target.matches('.program')) {
+            applyCertificateProgramDefault(true);
+        }
     });
 
-    $(function () {
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            applyCertificateProgramDefault(false);
+        });
+    } else {
         applyCertificateProgramDefault(false);
-    });
-})(jQuery);
+    }
+})();
 </script>
 @endif
