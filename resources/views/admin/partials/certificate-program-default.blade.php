@@ -1,35 +1,66 @@
-@if(isset($programs))
 <script>
 (function () {
     "use strict";
 
-    const certificateProgramDefaults = @json(
-        $programs->mapWithKeys(function ($program) {
-            return [(string) $program->id => (string) ($program->certificate_board_university_college ?? '')];
-        })
-    );
+    const defaultUrlTemplate = @json(route('filter-certificate-program-default', ['program' => '__PROGRAM__']));
 
-    function applyCertificateProgramDefault(force) {
-        const program = document.querySelector('.program');
-        const collegeName = document.querySelector('input[name="college_name"]');
+    function getElements() {
+        return {
+            program: document.querySelector('.program'),
+            collegeName: document.querySelector('input[name="college_name"]')
+        };
+    }
+
+    async function applyCertificateProgramDefault(force) {
+        const { program, collegeName } = getElements();
 
         if (!program || !collegeName) {
             return;
         }
 
-        const programId = String(program.value || '');
-        const defaultValue = certificateProgramDefaults[programId] || '';
+        const programId = String(program.value || '').trim();
 
-        if (!defaultValue) {
+        if (!programId || programId === '0') {
             return;
         }
 
-        // Preserve an existing saved/manual value on initial load.
-        // If the Program is changed, populate the newly selected Program's
-        // default. The field remains editable afterwards.
-        if (force || !collegeName.value.trim()) {
+        // On initial load preserve an already-saved/manual value.
+        if (!force && collegeName.value.trim()) {
+            return;
+        }
+
+        try {
+            const url = defaultUrlTemplate.replace('__PROGRAM__', encodeURIComponent(programId));
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                credentials: 'same-origin'
+            });
+
+            if (!response.ok) {
+                return;
+            }
+
+            const data = await response.json();
+            const defaultValue = String(data.certificate_board_university_college || '').trim();
+
+            if (!defaultValue) {
+                return;
+            }
+
+            // If Program was changed while the request was in flight, do not
+            // apply the old Program's value.
+            if (String(program.value || '') !== programId) {
+                return;
+            }
+
             collegeName.value = defaultValue;
             collegeName.dispatchEvent(new Event('change', { bubbles: true }));
+        } catch (error) {
+            // Leave the editable field untouched if the lookup fails.
         }
     }
 
@@ -48,4 +79,3 @@
     }
 })();
 </script>
-@endif
